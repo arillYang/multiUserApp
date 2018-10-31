@@ -29,6 +29,7 @@ public class MD5Util {
         return strDigits[iD1] + strDigits[iD2];
     }
 
+
     private static String byteToNum(byte bByte) {
         int iRet = bByte;
         System.out.println("iRet1=" + iRet);

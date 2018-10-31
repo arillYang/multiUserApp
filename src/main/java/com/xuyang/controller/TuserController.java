@@ -1,6 +1,8 @@
 package com.xuyang.controller;
 
+import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
+import com.xuyang.model.TuserExample;
 import com.xuyang.model.Tworldtype;
 import com.xuyang.service.RedisService;
 import com.xuyang.service.TuserService;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +38,9 @@ public class TuserController {
 
     @Autowired
     private TworldTypeService tworldTypeService;
+
+    @Autowired
+    private TuserMapper tuserMapper;
 
 
     /**
@@ -100,23 +106,29 @@ public class TuserController {
     @ApiOperation(value = "用户注册")
     @ResponseBody
     @PostMapping("/registerUser")
-    public int registerUser(@RequestBody Tuser user) {
+    public Object registerUser(@RequestBody Tuser user) {
+        TuserExample example = new TuserExample();
+        //根据用户输入手机号码 判断该用户是否存在
+        TuserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserPhoneEqualTo(user.getUserPhone());
+        List<Tuser> tusers = tuserMapper.selectByExample(example);
+        if (tusers != null) {
+            for (Tuser t : tusers) {
+                if (t.getUserPhone().equals(user.getUserPhone())) {
+                    return XuYangResult.ok(ResultConstant.code_failue, "用户已存在", ResultConstant.code_failue);
+                }
+            }
+        } else {
+            //密码MD5加密
+            String md5Code = MD5Util.GetMD5Code(user.getUserPwd());
+            user.setUserPwd(md5Code);
+            int selective = tuserService.insertSelective(user);
+            return XuYangResult.ok(ResultConstant.code_ok, "注册成功", selective);
+        }
         String md5Code = MD5Util.GetMD5Code(user.getUserPwd());
         user.setUserPwd(md5Code);
-        //将用户注册信息存放redis
-        /* redisService.set("userInfo", user.toString());*/
-        String temp = RedisClinet.getInstance().set(user, "user");
-        /* System.out.println(temp);*/
-        Jedis jedis = new Jedis();
-        jedis.expire("user", 100);
-       /* Object o = RedisClinet.getInstance().get("userInfo3");
-        if (o != null) {
-            Tuser g1 = (Tuser) o;
-            System.out.println(g1.getUserPwd());
-            System.out.println(g1.getUserNickname());
-            System.out.println(jedis.ttl("userInfo3"));
-        }*/
-        return tuserService.insertSelective(user);
+        int selective = tuserService.insertSelective(user);
+        return XuYangResult.ok(ResultConstant.code_ok, "注册成功", selective);
     }
 
 
@@ -128,7 +140,7 @@ public class TuserController {
      * @return 返回JSON 集合对象
      * @Time 2018年10月25日18:00:53
      */
-  /*  @ApiOperation(value = "分页查询")
+    @ApiOperation(value = "分页查询")
     @ResponseBody
     @GetMapping("/queryUser")
     public Object findAllUser(
@@ -137,20 +149,25 @@ public class TuserController {
             @RequestParam(name = "pageSize", required = false, defaultValue = "10")
                     int pageSize) {
         return tuserService.queryUser(pageNum, pageSize);
-    }*/
+    }
 
     /**
      * 查询单个用户信息
      *
-     * @param Tuser 用户参数【JSON格式】
+     * @param tuser 用户参数【JSON格式】
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
     @ApiOperation(value = "单个用户查询")
     @ResponseBody
-    @DeleteMapping("/queryOne")
-    public Object queryUserByUserId(@RequestBody Tuser Tuser) {
-        return tuserService.selectByPrimaryKey(Tuser.getUserId());
+    @PostMapping("/queryOne")
+    public Object queryUserByUserId(@RequestBody Tuser tuser) {
+
+        Tuser tuser1 = tuserService.selectByPrimaryKey(tuser.getUserId());
+        if (tuser1 != null) {
+            return XuYangResult.ok(ResultConstant.code_ok, "获取数据成功", tuser1);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "获取失败", null);
     }
 
 
@@ -213,8 +230,6 @@ public class TuserController {
             Jedis jedis = new Jedis();
             jedis.set("user_" + token, JsonUtils.objectToJson(user));
             jedis.set("token", token);
-            jedis.expire("user_" + token, 100);
-            jedis.expire("token", 100);
             //返回值
             return XuYangResult.ok(ResultConstant.code_ok, "登录成功", token);
         }

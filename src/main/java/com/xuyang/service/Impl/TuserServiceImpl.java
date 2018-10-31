@@ -1,10 +1,15 @@
 package com.xuyang.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
+import com.xuyang.model.TuserExample;
 import com.xuyang.service.TuserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TuserServiceImpl implements TuserService {
@@ -46,5 +51,34 @@ public class TuserServiceImpl implements TuserService {
     @Override
     public Tuser selectUserForLogin(Tuser tuser) {
         return tuserMapper.selectUserForLogin(tuser);
+    }
+
+    /**
+     * 这个方法中用到了我们开头配置依赖的分页插件pagehelper
+     * 很简单，只需要在service层传入参数，然后将参数传递给一个插件的一个静态方法即可；
+     * pageNum 开始页数
+     * pageSize 每页显示的数据条数
+     */
+    @Override
+    public PageInfo<Tuser> queryUser(int pageNum, int pageSize) {
+        //将参数传给这个方法就可以实现物理分页了，非常简单。
+        PageHelper.startPage(pageNum, pageSize);
+        List<Tuser> userDomains = tuserMapper.queryUser();
+        PageInfo result = new PageInfo(userDomains);
+        return result;
+    }
+
+    /**
+     * @param mobile
+     * @return
+     * @Discription 判断手机号码是否存在
+     */
+    @Override
+    public Boolean checkMobile(String mobile) {
+        TuserExample example = new TuserExample();
+        TuserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserPhoneEqualTo(mobile);
+        List<Tuser> list = tuserMapper.selectByExample(example);
+        return list.size() == 0;
     }
 }
