@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -119,12 +119,6 @@ public class TuserController {
                     return XuYangResult.ok(ResultConstant.code_failue, "用户已存在", ResultConstant.code_failue);
                 }
             }
-        } else {
-            //密码MD5加密
-            String md5Code = MD5Util.GetMD5Code(user.getUserPwd());
-            user.setUserPwd(md5Code);
-            int selective = tuserService.insertSelective(user);
-            return XuYangResult.ok(ResultConstant.code_ok, "注册成功", selective);
         }
         String md5Code = MD5Util.GetMD5Code(user.getUserPwd());
         user.setUserPwd(md5Code);
@@ -213,7 +207,7 @@ public class TuserController {
      */
     @ApiOperation(value = "用户登录")
     @ResponseBody
-    @DeleteMapping("/userForLogin")
+    @PostMapping("/userForLogin")
     public Object selectUserForLogin(@RequestBody Map map) {
         //获取用户手机号码参数
         String userPhone = map.get("userPhone").toString();
@@ -229,28 +223,30 @@ public class TuserController {
         String token = UUIDFactory.getUUID();
         if (user != null) {
             Jedis jedis = new Jedis();
+            Map<String, Object> map1 = new HashMap<String, Object>();
             jedis.set("user_" + token, JsonUtils.objectToJson(user));
             jedis.set("token", token);
+            map1.put("token", token);
+            map1.put("user", user);
             //返回值
-            return XuYangResult.ok(ResultConstant.code_ok, "登录成功", token);
+            return XuYangResult.ok(ResultConstant.code_ok, "登录成功", map1);
         }
         return XuYangResult.ok(ResultConstant.code_failue, "登录失败", null);
     }
 
     /**
-     * 用户登出
+     * 退出登录
      *
+     * @param map Token
      * @return
      */
     @ApiOperation(value = "退出登录")
     @ResponseBody
-    @DeleteMapping("/loginOut")
-    public Object logout(HttpServletRequest request) {
-        String token = request.getHeader("baseParams") == null ? "" : request.getHeader("baseParams");
-        Jedis je=new Jedis();
-        String s = je.get("user_" + token);
-        System.out.println(s);
-        je.del("user_"+token);
+    @PostMapping("/loginOut")
+    public Object logout(@RequestBody Map map) {
+        String token = map.get("token").toString();
+        Jedis je = new Jedis();
+        je.del("user_" + token);
         return XuYangResult.ok(ResultConstant.code_ok, "退出成功", "");
     }
 
