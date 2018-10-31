@@ -146,7 +146,7 @@ public class TuserController {
     public Object findAllUser(
             @RequestParam(name = "pageNum", required = false, defaultValue = "1")
                     int pageNum,
-            @RequestParam(name = "pageSize", required = false, defaultValue = "10")
+            @RequestParam(name = "pageSize", required = false, defaultValue = "20")
                     int pageSize) {
         return tuserService.queryUser(pageNum, pageSize);
     }
