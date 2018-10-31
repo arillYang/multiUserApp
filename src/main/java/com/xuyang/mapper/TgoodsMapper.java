@@ -93,4 +93,15 @@ public interface TgoodsMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Tgoods record);
+
+    /**
+     * 功能描述: <br>
+     * 〈查询新品推荐商品〉
+     */
+    List<Tgoods> queryNewGoods();
+    /**
+     * 功能描述: <br>
+     * 〈查询精品推荐商品〉
+     */
+    List<Tgoods> queryBestGoos();
 }

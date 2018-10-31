@@ -93,4 +93,7 @@ public interface TadvertisingMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Tadvertising record);
+
+
+    List<Tadvertising> queryBroadcast();
 }
