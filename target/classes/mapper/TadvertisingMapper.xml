@@ -301,4 +301,16 @@
       adver_switch = #{adverSwitch,jdbcType=VARCHAR}
     where adver_id = #{adverId,jdbcType=INTEGER}
   </update>
+
+  <!-- 查询app轮播图片 -->
+  <select id="queryBroadcast" resultMap="BaseResultMap">
+    select
+      sing.adver_id,sing.adver_header,sing.adver_desc,sing.adver_image,sing.adver_link,
+      sing.adver_switch,sing.space_id
+    from t_advertising sing left join t_advertising_space sing_space
+      on sing.space_id = sing_space.space_id
+    where
+      sing.space_id=1 and sing_space.space_switch="开启"
+    limit 5
+  </select>
 </mapper>

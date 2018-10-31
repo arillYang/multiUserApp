@@ -490,4 +490,15 @@
       g_thums = #{gThums,jdbcType=VARCHAR}
     where g_id = #{gId,jdbcType=INTEGER}
   </update>
+
+  <!-- 查询新品推荐 -->
+  <select id="queryNewGoods" resultMap="BaseResultMap">
+    select g.* from t_goods g
+    where g.g_news="是" limit 10
+  </select>
+  <!-- 查询精品推荐 -->
+  <select id="queryBestGoos" resultMap="BaseResultMap">
+    select g.* from t_goods g
+    where g.g_best="是" limit 10
+  </select>
 </mapper>
