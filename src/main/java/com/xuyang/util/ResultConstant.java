@@ -2,7 +2,7 @@ package com.xuyang.util;
 
 public class ResultConstant {
 
-    public static final int code_ok = 1;
+    public static final int code_ok = 200;
 
     public static final int code_exception = 2;
 
@@ -16,7 +16,7 @@ public class ResultConstant {
 
     public final static int code_NoPermission = 7;
 
-    public final static int code_failue = 0;
+    public final static int code_failue = 500;
 
     public final static int code_oldUser_login = 8;
 
