@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -234,6 +235,23 @@ public class TuserController {
             return XuYangResult.ok(ResultConstant.code_ok, "登录成功", token);
         }
         return XuYangResult.ok(ResultConstant.code_failue, "登录失败", null);
+    }
+
+    /**
+     * 用户登出
+     *
+     * @return
+     */
+    @ApiOperation(value = "退出登录")
+    @ResponseBody
+    @DeleteMapping("/loginOut")
+    public Object logout(HttpServletRequest request) {
+        String token = request.getHeader("baseParams") == null ? "" : request.getHeader("baseParams");
+        Jedis je=new Jedis();
+        String s = je.get("user_" + token);
+        System.out.println(s);
+        je.del("user_"+token);
+        return XuYangResult.ok(ResultConstant.code_ok, "退出成功", "");
     }
 
 }
