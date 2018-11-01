@@ -41,4 +41,14 @@ public class TgoodsServiceImpl implements TgoodsService {
     public List<Tgoods> queryBestGoos() {
         return tgoodsMapper.queryBestGoos();
     }
+
+    @Override
+    public List<Tgoods> newGlobalGoods() {
+        return tgoodsMapper.newGlobalGoods();
+    }
+
+    @Override
+    public List<Tgoods> bestGlobalGoods() {
+        return tgoodsMapper.bestGlobalGoods();
+    }
 }

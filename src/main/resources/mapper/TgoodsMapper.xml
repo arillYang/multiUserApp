@@ -501,4 +501,16 @@
     select g.* from t_goods g
     where g.g_best="是" limit 10
   </select>
+  <!-- 查询世界类型下的新品推荐 -->
+  <select id="newGlobalGoods" resultMap="BaseResultMap">
+    select g.* from t_goods g left join t_gtype gt on gt.gt_id=g.gt_id left join t_worldtype w
+    on w.wot_id = gt.wot_id
+    where g.g_news="是" and w.wot_switch="开启" limit 10
+  </select>
+  <!-- 查询世界类型下的精品推荐 -->
+  <select id="bestGlobalGoods" resultMap="BaseResultMap">
+    select g.* from t_goods g left join t_gtype gt on gt.gt_id=g.gt_id left join t_worldtype w
+    on w.wot_id = gt.wot_id
+    where g.g_best="是" and w.wot_switch="开启" limit 10
+  </select>
 </mapper>

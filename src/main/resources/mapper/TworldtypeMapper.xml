@@ -239,4 +239,9 @@
       wot_switch = #{wotSwitch,jdbcType=VARCHAR}
     where wot_id = #{wotId,jdbcType=INTEGER}
   </update>
+
+  <!-- 查询全部信息 -->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from t_worldtype where wot_switch="开启"
+  </select>
 </mapper>

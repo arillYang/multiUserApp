@@ -93,4 +93,11 @@ public interface TworldtypeMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Tworldtype record);
+    /**
+     * 功能描述: <br>
+     * 〈查询全部信息〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
+    List<Tworldtype> selectAll();
 }
