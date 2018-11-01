@@ -20,7 +20,7 @@ public class ResultConstant {
 
     public final static int code_oldUser_login = 8;
 
-    public final static String mobile_error = "联系方式有误";
+    public final static String mobile_error = "400";
 
     public final static int code_little = 9;
 
