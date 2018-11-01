@@ -33,9 +33,6 @@ public class TuserController {
     //用户依赖注入
     @Autowired
     private TuserService tuserService;
-    //redis 依赖注入
-    @Autowired
-    private RedisService redisService;
 
     @Autowired
     private TworldTypeService tworldTypeService;
@@ -71,30 +68,6 @@ public class TuserController {
         String md5Code = MD5Util.GetMD5Code(user.getUserPwd());
         user.setUserPwd(md5Code);
         return tuserService.insert(user);
-    }
-
-
-    /**
-     * 测试redis中是否存在 用户信息
-     *
-     * @return 返回受影响的值
-     * @Time 2018年10月25日18:01:04
-     */
-    @ApiOperation(value = "测试redis中是否存在")
-    @ResponseBody
-    @GetMapping("/queryRedisUser")
-    public Object queryRedisUser() {
-        //从redis 中取出用户注册信息
-        Object o1 = RedisClinet.getInstance().get("user");
-        Tuser g1 = (Tuser) o1;
-        System.out.println(g1);
-        if (o1 != null) {
-            System.out.println(g1.getUserPwd());
-            System.out.println(g1.getUserNickname());
-            System.out.println(g1.getUserPhone());
-        }
-        //转换为JSON 格式
-        return o1;
     }
 
     /**
@@ -169,32 +142,32 @@ public class TuserController {
     /**
      * 修改用户信息
      *
-     * @param Tuser 用户参数【实体对象】
+     * @param tuser 用户参数【实体对象】
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
     @ApiOperation(value = "修改用户")
     @ResponseBody
     @PutMapping("/updateUser")
-    public Object updateUser(@RequestBody Tuser Tuser) {
-        String md5Code = MD5Util.GetMD5Code(Tuser.getUserPwd());
-        Tuser.setUserPwd(md5Code);
-        return tuserService.updateByPrimaryKey(Tuser);
+    public Object updateUser(@RequestBody Tuser tuser) {
+        String md5Code = MD5Util.GetMD5Code(tuser.getUserPwd());
+        tuser.setUserPwd(md5Code);
+        return tuserService.updateByPrimaryKey(tuser);
     }
 
 
     /**
      * 删除用户信息
      *
-     * @param Tuser 用户参数【JSON格式】
+     * @param tuser 用户参数【JSON格式】
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
     @ApiOperation(value = "删除用户")
     @ResponseBody
     @DeleteMapping("/deleteUser")
-    public Object deleteUserById(@RequestBody Tuser Tuser) {
-        return tuserService.deleteByPrimaryKey(Tuser.getUserId());
+    public Object deleteUserById(@RequestBody Tuser tuser) {
+        return tuserService.deleteByPrimaryKey(tuser.getUserId());
     }
 
 
@@ -209,6 +182,7 @@ public class TuserController {
     @ResponseBody
     @PostMapping("/userForLogin")
     public Object selectUserForLogin(@RequestBody Map map) {
+
         //获取用户手机号码参数
         String userPhone = map.get("userPhone").toString();
         //获取用户登录密码参数
@@ -231,7 +205,7 @@ public class TuserController {
             //返回值
             return XuYangResult.ok(ResultConstant.code_ok, "登录成功", map1);
         }
-        return XuYangResult.ok(ResultConstant.code_failue, "登录失败", null);
+        return XuYangResult.ok(ResultConstant.code_failue, "用户名或密码错误", null);
     }
 
     /**
