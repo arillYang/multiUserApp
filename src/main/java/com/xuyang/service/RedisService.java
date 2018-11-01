@@ -36,4 +36,5 @@ public interface RedisService {
     boolean remove(String key);
 
 
+    boolean checkSmsCode(String account, String pin, int type);
 }

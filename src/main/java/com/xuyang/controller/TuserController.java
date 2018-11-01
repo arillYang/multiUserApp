@@ -11,6 +11,7 @@ import com.xuyang.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
@@ -39,6 +40,12 @@ public class TuserController {
 
     @Autowired
     private TuserMapper tuserMapper;
+
+    @Autowired
+    private RedisService redisService;
+
+    @Autowired
+    private RedisTemplate<Object, Object> template;
 
 
     /**
@@ -196,12 +203,15 @@ public class TuserController {
         //设置唯一token  判断用户信息是否为空 若不等于NULL 存入redis  并且设置失效时间
         String token = UUIDFactory.getUUID();
         if (user != null) {
-            Jedis jedis = new Jedis();
+            //Jedis jedis = new Jedis();
             Map<String, Object> map1 = new HashMap<String, Object>();
-            jedis.set("user_" + token, JsonUtils.objectToJson(user));
-            jedis.set("token", token);
+            // jedis.set("user_" + token, JsonUtils.objectToJson(user));
+            //jedis.set("token", token);
+            template.opsForValue().set("user_" + token, user);
             map1.put("token", token);
             map1.put("user", user);
+            Tuser result = (Tuser) template.opsForValue().get("user_" + token);
+            System.out.println(result.getUserPhone()+"\t"+result.getUserPwd()+"\t"+result.getUserNickname());
             //返回值
             return XuYangResult.ok(ResultConstant.code_ok, "登录成功", map1);
         }
@@ -222,6 +232,48 @@ public class TuserController {
         Jedis je = new Jedis();
         je.del("user_" + token);
         return XuYangResult.ok(ResultConstant.code_ok, "退出成功", "");
+    }
+
+    /**
+     * 找回密码
+     *
+     * @param map
+     * @return
+     */
+    @ApiOperation(value = "用户找回密码")
+    @RequestMapping(value = "setPassword", method = RequestMethod.POST)
+    @ResponseBody
+    public Object setPassword(@RequestBody Map<String, String> map) {
+        try {
+            String userPhone = "";
+            String pin = "";
+            String userPwd = "";
+            StringBuffer sb = new StringBuffer();
+            if (map.containsKey("userPhone")) {
+                userPhone = map.get("userPhone");
+            } else {
+                sb.append("userPhone").append(",");
+            }
+            if (map.containsKey("pin"))
+                pin = map.get("pin");
+            else {
+                sb.append("pin").append(",");
+            }
+            if (map.containsKey("userPwd"))
+                userPwd = map.get("userPwd");
+            else {
+                sb.append("userPwd").append(",");
+            }
+            if (sb.length() != 0) {
+                return XuYangResult.build(ResultConstant.code_param, "以下参数不能为空" + sb.toString(), "");
+            }
+            if (!redisService.checkSmsCode(userPhone, pin, 2)) {
+                return XuYangResult.build(ResultConstant.code_SmsError, "验证码错误或已过期", "");
+            }
+            return tuserService.resetPassword(userPhone, userPwd);
+        } catch (Exception e) {
+            return XuYangResult.build(ResultConstant.code_exception, "数据异常", "");
+        }
     }
 
 }

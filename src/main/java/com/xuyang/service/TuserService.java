@@ -2,6 +2,7 @@ package com.xuyang.service;
 
 import com.github.pagehelper.PageInfo;
 import com.xuyang.model.Tuser;
+import com.xuyang.util.XuYangResult;
 
 public interface TuserService {
 
@@ -79,5 +80,8 @@ public interface TuserService {
      * @mbg.generated
      */
     Boolean checkMobile(String mobile);
+
+
+    XuYangResult resetPassword(String userPhone, String userPwd);
 
 }

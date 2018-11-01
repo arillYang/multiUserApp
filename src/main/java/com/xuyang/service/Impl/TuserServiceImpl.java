@@ -6,6 +6,8 @@ import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
 import com.xuyang.model.TuserExample;
 import com.xuyang.service.TuserService;
+import com.xuyang.util.ResultConstant;
+import com.xuyang.util.XuYangResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,5 +82,26 @@ public class TuserServiceImpl implements TuserService {
         criteria.andUserPhoneEqualTo(mobile);
         List<Tuser> list = tuserMapper.selectByExample(example);
         return list.size() == 0;
+    }
+
+    /**
+     * 用户重置密码
+     *
+     * @param userPhone
+     * @param userPwd
+     * @return
+     */
+    @Override
+    public XuYangResult resetPassword(String userPhone, String userPwd) {
+        TuserExample example = new TuserExample();
+        TuserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserPhoneEqualTo(userPhone);
+        List<Tuser> u = tuserMapper.selectByExample(example);
+        if (u.size() == 0)
+            return XuYangResult.build(ResultConstant.code_yewu, "没有该用户", "");
+        Tuser user = u.get(0);
+        user.setUserPwd(userPwd);
+        tuserMapper.updateByPrimaryKey(user);
+        return XuYangResult.ok(ResultConstant.code_ok, "修改成功", "");
     }
 }
