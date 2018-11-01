@@ -73,9 +73,9 @@ public class ThomepageController {
     public Object newgoos(){
         List<Tgoods> tgoods = tgoodsService.queryNewGoods();
         if(tgoods == null){
-            return XuYangResult.ok(500,"没有数据",null);
+            return XuYangResult.ok(ResultConstant.code_failue,"没有数据",null);
         }else{
-            return XuYangResult.ok(200,"成功",tgoods);
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoods);
         }
     }
 
@@ -85,9 +85,9 @@ public class ThomepageController {
     public Object queryBestGoos(){
         List<Tgoods> tgoods = tgoodsService.queryNewGoods();
         if(tgoods == null){
-            return XuYangResult.ok(500,"没有数据",null);
+            return XuYangResult.ok(ResultConstant.code_failue,"没有数据",null);
         }else{
-            return XuYangResult.ok(200,"成功",tgoods);
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoods);
         }
     }
 
