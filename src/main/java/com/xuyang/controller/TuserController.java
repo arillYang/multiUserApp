@@ -116,7 +116,7 @@ public class TuserController {
      * @return 返回JSON 集合对象
      * @Time 2018年10月25日18:00:53
      */
-    @ApiOperation(value = "分页查询")
+    @ApiOperation(value = "后台查看所有的用户--分页查询")
     @ResponseBody
     @GetMapping("/queryUser")
     public Object findAllUser(
@@ -134,11 +134,10 @@ public class TuserController {
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
-    @ApiOperation(value = "单个用户查询")
+    @ApiOperation(value = "获取个人信息--userId")
     @ResponseBody
     @PostMapping("/queryOne")
     public Object queryUserByUserId(@RequestBody Tuser tuser) {
-
         Tuser tuser1 = tuserService.selectByPrimaryKey(tuser.getUserId());
         if (tuser1 != null) {
             return XuYangResult.ok(ResultConstant.code_ok, "获取数据成功", tuser1);
@@ -154,7 +153,7 @@ public class TuserController {
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
-    @ApiOperation(value = "修改用户")
+    @ApiOperation(value = "修改用户---修改个人资料")
     @ResponseBody
     @PutMapping("/updateUser")
     public Object updateUser(@RequestBody Tuser tuser) {
@@ -171,7 +170,7 @@ public class TuserController {
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
-    @ApiOperation(value = "删除用户")
+    @ApiOperation(value = "删除用户--后台管理对用户进行测试用户进行删除")
     @ResponseBody
     @DeleteMapping("/deleteUser")
     public Object deleteUserById(@RequestBody Tuser tuser) {
@@ -186,7 +185,7 @@ public class TuserController {
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
-    @ApiOperation(value = "用户登录",notes = "传递参数userPhone，登陆密码userPwd")
+    @ApiOperation(value = "用户登录--手机号密码登陆", notes = "传递参数userPhone，登陆密码userPwd")
     @ResponseBody
     @PostMapping("/userForLogin")
     public Object selectUserForLogin(@RequestBody Map map) {

@@ -202,11 +202,51 @@
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>-->
-        <table tableName="t_user" domainObjectName="Tuser"
+        <table tableName="global_assortment" domainObjectName="GlobalAssortment"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>
+
+        <table tableName="goods_shopcar" domainObjectName="GoodsShopcar"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+        <table tableName="groups" domainObjectName="Groups"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+        <table tableName="groups_buyer" domainObjectName="GroupsBuyer"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+
+        <table tableName="groups_item" domainObjectName="GroupsItem"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+
+        <table tableName="t_dynamic" domainObjectName="Tdynamic"
+                        enableCountByExample="true" enableUpdateByExample="true"
+                        enableDeleteByExample="true" enableSelectByExample="true"
+                        selectByExampleQueryId="true">
+    </table>
+        <table tableName="t_global_like" domainObjectName="TglobalLike"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+
+        <table tableName="t_global_recipient" domainObjectName="TglobalRecipient"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+
 
     </context>
 </generatorConfiguration>
