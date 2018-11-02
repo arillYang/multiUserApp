@@ -189,33 +189,38 @@ public class TuserController {
     @ResponseBody
     @PostMapping("/userForLogin")
     public Object selectUserForLogin(@RequestBody Map map) {
-
         //获取用户手机号码参数
         String userPhone = map.get("userPhone").toString();
-        //获取用户登录密码参数
-        String userPwd = MD5Util.GetMD5Code(map.get("userPwd").toString());
-        //实例用户对象
-        Tuser tuser = new Tuser();
-        //设置参数
-        tuser.setUserPwd(userPwd);
-        tuser.setUserPhone(userPhone);
-        Tuser user = tuserService.selectUserForLogin(tuser);
-        //设置唯一token  判断用户信息是否为空 若不等于NULL 存入redis  并且设置失效时间
-        String token = UUIDFactory.getUUID();
-        if (user != null) {
-            //Jedis jedis = new Jedis();
-            Map<String, Object> map1 = new HashMap<String, Object>();
-            // jedis.set("user_" + token, JsonUtils.objectToJson(user));
-            //jedis.set("token", token);
-            template.opsForValue().set("user_" + token, user);
-            map1.put("token", token);
-            map1.put("user", user);
-            Tuser result = (Tuser) template.opsForValue().get("user_" + token);
-            System.out.println(result.getUserPhone()+"\t"+result.getUserPwd()+"\t"+result.getUserNickname());
-            //返回值
-            return XuYangResult.ok(ResultConstant.code_ok, "登录成功", map1);
+        TuserExample example = new TuserExample();
+        //根据用户输入手机号码 判断该用户是否存在
+        TuserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserPhoneEqualTo(userPhone);
+        List<Tuser> tusers = tuserMapper.selectByExample(example);
+        if (tusers.size() == 0) {
+            return XuYangResult.ok(ResultConstant.code_failue, "亲，你还没有注册哦！", null);
+        } else {
+            //获取用户登录密码参数
+            String userPwd = MD5Util.GetMD5Code(map.get("userPwd").toString());
+            //实例用户对象
+            Tuser tuser = new Tuser();
+            //设置参数
+            tuser.setUserPwd(userPwd);
+            tuser.setUserPhone(userPhone);
+            Tuser user = tuserService.selectUserForLogin(tuser);
+            //设置唯一token  判断用户信息是否为空 若不等于NULL 存入redis  并且设置失效时间
+            String token = UUIDFactory.getUUID();
+            if (user != null) {
+                Map<String, Object> map1 = new HashMap<String, Object>();
+                template.opsForValue().set("user_" + token, user);
+                map1.put("token", token);
+                map1.put("user", user);
+                Tuser result = (Tuser) template.opsForValue().get("user_" + token);
+                //返回值
+                return XuYangResult.ok(ResultConstant.code_ok, "登录成功", result);
+            }
+            return XuYangResult.ok(ResultConstant.code_failue, "密码错误", null);
         }
-        return XuYangResult.ok(ResultConstant.code_failue, "用户名或密码错误", null);
+
     }
 
     /**
