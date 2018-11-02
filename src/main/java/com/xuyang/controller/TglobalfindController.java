@@ -33,7 +33,7 @@ import java.util.List;
 @Api(description = "全球发现")
 @RestController
 @RequestMapping(value = "/globalfind")
-public class Tglobalfind {
+public class TglobalfindController {
 
     @Autowired
     private TdynamicMapper mapper;
