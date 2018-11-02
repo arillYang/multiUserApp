@@ -12,6 +12,8 @@ package com.xuyang.controller;
 
 import com.xuyang.model.Tgoods;
 import com.xuyang.model.Tworldtype;
+import com.xuyang.mould.DynamicToUser;
+import com.xuyang.service.DynamicToUserService;
 import com.xuyang.service.TgoodsService;
 import com.xuyang.service.TworldTypeService;
 import com.xuyang.util.ResultConstant;
@@ -27,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * 〈一句话功能简述〉<br> 
+ * 〈一句话功能简述〉<br>
  * 〈全球购物〉
  * @author PanYin
  * @create 2018/11/1
@@ -57,7 +59,6 @@ public class TglobalgoController {
 
         return XuYangResult.ok(ResultConstant.code_ok,"成功",tworldtypes);
     }
-
     /**
      * 功能描述: <br>
      * 〈世界类型的新品推荐〉

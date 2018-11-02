@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.DynamicToUserMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.DynamicToUser">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="user_head" jdbcType="VARCHAR" property="userHead"/>
+        <result column="dy_id" jdbcType="INTEGER" property="dyId"/>
+        <result column="dy_title" jdbcType="VARCHAR" property="dyTitle"/>
+        <result column="dy_image" jdbcType="VARCHAR" property="dyImage"/>
+        <result column="dy_cont" jdbcType="VARCHAR" property="dyCont"/>
+    </resultMap>
+
+    <select id="queryToUser" resultMap="BaseResultMap">
+      select d.*,u.user_head,u.user_nickname from t_dynamic d left join t_user u on d.user_id = u.user_id
+    </select>
+</mapper>

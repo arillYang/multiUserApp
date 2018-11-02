@@ -3,6 +3,8 @@ package com.xuyang.mapper;
 import com.xuyang.model.Tdynamic;
 import com.xuyang.model.TdynamicExample;
 import java.util.List;
+
+import com.xuyang.mould.DynamicToUser;
 import org.apache.ibatis.annotations.Param;
 
 public interface TdynamicMapper {
@@ -117,4 +119,5 @@ public interface TdynamicMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Tdynamic record);
+
 }

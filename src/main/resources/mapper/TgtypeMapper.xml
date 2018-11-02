@@ -254,4 +254,6 @@
       wot_id = #{wotId,jdbcType=INTEGER}
     where gt_id = #{gtId,jdbcType=INTEGER}
   </update>
+
+
 </mapper>
