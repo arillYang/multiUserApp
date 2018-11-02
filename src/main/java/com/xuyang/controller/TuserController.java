@@ -10,6 +10,7 @@ import com.xuyang.service.TworldTypeService;
 import com.xuyang.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -185,7 +186,7 @@ public class TuserController {
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
-    @ApiOperation(value = "用户登录")
+    @ApiOperation(value = "用户登录",notes = "传递参数userPhone，登陆密码userPwd")
     @ResponseBody
     @PostMapping("/userForLogin")
     public Object selectUserForLogin(@RequestBody Map map) {
