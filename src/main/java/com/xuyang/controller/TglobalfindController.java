@@ -39,7 +39,14 @@ public class TglobalfindController {
     @RequestMapping(value = "/queryToUser",method = RequestMethod.GET)
     public Object queryToUser(){
         List<DynamicToUser> dynamicToUsers = dynamicToUserService.queryToUser();
+        return XuYangResult.ok(ResultConstant.code_ok,"成功",dynamicToUsers);
+    }
 
+    @ResponseBody
+    @ApiOperation(value = "查询类型")
+    @RequestMapping(value = "/queryToUser",method = RequestMethod.GET)
+    public Object queryType(){
+        List<DynamicToUser> dynamicToUsers = dynamicToUserService.queryToUser();
         return XuYangResult.ok(ResultConstant.code_ok,"成功",dynamicToUsers);
     }
 }
