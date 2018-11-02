@@ -2,9 +2,7 @@ package com.xuyang.mapper;
 
 import com.xuyang.model.Tgimage;
 import com.xuyang.model.TgimageExample;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface TgimageMapper {

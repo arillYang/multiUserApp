@@ -349,8 +349,4 @@
       global_id = #{globalId,jdbcType=INTEGER}
     where dy_id = #{dyId,jdbcType=INTEGER}
   </update>
-
-  <select id="queryDynamic" resultType="com.xuyang.mould.DynamicToUser">
-    select d.*,u.user_head,u.user_nickname from t_dynamic d left join t_user u on d.user_id = u.user_id
-  </select>
 </mapper>
