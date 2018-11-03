@@ -506,4 +506,20 @@
       format_id = #{formatId,jdbcType=INTEGER}
     where g_id = #{gId,jdbcType=INTEGER}
   </update>
+
+  <!-- 查询世界的新品 -->
+  <select id="newGlobalGoods" resultMap="BaseResultMap">
+    select g.* from t_goods g
+      left join t_gtype t on g.gt_id=t.gt_id
+      left join t_worldtype w on t.wot_id = w.wot_id
+    where g.g_news='是' limit 10
+  </select>
+
+  <!-- 查询世界的精品 -->
+  <select id="bestGlobalGoods" resultMap="BaseResultMap">
+    select g.* from t_goods g
+      left join t_gtype t on g.gt_id=t.gt_id
+      left join t_worldtype w on t.wot_id = w.wot_id
+    where g.g_best='是' limit 10
+  </select>
 </mapper>

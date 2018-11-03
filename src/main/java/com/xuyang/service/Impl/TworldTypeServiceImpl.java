@@ -1,5 +1,7 @@
 package com.xuyang.service.Impl;
 
+import com.xuyang.mapper.TworldtypeMapper;
+import com.xuyang.model.Tworldtype;
 import com.xuyang.service.TworldTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
