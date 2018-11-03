@@ -274,5 +274,11 @@
                selectByExampleQueryId="true">
         </table>
 
+        <table tableName="t_gtype" domainObjectName="Tgtype"
+               enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+
     </context>
 </generatorConfiguration>

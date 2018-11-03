@@ -453,6 +453,76 @@ public class TgtypeExample {
             addCriterion("wot_id not between", value1, value2, "wotId");
             return (Criteria) this;
         }
+
+        public Criteria andGtTyptnameIsNull() {
+            addCriterion("gt_typtname is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameIsNotNull() {
+            addCriterion("gt_typtname is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameEqualTo(String value) {
+            addCriterion("gt_typtname =", value, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameNotEqualTo(String value) {
+            addCriterion("gt_typtname <>", value, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameGreaterThan(String value) {
+            addCriterion("gt_typtname >", value, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameGreaterThanOrEqualTo(String value) {
+            addCriterion("gt_typtname >=", value, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameLessThan(String value) {
+            addCriterion("gt_typtname <", value, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameLessThanOrEqualTo(String value) {
+            addCriterion("gt_typtname <=", value, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameLike(String value) {
+            addCriterion("gt_typtname like", value, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameNotLike(String value) {
+            addCriterion("gt_typtname not like", value, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameIn(List<String> values) {
+            addCriterion("gt_typtname in", values, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameNotIn(List<String> values) {
+            addCriterion("gt_typtname not in", values, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameBetween(String value1, String value2) {
+            addCriterion("gt_typtname between", value1, value2, "gtTyptname");
+            return (Criteria) this;
+        }
+
+        public Criteria andGtTyptnameNotBetween(String value1, String value2) {
+            addCriterion("gt_typtname not between", value1, value2, "gtTyptname");
+            return (Criteria) this;
+        }
     }
 
     /**

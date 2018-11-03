@@ -393,6 +393,76 @@ public class TworldtypeExample {
             addCriterion("wot_switch not between", value1, value2, "wotSwitch");
             return (Criteria) this;
         }
+
+        public Criteria andWotTypenameIsNull() {
+            addCriterion("wot_typename is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameIsNotNull() {
+            addCriterion("wot_typename is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameEqualTo(String value) {
+            addCriterion("wot_typename =", value, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameNotEqualTo(String value) {
+            addCriterion("wot_typename <>", value, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameGreaterThan(String value) {
+            addCriterion("wot_typename >", value, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameGreaterThanOrEqualTo(String value) {
+            addCriterion("wot_typename >=", value, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameLessThan(String value) {
+            addCriterion("wot_typename <", value, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameLessThanOrEqualTo(String value) {
+            addCriterion("wot_typename <=", value, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameLike(String value) {
+            addCriterion("wot_typename like", value, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameNotLike(String value) {
+            addCriterion("wot_typename not like", value, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameIn(List<String> values) {
+            addCriterion("wot_typename in", values, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameNotIn(List<String> values) {
+            addCriterion("wot_typename not in", values, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameBetween(String value1, String value2) {
+            addCriterion("wot_typename between", value1, value2, "wotTypename");
+            return (Criteria) this;
+        }
+
+        public Criteria andWotTypenameNotBetween(String value1, String value2) {
+            addCriterion("wot_typename not between", value1, value2, "wotTypename");
+            return (Criteria) this;
+        }
     }
 
     /**

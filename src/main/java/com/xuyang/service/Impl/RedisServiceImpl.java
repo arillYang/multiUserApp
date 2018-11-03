@@ -1,15 +1,14 @@
 package com.xuyang.service.Impl;
 
 import com.github.pagehelper.util.StringUtil;
-import com.xuyang.mapper.JedisClient;
 import com.xuyang.service.RedisService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
@@ -21,10 +20,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Service("redisService")
 public class RedisServiceImpl implements RedisService {
-
-
-    @Autowired
-    private JedisClient jedisClient;
 
     @Resource
     private RedisTemplate<String, ?> redisTemplate;
@@ -99,18 +94,19 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public boolean checkSmsCode(String mobile, String pin, int type) {
 
+        Jedis jedis = new Jedis();
         String real = "";
         if (type == 1)
-            real = jedisClient.get("sms_" + mobile);
+            real = jedis.get("sms_" + mobile);
         else if (type == 2)
-            real = jedisClient.get("sms_find_password_" + mobile);
+            real = jedis.get("sms_find_password_" + mobile);
         if (StringUtil.isEmpty(real))
             return false;
         if (real.equals(pin)) {
             if (type == 1)
-                jedisClient.del("sms_" + mobile);
+                jedis.del("sms_" + mobile);
             else if (type == 2)
-                jedisClient.del("sms_find_password_" + mobile);
+                jedis.del("sms_find_password_" + mobile);
         }
         return real.equals(pin);
     }
