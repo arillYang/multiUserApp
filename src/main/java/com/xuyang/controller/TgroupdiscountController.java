@@ -18,10 +18,7 @@ import com.xuyang.util.XuYangResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -57,8 +54,12 @@ public class TgroupdiscountController {
     @ApiOperation(value = "查询商品")
     @ResponseBody
     @RequestMapping(value = "/bestArrivals",method = RequestMethod.GET)
-    public Object queryBestGoos(){
-        PageInfo<Tgoods> info = tgoodsService.pagingQueryGoods(1, 5);
+    public Object queryBestGoos(
+                    @RequestParam(name = "pageNum", required = false, defaultValue = "1")
+                                int pageNum,
+                    @RequestParam(name = "pageSize", required = false, defaultValue = "20")
+                                int pageSize){
+        PageInfo<Tgoods> info = tgoodsService.pagingQueryGoods(pageNum, pageSize);
         if(info == null){
             return XuYangResult.ok(ResultConstant.code_failue,"没有数据",null);
         }else{

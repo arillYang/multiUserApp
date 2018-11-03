@@ -522,4 +522,8 @@
       left join t_worldtype w on t.wot_id = w.wot_id
     where g.g_best='是' limit 10
   </select>
+  <select id="pagingQueryGoods" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from t_goods
+  </select>
+
 </mapper>
