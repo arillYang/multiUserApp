@@ -93,4 +93,12 @@ public interface TadvertisingMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Tadvertising record);
+
+    /**
+     * 功能描述: <br>
+     * 〈查询轮播图〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
+    List<Tadvertising> queryBroadcast();
 }

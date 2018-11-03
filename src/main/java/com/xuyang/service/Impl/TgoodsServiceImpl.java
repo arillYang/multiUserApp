@@ -10,9 +10,15 @@
  */
 package com.xuyang.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xuyang.mapper.TgoodsMapper;
 import com.xuyang.model.Tgoods;
+import com.xuyang.model.TgoodsExample;
+import com.xuyang.model.Tuser;
 import com.xuyang.service.TgoodsService;
+import com.xuyang.util.ResultConstant;
+import com.xuyang.util.XuYangResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,27 +34,39 @@ import java.util.List;
  */
 @Service
 public class TgoodsServiceImpl implements TgoodsService {
-
     @Autowired
     private TgoodsMapper tgoodsMapper;
-
-    @Override
-    public List<Tgoods> queryNewGoods() {
-        return tgoodsMapper.queryNewGoods();
-    }
-
-    @Override
-    public List<Tgoods> queryBestGoos() {
-        return tgoodsMapper.queryBestGoos();
-    }
-
+    /**
+     * 功能描述: <br>
+     * 〈全球的新品商品〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
     @Override
     public List<Tgoods> newGlobalGoods() {
         return tgoodsMapper.newGlobalGoods();
     }
-
+    /**
+     * 功能描述: <br>
+     * 〈全球的精品商品〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
     @Override
     public List<Tgoods> bestGlobalGoods() {
         return tgoodsMapper.bestGlobalGoods();
+    }
+    /**
+     * 功能描述: <br>
+     * 〈分页查询〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
+    @Override
+    public PageInfo<Tgoods>  pagingQueryGoods(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Tgoods> tgoods = tgoodsMapper.pagingQueryGoods();
+        PageInfo result = new PageInfo(tgoods);
+        return result;
     }
 }

@@ -35,7 +35,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.xuyang.model
+  type-aliases-package: com.xuyang.*
 
 
 

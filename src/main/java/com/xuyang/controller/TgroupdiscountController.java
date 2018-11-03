@@ -7,10 +7,8 @@
  */
 package com.xuyang.controller;
 
-import com.xuyang.mapper.TgtypeMapper;
+import com.github.pagehelper.PageInfo;
 import com.xuyang.model.Tgoods;
-import com.xuyang.model.Tgtype;
-import com.xuyang.model.TgtypeExample;
 import com.xuyang.service.TgoodsService;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.XuYangResult;
@@ -25,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 〈一句话功能简述〉<br> 
+ * 〈一句话功能简述〉<br>
  * 〈团购优惠〉
  * @author PanYin
  * @create 2018/11/2
@@ -57,11 +55,11 @@ public class TgroupdiscountController {
     @ResponseBody
     @RequestMapping(value = "/bestArrivals",method = RequestMethod.GET)
     public Object queryBestGoos(){
-        List<Tgoods> tgoods = tgoodsService.queryNewGoods();
-        if(tgoods == null){
+        PageInfo<Tgoods> info = tgoodsService.pagingQueryGoods(1, 5);
+        if(info == null){
             return XuYangResult.ok(ResultConstant.code_failue,"没有数据",null);
         }else{
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoods);
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",info);
         }
     }
 

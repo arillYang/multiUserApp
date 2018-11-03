@@ -1,22 +1,12 @@
 package com.xuyang.service;
 
+import com.github.pagehelper.PageInfo;
 import com.xuyang.model.Tgoods;
+import com.xuyang.model.Tuser;
 
 import java.util.List;
 
 public interface TgoodsService {
-    
-    /**
-     * 功能描述: <br>
-     * 〈商品新品推荐〉
-     */
-    List<Tgoods> queryNewGoods();
-    /**
-     * 功能描述: <br>
-     * 〈查询精品推荐商品〉
-     */
-    List<Tgoods> queryBestGoos();
-
     /**
      * 功能描述: <br>
      * 〈查询世界的新品推荐〉
@@ -31,4 +21,12 @@ public interface TgoodsService {
      * @Author: PanYin
      */
     List<Tgoods> bestGlobalGoods();
+
+    /**
+     * 功能描述: <br>
+     * 〈分页查询〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
+    PageInfo<Tgoods> pagingQueryGoods(int pageNum, int pageSize);
 }

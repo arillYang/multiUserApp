@@ -11,9 +11,8 @@
 package com.xuyang.controller;
 
 import com.xuyang.model.Tadvertising;
-import com.xuyang.model.Tgoods;
+import com.xuyang.model.TgoodsExample;
 import com.xuyang.service.TadverService;
-import com.xuyang.service.TgoodsService;
 import com.xuyang.util.JsonUtils;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.XuYangResult;
@@ -43,8 +42,6 @@ public class ThomepageController {
 
     @Autowired
     private TadverService tadverService;
-    @Autowired
-    private TgoodsService tgoodsService;
     /**
      * 功能描述: <br>
      * 〈轮播图查询〉
@@ -71,11 +68,13 @@ public class ThomepageController {
     @ResponseBody
     @RequestMapping(value = "/newArrivals",method = RequestMethod.GET)
     public Object newgoos(){
-        List<Tgoods> tgoods = tgoodsService.queryNewGoods();
-        if(tgoods == null){
+        TgoodsExample tgoodsExample = new TgoodsExample();
+        TgoodsExample.Criteria criteria = tgoodsExample.createCriteria();
+        criteria.andGNewsEqualTo("是").andGIdBetween(0,5);
+        if(tgoodsExample == null){
             return XuYangResult.ok(ResultConstant.code_failue,"没有数据",null);
         }else{
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoods);
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoodsExample);
         }
     }
 
@@ -83,11 +82,13 @@ public class ThomepageController {
     @ResponseBody
     @RequestMapping(value = "/bestArrivals",method = RequestMethod.GET)
     public Object queryBestGoos(){
-        List<Tgoods> tgoods = tgoodsService.queryNewGoods();
-        if(tgoods == null){
+        TgoodsExample tgoodsExample = new TgoodsExample();
+        TgoodsExample.Criteria criteria = tgoodsExample.createCriteria();
+        criteria.andGBestEqualTo("是").andGIdBetween(0,5);
+        if(tgoodsExample == null){
             return XuYangResult.ok(ResultConstant.code_failue,"没有数据",null);
         }else{
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoods);
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoodsExample);
         }
     }
 
