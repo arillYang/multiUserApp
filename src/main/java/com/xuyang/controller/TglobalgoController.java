@@ -11,6 +11,7 @@
 package com.xuyang.controller;
 
 import com.xuyang.model.Tgoods;
+import com.xuyang.model.TworldtypeExample;
 import com.xuyang.service.TgoodsService;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.XuYangResult;

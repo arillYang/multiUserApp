@@ -8,7 +8,10 @@
 package com.xuyang.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.xuyang.mapper.TgtypeMapper;
 import com.xuyang.model.Tgoods;
+import com.xuyang.model.Tgtype;
+import com.xuyang.model.TgtypeExample;
 import com.xuyang.service.TgoodsService;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.XuYangResult;
