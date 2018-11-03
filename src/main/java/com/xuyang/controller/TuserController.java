@@ -3,7 +3,6 @@ package com.xuyang.controller;
 import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
 import com.xuyang.model.TuserExample;
-import com.xuyang.model.Tworldtype;
 import com.xuyang.service.RedisService;
 import com.xuyang.service.TuserService;
 import com.xuyang.service.TworldTypeService;

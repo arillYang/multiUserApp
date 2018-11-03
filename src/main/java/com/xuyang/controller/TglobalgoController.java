@@ -11,11 +11,7 @@
 package com.xuyang.controller;
 
 import com.xuyang.model.Tgoods;
-import com.xuyang.model.Tworldtype;
-import com.xuyang.mould.DynamicToUser;
-import com.xuyang.service.DynamicToUserService;
 import com.xuyang.service.TgoodsService;
-import com.xuyang.service.TworldTypeService;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.XuYangResult;
 import io.swagger.annotations.Api;
@@ -39,9 +35,6 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/global")
 public class TglobalgoController {
-
-    @Autowired
-    private TworldTypeService typeService;
     @Autowired
     private TgoodsService tgoodsService;
     /**
@@ -55,9 +48,9 @@ public class TglobalgoController {
     @ApiOperation(value = "查询世界类型")
     @RequestMapping(value = "/queryglobal",method = RequestMethod.GET)
     public Object queryGlobalType(){
-        List<Tworldtype> tworldtypes = typeService.selectAll();
-
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",tworldtypes);
+        TworldtypeExample example = new TworldtypeExample();
+        example.createCriteria().andWotIdIsNotNull().andWotSwitchEqualTo("开启");
+        return XuYangResult.ok(ResultConstant.code_ok,"成功",example);
     }
     /**
      * 功能描述: <br>

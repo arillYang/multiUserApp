@@ -7,7 +7,11 @@
  */
 package com.xuyang.service.Impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.xuyang.mapper.DynamicToUserMapper;
+import com.xuyang.model.Tgoods;
 import com.xuyang.mould.DynamicToUser;
 import com.xuyang.service.DynamicToUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +33,10 @@ public class DynamicToUserServiceImpl implements DynamicToUserService {
     private DynamicToUserMapper dynamicToUserMapper;
 
     @Override
-    public List<DynamicToUser> queryToUser() {
-        List<DynamicToUser> dynamicToUsers = dynamicToUserMapper.queryToUser();
-        return dynamicToUsers;
+    public PageInfo<DynamicToUser> queryToUser(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<DynamicToUser> dynamic = dynamicToUserMapper.queryToUser();
+        PageInfo result = new PageInfo(dynamic);
+        return result;
     }
 }

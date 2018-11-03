@@ -3,10 +3,12 @@
  * FileName: TglobalFindController
  * Author:   PanYin
  * Date:     2018/11/2 16:04
- * Description:
+ * Description:全球发现
  */
 package com.xuyang.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.xuyang.model.GlobalAssortmentExample;
 import com.xuyang.mould.DynamicToUser;
 import com.xuyang.service.DynamicToUserService;
 import com.xuyang.util.ResultConstant;
@@ -19,11 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
 /**
  * 〈一句话功能简述〉<br> 
- * 〈〉
+ * 〈全球发现〉
  * @author PanYin
  * @create 2018/11/2
  * @since 1.0.0
@@ -38,15 +38,16 @@ public class TglobalfindController {
     @ApiOperation(value = "查询发表的帖子")
     @RequestMapping(value = "/queryToUser",method = RequestMethod.GET)
     public Object queryToUser(){
-        List<DynamicToUser> dynamicToUsers = dynamicToUserService.queryToUser();
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",dynamicToUsers);
+        PageInfo<DynamicToUser> info = dynamicToUserService.queryToUser(0, 5);
+        return XuYangResult.ok(ResultConstant.code_ok,"成功",info);
     }
 
     @ResponseBody
     @ApiOperation(value = "查询类型")
-    @RequestMapping(value = "/queryToUser",method = RequestMethod.GET)
+    @RequestMapping(value = "/queryType",method = RequestMethod.GET)
     public Object queryType(){
-        List<DynamicToUser> dynamicToUsers = dynamicToUserService.queryToUser();
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",dynamicToUsers);
+        GlobalAssortmentExample example = new GlobalAssortmentExample();
+        example.createCriteria().andGlobalIdIsNotNull();
+        return XuYangResult.ok(ResultConstant.code_ok,"成功",example);
     }
 }
