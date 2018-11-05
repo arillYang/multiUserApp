@@ -10,8 +10,18 @@
         <result column="dy_image" jdbcType="VARCHAR" property="dyImage"/>
         <result column="dy_cont" jdbcType="VARCHAR" property="dyCont"/>
     </resultMap>
-
+    <!-- 查询全部文章，还有用户的头像和昵称 -->
     <select id="queryToUser" resultMap="BaseResultMap">
       select d.*,u.user_head,u.user_nickname from t_dynamic d left join t_user u on d.user_id = u.user_id
+    </select>
+    <!-- 根据类型分页查询该类型下的文章和用户昵称头像 -->
+    <select id="typeTocard" resultMap="BaseResultMap">
+      select d.*,u.user_head,u.user_nickname from t_dynamic d left join t_user u on d.user_id = u.user_id
+      where d.global_id = #{id};
+    </select>
+    <!-- 根据文章ID查询文章的详情，包括文章发布者的头像昵称 -->
+    <select id="queryDetails" resultMap="BaseResultMap">
+        select d.*,u.user_head,u.user_nickname from t_dynamic d left join t_user u on d.user_id = u.user_id
+        where d.dyId = #{id}
     </select>
 </mapper>

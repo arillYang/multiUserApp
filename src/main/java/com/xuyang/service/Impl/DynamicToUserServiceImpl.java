@@ -31,12 +31,40 @@ import java.util.List;
 public class DynamicToUserServiceImpl implements DynamicToUserService {
     @Autowired
     private DynamicToUserMapper dynamicToUserMapper;
-
+    /**
+     * 功能描述: <br>
+     * 〈分页查询全部的文章和发布者的信息〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
     @Override
     public PageInfo<DynamicToUser> queryToUser(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<DynamicToUser> dynamic = dynamicToUserMapper.queryToUser();
         PageInfo result = new PageInfo(dynamic);
         return result;
+    }
+    /**
+     * 功能描述: <br>
+     * 〈根据类型ID分页查询文章及发布者信息〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
+    @Override
+    public PageInfo<DynamicToUser> typeTocard(int pageNum, int pageSize,int id) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<DynamicToUser> dynamic = dynamicToUserMapper.typeTocard(id);
+        PageInfo result = new PageInfo(dynamic);
+        return result;
+    }
+    /**
+     * 功能描述: <br>
+     * 〈根据文章ID查询文章和发布者信息〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
+    @Override
+    public DynamicToUser queryDetails(int id) {
+        return dynamicToUserMapper.queryDetails(id);
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.DynamicToUserMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.CommentToUser">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="user_head" jdbcType="VARCHAR" property="userHead"/>
+        <result column="rec_id" jdbcType="INTEGER" property="recId"/>
+        <result column="rec_content" jdbcType="VARCHAR" property="recContent"/>
+        <result column="rec_time" jdbcType="VARCHAR" property="recTime"/>
+        <result column="dy_id" jdbcType="VARCHAR" property="dyId"/>
+    </resultMap>
+
+    <!-- 查询评论的内容和用户的头像昵称 -->
+    <select id="queryComment" resultMap="BaseResultMap">
+        select rec.rec_id,rec.rec_content,rec.rec_time,u.user_id,u.user_nickname,u.user_head
+        from t_global_recipient rec left join t_user u on rec.user_id=u.user_id
+        where rec.dy_id = #{id}
+    </select>
+</mapper>
