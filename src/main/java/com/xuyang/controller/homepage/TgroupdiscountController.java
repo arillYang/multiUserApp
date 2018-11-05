@@ -5,7 +5,7 @@
  * Date:     2018/11/2 10:38
  * Description: 团购优惠
  */
-package com.xuyang.controller;
+package com.xuyang.controller.homepage;
 
 import com.github.pagehelper.PageInfo;
 import com.xuyang.mapper.TgtypeMapper;

@@ -47,11 +47,16 @@ public class TworldtypeController {
     }
 
     @ResponseBody
-    @ApiOperation(value = "查询分类")
-    @RequestMapping(value = "/selectWorld",method = RequestMethod.GET)
-    public Object queryWorld(){
+    @ApiOperation(value = "查询分类",notes = "传递世界馆的标识(不传默认查询全部)")
+    @RequestMapping(value = "/selectWorld",method = RequestMethod.POST)
+    public Object queryWorld(@RequestBody @ApiParam(required = false) Tworldtype tworldtype){
         TworldtypeExample example = new TworldtypeExample();
-        example.createCriteria().andWotIdIsNotNull();
+        TworldtypeExample.Criteria criteria = example.createCriteria();
+        if(tworldtype.getWotTypename() != null && !"".equals(tworldtype.getWotTypename())){
+            criteria.andWotIdIsNotNull().andWotTypenameEqualTo(tworldtype.getWotTypename());
+        }else{
+            criteria.andWotIdIsNotNull();
+        }
         List<Tworldtype> tworldtypes = tworldtypeMapper.selectByExample(example);
         if(tworldtypes != null){
             return XuYangResult.ok(ResultConstant.code_ok,"成功",tworldtypes);

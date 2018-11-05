@@ -5,7 +5,7 @@
  * Date:     2018/11/3 14:21
  * Description: 每日领券
  */
-package com.xuyang.controller;
+package com.xuyang.controller.homepage;
 
 import com.xuyang.mapper.TcouponsMapper;
 import com.xuyang.model.Tcoupons;

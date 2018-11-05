@@ -8,7 +8,7 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.xuyang.controller;
+package com.xuyang.controller.homepage;
 
 import com.xuyang.model.Tgoods;
 import com.xuyang.model.TworldtypeExample;

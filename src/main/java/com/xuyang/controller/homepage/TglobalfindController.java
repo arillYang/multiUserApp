@@ -5,7 +5,7 @@
  * Date:     2018/11/2 16:04
  * Description:全球发现
  */
-package com.xuyang.controller;
+package com.xuyang.controller.homepage;
 
 import com.github.pagehelper.PageInfo;
 import com.xuyang.model.GlobalAssortmentExample;
