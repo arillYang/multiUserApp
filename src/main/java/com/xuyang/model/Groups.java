@@ -102,7 +102,7 @@ public class Groups implements Serializable {
      *
      * @mbg.generated
      */
-    private Byte groupStatus;
+    private Integer groupStatus;
 
     /**
      *
@@ -387,7 +387,7 @@ public class Groups implements Serializable {
      *
      * @mbg.generated
      */
-    public Byte getGroupStatus() {
+    public Integer getGroupStatus() {
         return groupStatus;
     }
 
@@ -399,7 +399,7 @@ public class Groups implements Serializable {
      *
      * @mbg.generated
      */
-    public void setGroupStatus(Byte groupStatus) {
+    public void setGroupStatus(Integer groupStatus) {
         this.groupStatus = groupStatus;
     }
 

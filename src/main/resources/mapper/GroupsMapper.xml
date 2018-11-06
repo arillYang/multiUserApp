@@ -16,7 +16,7 @@
     <result column="max_num" jdbcType="INTEGER" property="maxNum" />
     <result column="buyer_amt" jdbcType="DECIMAL" property="buyerAmt" />
     <result column="min_amt" jdbcType="DECIMAL" property="minAmt" />
-    <result column="group_status" jdbcType="TINYINT" property="groupStatus" />
+    <result column="group_status" jdbcType="INTEGER" property="groupStatus" />
     <result column="remarks" jdbcType="VARCHAR" property="remarks" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -155,7 +155,7 @@
     values (#{groupId,jdbcType=BIGINT}, #{groupNo,jdbcType=VARCHAR}, #{groupTitle,jdbcType=VARCHAR}, 
       #{groupLogo,jdbcType=VARCHAR}, #{groupArea,jdbcType=VARCHAR}, #{beginTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{maxNum,jdbcType=INTEGER}, #{buyerAmt,jdbcType=DECIMAL}, 
-      #{minAmt,jdbcType=DECIMAL}, #{groupStatus,jdbcType=TINYINT}, #{remarks,jdbcType=VARCHAR}, 
+      #{minAmt,jdbcType=DECIMAL}, #{groupStatus,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xuyang.model.Groups">
@@ -240,7 +240,7 @@
         #{minAmt,jdbcType=DECIMAL},
       </if>
       <if test="groupStatus != null">
-        #{groupStatus,jdbcType=TINYINT},
+        #{groupStatus,jdbcType=INTEGER},
       </if>
       <if test="remarks != null">
         #{remarks,jdbcType=VARCHAR},
@@ -301,7 +301,7 @@
         min_amt = #{record.minAmt,jdbcType=DECIMAL},
       </if>
       <if test="record.groupStatus != null">
-        group_status = #{record.groupStatus,jdbcType=TINYINT},
+        group_status = #{record.groupStatus,jdbcType=INTEGER},
       </if>
       <if test="record.remarks != null">
         remarks = #{record.remarks,jdbcType=VARCHAR},
@@ -333,7 +333,7 @@
       max_num = #{record.maxNum,jdbcType=INTEGER},
       buyer_amt = #{record.buyerAmt,jdbcType=DECIMAL},
       min_amt = #{record.minAmt,jdbcType=DECIMAL},
-      group_status = #{record.groupStatus,jdbcType=TINYINT},
+      group_status = #{record.groupStatus,jdbcType=INTEGER},
       remarks = #{record.remarks,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
@@ -376,7 +376,7 @@
         min_amt = #{minAmt,jdbcType=DECIMAL},
       </if>
       <if test="groupStatus != null">
-        group_status = #{groupStatus,jdbcType=TINYINT},
+        group_status = #{groupStatus,jdbcType=INTEGER},
       </if>
       <if test="remarks != null">
         remarks = #{remarks,jdbcType=VARCHAR},
@@ -405,7 +405,7 @@
       max_num = #{maxNum,jdbcType=INTEGER},
       buyer_amt = #{buyerAmt,jdbcType=DECIMAL},
       min_amt = #{minAmt,jdbcType=DECIMAL},
-      group_status = #{groupStatus,jdbcType=TINYINT},
+      group_status = #{groupStatus,jdbcType=INTEGER},
       remarks = #{remarks,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP}

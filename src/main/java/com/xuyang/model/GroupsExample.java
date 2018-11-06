@@ -846,52 +846,52 @@ public class GroupsExample {
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusEqualTo(Byte value) {
+        public Criteria andGroupStatusEqualTo(Integer value) {
             addCriterion("group_status =", value, "groupStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusNotEqualTo(Byte value) {
+        public Criteria andGroupStatusNotEqualTo(Integer value) {
             addCriterion("group_status <>", value, "groupStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusGreaterThan(Byte value) {
+        public Criteria andGroupStatusGreaterThan(Integer value) {
             addCriterion("group_status >", value, "groupStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusGreaterThanOrEqualTo(Byte value) {
+        public Criteria andGroupStatusGreaterThanOrEqualTo(Integer value) {
             addCriterion("group_status >=", value, "groupStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusLessThan(Byte value) {
+        public Criteria andGroupStatusLessThan(Integer value) {
             addCriterion("group_status <", value, "groupStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusLessThanOrEqualTo(Byte value) {
+        public Criteria andGroupStatusLessThanOrEqualTo(Integer value) {
             addCriterion("group_status <=", value, "groupStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusIn(List<Byte> values) {
+        public Criteria andGroupStatusIn(List<Integer> values) {
             addCriterion("group_status in", values, "groupStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusNotIn(List<Byte> values) {
+        public Criteria andGroupStatusNotIn(List<Integer> values) {
             addCriterion("group_status not in", values, "groupStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusBetween(Byte value1, Byte value2) {
+        public Criteria andGroupStatusBetween(Integer value1, Integer value2) {
             addCriterion("group_status between", value1, value2, "groupStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGroupStatusNotBetween(Byte value1, Byte value2) {
+        public Criteria andGroupStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("group_status not between", value1, value2, "groupStatus");
             return (Criteria) this;
         }
