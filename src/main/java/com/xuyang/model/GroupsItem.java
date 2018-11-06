@@ -66,7 +66,7 @@ public class GroupsItem implements Serializable {
      *
      * @mbg.generated
      */
-    private Byte itemStatus;
+    private Integer itemStatus;
 
     /**
      *
@@ -246,7 +246,7 @@ public class GroupsItem implements Serializable {
      *
      * @mbg.generated
      */
-    public Byte getItemStatus() {
+    public Integer getItemStatus() {
         return itemStatus;
     }
 
@@ -258,7 +258,7 @@ public class GroupsItem implements Serializable {
      *
      * @mbg.generated
      */
-    public void setItemStatus(Byte itemStatus) {
+    public void setItemStatus(Integer itemStatus) {
         this.itemStatus = itemStatus;
     }
 

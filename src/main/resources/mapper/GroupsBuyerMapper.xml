@@ -14,7 +14,7 @@
     <result column="gb_num" jdbcType="INTEGER" property="gbNum" />
     <result column="gb_price" jdbcType="DECIMAL" property="gbPrice" />
     <result column="gb_amt" jdbcType="DECIMAL" property="gbAmt" />
-    <result column="gb_status" jdbcType="TINYINT" property="gbStatus" />
+    <result column="gb_status" jdbcType="INTEGER" property="gbStatus" />
     <result column="gb_time" jdbcType="TIMESTAMP" property="gbTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -149,7 +149,7 @@
       gb_time)
     values (#{gbId,jdbcType=BIGINT}, #{buyerId,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, 
       #{itemId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{gbNum,jdbcType=INTEGER}, 
-      #{gbPrice,jdbcType=DECIMAL}, #{gbAmt,jdbcType=DECIMAL}, #{gbStatus,jdbcType=TINYINT}, 
+      #{gbPrice,jdbcType=DECIMAL}, #{gbAmt,jdbcType=DECIMAL}, #{gbStatus,jdbcType=INTEGER}, 
       #{gbTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xuyang.model.GroupsBuyer">
@@ -216,7 +216,7 @@
         #{gbAmt,jdbcType=DECIMAL},
       </if>
       <if test="gbStatus != null">
-        #{gbStatus,jdbcType=TINYINT},
+        #{gbStatus,jdbcType=INTEGER},
       </if>
       <if test="gbTime != null">
         #{gbTime,jdbcType=TIMESTAMP},
@@ -265,7 +265,7 @@
         gb_amt = #{record.gbAmt,jdbcType=DECIMAL},
       </if>
       <if test="record.gbStatus != null">
-        gb_status = #{record.gbStatus,jdbcType=TINYINT},
+        gb_status = #{record.gbStatus,jdbcType=INTEGER},
       </if>
       <if test="record.gbTime != null">
         gb_time = #{record.gbTime,jdbcType=TIMESTAMP},
@@ -289,7 +289,7 @@
       gb_num = #{record.gbNum,jdbcType=INTEGER},
       gb_price = #{record.gbPrice,jdbcType=DECIMAL},
       gb_amt = #{record.gbAmt,jdbcType=DECIMAL},
-      gb_status = #{record.gbStatus,jdbcType=TINYINT},
+      gb_status = #{record.gbStatus,jdbcType=INTEGER},
       gb_time = #{record.gbTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -324,7 +324,7 @@
         gb_amt = #{gbAmt,jdbcType=DECIMAL},
       </if>
       <if test="gbStatus != null">
-        gb_status = #{gbStatus,jdbcType=TINYINT},
+        gb_status = #{gbStatus,jdbcType=INTEGER},
       </if>
       <if test="gbTime != null">
         gb_time = #{gbTime,jdbcType=TIMESTAMP},
@@ -345,7 +345,7 @@
       gb_num = #{gbNum,jdbcType=INTEGER},
       gb_price = #{gbPrice,jdbcType=DECIMAL},
       gb_amt = #{gbAmt,jdbcType=DECIMAL},
-      gb_status = #{gbStatus,jdbcType=TINYINT},
+      gb_status = #{gbStatus,jdbcType=INTEGER},
       gb_time = #{gbTime,jdbcType=TIMESTAMP}
     where gb_id = #{gbId,jdbcType=BIGINT}
   </update>

@@ -47,7 +47,7 @@ public class GoodsShopcar implements Serializable {
      *
      * @mbg.generated
      */
-    private Byte status;
+    private Integer status;
 
     /**
      *
@@ -179,7 +179,7 @@ public class GoodsShopcar implements Serializable {
      *
      * @mbg.generated
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -191,7 +191,7 @@ public class GoodsShopcar implements Serializable {
      *
      * @mbg.generated
      */
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

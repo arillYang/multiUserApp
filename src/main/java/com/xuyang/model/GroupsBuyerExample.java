@@ -686,52 +686,52 @@ public class GroupsBuyerExample {
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusEqualTo(Byte value) {
+        public Criteria andGbStatusEqualTo(Integer value) {
             addCriterion("gb_status =", value, "gbStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusNotEqualTo(Byte value) {
+        public Criteria andGbStatusNotEqualTo(Integer value) {
             addCriterion("gb_status <>", value, "gbStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusGreaterThan(Byte value) {
+        public Criteria andGbStatusGreaterThan(Integer value) {
             addCriterion("gb_status >", value, "gbStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusGreaterThanOrEqualTo(Byte value) {
+        public Criteria andGbStatusGreaterThanOrEqualTo(Integer value) {
             addCriterion("gb_status >=", value, "gbStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusLessThan(Byte value) {
+        public Criteria andGbStatusLessThan(Integer value) {
             addCriterion("gb_status <", value, "gbStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusLessThanOrEqualTo(Byte value) {
+        public Criteria andGbStatusLessThanOrEqualTo(Integer value) {
             addCriterion("gb_status <=", value, "gbStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusIn(List<Byte> values) {
+        public Criteria andGbStatusIn(List<Integer> values) {
             addCriterion("gb_status in", values, "gbStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusNotIn(List<Byte> values) {
+        public Criteria andGbStatusNotIn(List<Integer> values) {
             addCriterion("gb_status not in", values, "gbStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusBetween(Byte value1, Byte value2) {
+        public Criteria andGbStatusBetween(Integer value1, Integer value2) {
             addCriterion("gb_status between", value1, value2, "gbStatus");
             return (Criteria) this;
         }
 
-        public Criteria andGbStatusNotBetween(Byte value1, Byte value2) {
+        public Criteria andGbStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("gb_status not between", value1, value2, "gbStatus");
             return (Criteria) this;
         }

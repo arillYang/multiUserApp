@@ -12,7 +12,7 @@
     <result column="format_id" jdbcType="BIGINT" property="formatId" />
     <result column="group_price" jdbcType="DECIMAL" property="groupPrice" />
     <result column="group_num" jdbcType="INTEGER" property="groupNum" />
-    <result column="item_status" jdbcType="TINYINT" property="itemStatus" />
+    <result column="item_status" jdbcType="INTEGER" property="itemStatus" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
@@ -148,7 +148,7 @@
       )
     values (#{itemId,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, 
       #{formatId,jdbcType=BIGINT}, #{groupPrice,jdbcType=DECIMAL}, #{groupNum,jdbcType=INTEGER}, 
-      #{itemStatus,jdbcType=TINYINT}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
+      #{itemStatus,jdbcType=INTEGER}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.xuyang.model.GroupsItem">
@@ -206,7 +206,7 @@
         #{groupNum,jdbcType=INTEGER},
       </if>
       <if test="itemStatus != null">
-        #{itemStatus,jdbcType=TINYINT},
+        #{itemStatus,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=BIGINT},
@@ -252,7 +252,7 @@
         group_num = #{record.groupNum,jdbcType=INTEGER},
       </if>
       <if test="record.itemStatus != null">
-        item_status = #{record.itemStatus,jdbcType=TINYINT},
+        item_status = #{record.itemStatus,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=BIGINT},
@@ -277,7 +277,7 @@
       format_id = #{record.formatId,jdbcType=BIGINT},
       group_price = #{record.groupPrice,jdbcType=DECIMAL},
       group_num = #{record.groupNum,jdbcType=INTEGER},
-      item_status = #{record.itemStatus,jdbcType=TINYINT},
+      item_status = #{record.itemStatus,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -307,7 +307,7 @@
         group_num = #{groupNum,jdbcType=INTEGER},
       </if>
       <if test="itemStatus != null">
-        item_status = #{itemStatus,jdbcType=TINYINT},
+        item_status = #{itemStatus,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=BIGINT},
@@ -329,7 +329,7 @@
       format_id = #{formatId,jdbcType=BIGINT},
       group_price = #{groupPrice,jdbcType=DECIMAL},
       group_num = #{groupNum,jdbcType=INTEGER},
-      item_status = #{itemStatus,jdbcType=TINYINT},
+      item_status = #{itemStatus,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where item_id = #{itemId,jdbcType=BIGINT}

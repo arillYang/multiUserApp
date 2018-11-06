@@ -566,52 +566,52 @@ public class GroupsItemExample {
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusEqualTo(Byte value) {
+        public Criteria andItemStatusEqualTo(Integer value) {
             addCriterion("item_status =", value, "itemStatus");
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusNotEqualTo(Byte value) {
+        public Criteria andItemStatusNotEqualTo(Integer value) {
             addCriterion("item_status <>", value, "itemStatus");
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusGreaterThan(Byte value) {
+        public Criteria andItemStatusGreaterThan(Integer value) {
             addCriterion("item_status >", value, "itemStatus");
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusGreaterThanOrEqualTo(Byte value) {
+        public Criteria andItemStatusGreaterThanOrEqualTo(Integer value) {
             addCriterion("item_status >=", value, "itemStatus");
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusLessThan(Byte value) {
+        public Criteria andItemStatusLessThan(Integer value) {
             addCriterion("item_status <", value, "itemStatus");
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusLessThanOrEqualTo(Byte value) {
+        public Criteria andItemStatusLessThanOrEqualTo(Integer value) {
             addCriterion("item_status <=", value, "itemStatus");
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusIn(List<Byte> values) {
+        public Criteria andItemStatusIn(List<Integer> values) {
             addCriterion("item_status in", values, "itemStatus");
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusNotIn(List<Byte> values) {
+        public Criteria andItemStatusNotIn(List<Integer> values) {
             addCriterion("item_status not in", values, "itemStatus");
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusBetween(Byte value1, Byte value2) {
+        public Criteria andItemStatusBetween(Integer value1, Integer value2) {
             addCriterion("item_status between", value1, value2, "itemStatus");
             return (Criteria) this;
         }
 
-        public Criteria andItemStatusNotBetween(Byte value1, Byte value2) {
+        public Criteria andItemStatusNotBetween(Integer value1, Integer value2) {
             addCriterion("item_status not between", value1, value2, "itemStatus");
             return (Criteria) this;
         }

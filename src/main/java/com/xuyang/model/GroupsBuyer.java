@@ -84,7 +84,7 @@ public class GroupsBuyer implements Serializable {
      *
      * @mbg.generated
      */
-    private Byte gbStatus;
+    private Integer gbStatus;
 
     /**
      *
@@ -303,7 +303,7 @@ public class GroupsBuyer implements Serializable {
      *
      * @mbg.generated
      */
-    public Byte getGbStatus() {
+    public Integer getGbStatus() {
         return gbStatus;
     }
 
@@ -315,7 +315,7 @@ public class GroupsBuyer implements Serializable {
      *
      * @mbg.generated
      */
-    public void setGbStatus(Byte gbStatus) {
+    public void setGbStatus(Integer gbStatus) {
         this.gbStatus = gbStatus;
     }
 
