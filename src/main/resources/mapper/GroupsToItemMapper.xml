@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.GroupsToItemMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.GroupsToItem">
+        <id column="group_id" jdbcType="INTEGER" property="groupId"/>
+        <result column="group_no" jdbcType="VARCHAR" property="groupNo"/>
+        <result column="create_user_id" jdbcType="INTEGER" property="createUserId"/>
+
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="user_nickname" jdbcType="INTEGER" property="userNickname"/>
+        <result column="user_head" jdbcType="VARCHAR" property="userHead"/>
+
+        <result column="max_num" jdbcType="INTEGER" property="maxNum"/>
+        <result column="spare_user" jdbcType="INTEGER" property="spareUser"/>
+        <result column="sum_user" jdbcType="INTEGER" property="sumUser"/>
+    </resultMap>
+
+    <select id="queryTopGroups" resultMap="BaseResultMap">
+        select g.group_id,g.group_no,g.create_user_id,g.end_time,u.user_nickname,u.user_head,g.max_num,
+          g.max_num-count(gi.item_id) as spare_user,count(g.group_id) as sum_user
+         from groups g
+          left join groups_buyer gb on g.group_id = gb.group_id
+          left join groups_item gi on g.group_id = gi.group_id
+          left join t_user u on u.user_id = g.create_user_id
+          left join t_goods goo on goo.g_id = gi.goods_id
+        where goo.g_id = #{id} and g.group_status = 3 limit 2
+    </select>
+
+</mapper>

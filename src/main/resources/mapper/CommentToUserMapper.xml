@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xuyang.mapper.DynamicToUserMapper">
+<mapper namespace="com.xuyang.mapper.CommentToUserMapper">
     <resultMap id="BaseResultMap" type="com.xuyang.mould.CommentToUser">
         <id column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
         <result column="user_head" jdbcType="VARCHAR" property="userHead"/>
         <result column="rec_id" jdbcType="INTEGER" property="recId"/>
         <result column="rec_content" jdbcType="VARCHAR" property="recContent"/>
-        <result column="rec_time" jdbcType="VARCHAR" property="recTime"/>
-        <result column="dy_id" jdbcType="VARCHAR" property="dyId"/>
+        <result column="rec_time" jdbcType="TIMESTAMP" property="recTime"/>
+        <result column="dy_id" jdbcType="INTEGER" property="dyId"/>
     </resultMap>
 
     <!-- 查询评论的内容和用户的头像昵称 -->

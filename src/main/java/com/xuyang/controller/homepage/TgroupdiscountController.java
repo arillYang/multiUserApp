@@ -8,10 +8,15 @@
 package com.xuyang.controller.homepage;
 
 import com.github.pagehelper.PageInfo;
+import com.xuyang.mapper.GroupsMapper;
 import com.xuyang.mapper.TgtypeMapper;
-import com.xuyang.model.Tgoods;
-import com.xuyang.model.Tgtype;
-import com.xuyang.model.TgtypeExample;
+import com.xuyang.model.*;
+import com.xuyang.mould.GoodsEvaluate;
+import com.xuyang.mould.GoodsToImages;
+import com.xuyang.mould.GroupsToItem;
+import com.xuyang.service.GoodsEvaluateService;
+import com.xuyang.service.GoodsToImagesService;
+import com.xuyang.service.GroupsToItemService;
 import com.xuyang.service.TgoodsService;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.XuYangResult;
@@ -20,7 +25,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -39,7 +46,15 @@ public class TgroupdiscountController {
     //商品service
     @Autowired
     private TgoodsService tgoodsService;
-
+    //商品详情service
+    @Autowired
+    private GoodsToImagesService goodsToImagesService;
+    //商品评论
+    @Autowired
+    private GoodsEvaluateService goodsEvaluateService;
+    //团购
+    @Autowired
+    private GroupsToItemService groupsToItemService;
     @ApiOperation(value = "查询类型")
     @RequestMapping(value = "/queryType",produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
     @ResponseBody
@@ -67,5 +82,21 @@ public class TgroupdiscountController {
         }
     }
 
+    @ApiOperation(value = "商品详情")
+    @ResponseBody
+    @RequestMapping(value = "/goodsdetails",method = RequestMethod.POST)
+    public Object goodsDetails(@RequestBody Integer id){
+        //查询商品和商品图片
+        List<GoodsToImages> goodsToImages = goodsToImagesService.queryGoodsToimage(id);
+        //查询未成团的数据用于展示。
+        List<GroupsToItem> groupsToItems = groupsToItemService.queryTopGroups(id);
+        //商品的前几条评论
+        List<GoodsEvaluate> goodsEvaluates = goodsEvaluateService.queryTopEvaluate(id);
+        Map<String,Object> map = new HashMap<>();
+        map.put("details",goodsToImages);
+        map.put("collage",groupsToItems);
+        map.put("evaluates",goodsEvaluates);
+        return XuYangResult.ok(ResultConstant.code_ok,"成功",map);
+    }
 
 }

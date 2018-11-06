@@ -8,24 +8,21 @@
 package com.xuyang.controller.homepage;
 
 import com.github.pagehelper.PageInfo;
-import com.xuyang.mapper.TdynamicMapper;
-import com.xuyang.mapper.TglobalLikeMapper;
-import com.xuyang.mapper.TglobalRecipientMapper;
-import com.xuyang.model.GlobalAssortmentExample;
-import com.xuyang.model.TglobalLikeExample;
-import com.xuyang.model.TglobalRecipient;
-import com.xuyang.model.TglobalRecipientExample;
+import com.xuyang.mapper.*;
+import com.xuyang.model.*;
+import com.xuyang.mould.CommentToUser;
 import com.xuyang.mould.DynamicToUser;
+import com.xuyang.service.CommentToUserService;
 import com.xuyang.service.DynamicToUserService;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.XuYangResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +44,10 @@ public class TglobalfindController {
     private TglobalRecipientMapper tglobalRecipientMapper;
     @Autowired
     private TglobalLikeMapper tglobalLikeMapper;
+    @Autowired
+    private CommentToUserService commentToUserService;
+    @Autowired
+    private TreadingTabMapper treadingTabMapper;
 
     @ResponseBody
     @ApiOperation(value = "查询发表的帖子")
@@ -88,19 +89,32 @@ public class TglobalfindController {
         /* 查询文章 */
         DynamicToUser dynamicToUser = dynamicToUserService.queryDetails(id);
         /* 查询评论 */
-        TglobalRecipientExample example = new TglobalRecipientExample();
-        example.createCriteria().andDyIdEqualTo(dynamicToUser.getDyId());
-        List<TglobalRecipient> tglobalRecipients = tglobalRecipientMapper.selectByExample(example);
+        List<CommentToUser> comment = commentToUserService.queryComment(id);
         /* 点赞数 t_global_like*/
         TglobalLikeExample example1 = new TglobalLikeExample();
         example1.createCriteria().andDyIdEqualTo(dynamicToUser.getDyId());
         long l = tglobalLikeMapper.countByExample(example1);
-        /* 还有个阅读量-----待定 */
+        /* 阅读量 */
+        TreadingTabExample example = new TreadingTabExample();
+        example.createCriteria().andClickIdIsNotNull().andDyIdEqualTo(dynamicToUser.getDyId());
+        long l1 = treadingTabMapper.countByExample(example);
+
         Map<String,Object> map = new HashMap<>();
         map.put("article",dynamicToUser);//文章
-        map.put("comment",tglobalRecipients);//评论
-        map.put("assist",l);
-        return null;
+        map.put("comment",comment);//评论
+        map.put("assist",l);        //点赞数
+        map.put("read",l1);          //阅读量
+        return XuYangResult.ok(ResultConstant.code_ok,"成功",map);
+    }
+
+    @ApiOperation(value = "查询评论")
+    @ResponseBody
+    @RequestMapping(value = "/comment",method = RequestMethod.POST)
+    public Object queryComment(@RequestBody Integer Id){
+        TglobalRecipientExample example = new TglobalRecipientExample();
+        example.createCriteria().andRecIdIsNotNull().andDyIdEqualTo(Id);
+        List<TglobalRecipient> tglobalRecipients = tglobalRecipientMapper.selectByExample(example);
+        return XuYangResult.ok(ResultConstant.code_ok,"成功",tglobalRecipients);
     }
 
 }

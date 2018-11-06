@@ -56,3 +56,8 @@ redis:
     max-idle: 10
     max-wait: 100000
   timeout: 5000
+
+#打印sql配置
+logging:
+  level:
+    com.xuyang.mapper : debug

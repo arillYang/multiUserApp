@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.LevelLinkageMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.LevelLinkage">
+        <id column="wot_id" jdbcType="INTEGER" property="wotId"/>
+
+        <result column="gt_id" jdbcType="INTEGER" property="gtId"/>
+
+        <result column="wot_name" jdbcType="VARCHAR" property="wotName"/>
+        <result column="wot_switch" jdbcType="VARCHAR" property="wotSwitch"/>
+        <result column="wot_typename" jdbcType="VARCHAR" property="wotTypename"/>
+        <result column="gt_name" jdbcType="VARCHAR" property="gtName"/>
+        <result column="gt_switch" jdbcType="VARCHAR" property="gtSwitch"/>
+        <result column="gt_typtname" jdbcType="VARCHAR" property="gtTyptname"/>
+    </resultMap>
+
+    <select id="queryAllType" resultMap="BaseResultMap">
+        select g.*,w.* from t_gtype g left join t_worldtype w on g.wot_id = w.wot_id
+        where w.wot_switch = '开启' and g.gt_switch = '开启' and g.gt_typtname='商品' and w.wot_typename=#{statename}
+    </select>
+</mapper>

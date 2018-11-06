@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.GoodsToImagesMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.GoodsToImages">
+        <id column="g_id" jdbcType="INTEGER" property="gId" />
+        <result column="g_name" jdbcType="VARCHAR" property="gName" />
+        <result column="g_price" jdbcType="DECIMAL" property="gPrice" />
+        <result column="g_agio" jdbcType="VARCHAR" property="gAgio" />
+        <result column="g_spec" jdbcType="VARCHAR" property="gSpec" />
+        <result column="tenant_sid" jdbcType="VARCHAR" property="tenantSid" />
+        <result column="g_market_price" jdbcType="DECIMAL" property="gMarketPrice" />
+        <result column="g_stock" jdbcType="INTEGER" property="gStock" />
+        <result column="g_sale_count" jdbcType="INTEGER" property="gSaleCount" />
+        <result column="g_sale" jdbcType="VARCHAR" property="gSale" />
+        <result column="g_hot" jdbcType="VARCHAR" property="gHot" />
+        <result column="g_best" jdbcType="VARCHAR" property="gBest" />
+        <result column="g_news" jdbcType="VARCHAR" property="gNews" />
+        <result column="gt_id" jdbcType="INTEGER" property="gtId" />
+        <result column="g_desc" jdbcType="VARCHAR" property="gDesc" />
+        <result column="g_flag" jdbcType="VARCHAR" property="gFlag" />
+        <result column="g_createTime" jdbcType="TIMESTAMP" property="gCreatetime" />
+        <result column="g_image" jdbcType="VARCHAR" property="gImage" />
+        <result column="g_thums" jdbcType="VARCHAR" property="gThums" />
+        <result column="format_id" jdbcType="INTEGER" property="formatId" />
+
+        <result column="gi_id" jdbcType="INTEGER" property="giId" />
+        <result column="gi_image" jdbcType="VARCHAR" property="giImage" />
+        <result column="gi_thumbs" jdbcType="VARCHAR" property="giThumbs" />
+
+        <result column="gimage_id" jdbcType="INTEGER" property="gimageId" />
+        <result column="image_parameter" jdbcType="VARCHAR" property="imageParameter" />
+        <result column="image_details" jdbcType="VARCHAR" property="imageDetails" />
+    </resultMap>
+
+    <select id="queryGoodsToimage" resultMap="BaseResultMap">
+        select g.*,im.*,gi.* from t_goods g
+          left join t_gimage im on g.g_id = im.g_id
+          left join t_goods_image gi on g.g_id = gi.g_id
+        where g.g_id = #{id}
+    </select>
+</mapper>

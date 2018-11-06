@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.GoodsEvaluateMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.GoodsEvaluate">
+        <id column="ga_id" jdbcType="INTEGER" property="gaId" />
+        <result column="g_id" jdbcType="INTEGER" property="gId" />
+        <result column="format_id" jdbcType="INTEGER" property="formatId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+
+        <result column="g_name" jdbcType="VARCHAR" property="gName" />
+        <result column="g_price" jdbcType="DECIMAL" property="gPrice" />
+
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="user_head" jdbcType="VARCHAR" property="userHead"/>
+
+        <result column="ga_content" jdbcType="LONGVARCHAR" property="gaContent" />
+        <result column="g_score" jdbcType="INTEGER" property="gScore" />
+        <result column="g_service_socre" jdbcType="INTEGER" property="gServiceSocre" />
+        <result column="is_show" jdbcType="VARCHAR" property="isShow" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="appraises_annex" jdbcType="VARCHAR" property="appraisesAnnex" />
+
+        <result column="format_name" jdbcType="VARCHAR" property="formatName" />
+    </resultMap>
+    <!-- 某件商品的全部评价 -->
+    <select id="queryAllEvaluate" resultMap="BaseResultMap">
+        select ga.ga_id,ga.g_score,ga.g_service_socre,ga.ga_content,ga.is_show,ga.create_time,ga.appraises_annex,
+          g.g_id,g.g_name,g.g_price,u.user_id,u.user_nickname,u.user_head,gs.format_name,gs.format_id
+          from t_goods_appraises ga
+          left join t_goods g on ga.g_id = g.g_id
+          left join t_goods_specs gs on g.format_id = gs.format_id
+          left join t_user u on u.user_id = ga.user_id
+          where ga.g_id = #{id}
+    </select>
+    <!-- 某件商品的前2条评价(好评) -->
+    <select id="queryTopEvaluate" resultMap="BaseResultMap">
+        select ga.ga_id,ga.g_score,ga.g_service_socre,ga.ga_content,ga.is_show,ga.create_time,ga.appraises_annex,
+          g.g_id,g.g_name,g.g_price,u.user_id,u.user_nickname,u.user_head,gs.format_name,gs.format_id
+          from t_goods_appraises ga
+          left join t_goods g on ga.g_id = g.g_id
+          left join t_goods_specs gs on g.format_id = gs.format_id
+          left join t_user u on u.user_id = ga.user_id
+          where ga.g_id = #{id} and ga.g_score > 4 limit 2
+    </select>
+</mapper>
