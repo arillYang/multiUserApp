@@ -81,11 +81,11 @@ public class TuserController {
     }
 
     /**
-     * 用户注册
-     *
      * @param user 用户实体对象
      * @return 返回受影响的值
+     * @Discription 用户注册/商家注册、判断邮箱是否为空
      * @Time 2018年10月25日18:01:04
+     * @author create by YangJie
      */
     @ApiOperation(value = "用户注册")
     @ResponseBody
@@ -95,6 +95,7 @@ public class TuserController {
         //根据用户输入手机号码 判断该用户是否存在
         TuserExample.Criteria criteria = example.createCriteria();
         criteria.andUserPhoneEqualTo(user.getUserPhone());
+
         List<Tuser> tusers = tuserMapper.selectByExample(example);
         if (tusers != null) {
             for (Tuser t : tusers) {
@@ -102,6 +103,10 @@ public class TuserController {
                     return XuYangResult.ok(ResultConstant.code_failue, "用户已存在", ResultConstant.code_failue);
                 }
             }
+        }
+        //判断用户邮箱是否为空，不为空为商家注册，若为空则是普通用户注册
+        if (user.getTenantBankEmail() != null && !"".equals(user.getTenantBankEmail())) {
+            user.setTenantBankEmail(user.getTenantBankEmail());
         }
         String md5Code = MD5Util.GetMD5Code(user.getUserPwd());
         user.setUserPwd(md5Code);
@@ -159,9 +164,11 @@ public class TuserController {
     @ResponseBody
     @PutMapping("/updateUser")
     public Object updateUser(@RequestBody Tuser tuser) {
-        String md5Code = MD5Util.GetMD5Code(tuser.getUserPwd());
-        tuser.setUserPwd(md5Code);
-        return tuserService.updateByPrimaryKey(tuser);
+        if(tuser.getUserPwd()!=null && !"".equals(tuser.getUserPwd())){
+            String md5Code = MD5Util.GetMD5Code(tuser.getUserPwd());
+            tuser.setUserPwd(md5Code);
+        }
+        return tuserService.updateByPrimaryKeySelective(tuser);
     }
 
 
@@ -216,9 +223,10 @@ public class TuserController {
                 template.opsForValue().set("user_" + token, user);
                 map1.put("token", token);
                 map1.put("user", user);
-                Tuser result = (Tuser) template.opsForValue().get("user_" + token);
+                //Tuser result = (Tuser) template.opsForValue().get("user_" + token);
+               // map1.put("user_token",result);
                 //返回值
-                return XuYangResult.ok(ResultConstant.code_ok, "登录成功", result);
+                return XuYangResult.ok(ResultConstant.code_ok, "登录成功", map1);
             }
             return XuYangResult.ok(ResultConstant.code_failue, "密码错误", null);
         }
