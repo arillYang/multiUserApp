@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.ShoppingToGoodsToUserMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.ShoppingToGoodsToUser">
+        <id column="car_id" jdbcType="INTEGER" property="carId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="gt_id" jdbcType="INTEGER" property="gtId"/>
+
+        <result column="num" jdbcType="INTEGER" property="num"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+
+
+        <result column="g_name" jdbcType="VARCHAR" property="gName"/>
+        <result column="g_price" jdbcType="DECIMAL" property="gPrice" />
+        <result column="g_image" jdbcType="VARCHAR" property="gImage"/>
+        <result column="gt_name" jdbcType="VARCHAR" property="gtName"/>
+    </resultMap>
+
+    <select id="queryMyShopping" resultMap="BaseResultMap">
+        select gs.*,goo.g_id,goo.g_name,goo.g_price,goo.g_image,gt.gt_name
+         from goods_shopcar gs
+          left join t_goods goo on gs.goods_id = goo.g_id
+          left join t_user u on u.user_id = gs.user_id
+          left join t_gtype gt on gt.gt_id = goo.gt_id
+        where gs.user_id = #{id}
+    </select>
+
+</mapper>
