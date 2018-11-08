@@ -3,10 +3,8 @@ package com.xuyang.controller;
 import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
 import com.xuyang.model.TuserExample;
-import com.xuyang.model.Tworldtype;
 import com.xuyang.service.RedisService;
 import com.xuyang.service.TuserService;
-import com.xuyang.service.TworldTypeService;
 import com.xuyang.util.MD5Util;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.UUIDFactory;
@@ -39,9 +37,6 @@ public class TuserController {
     private TuserService tuserService;
 
     @Autowired
-    private TworldTypeService tworldTypeService;
-
-    @Autowired
     private TuserMapper tuserMapper;
 
     @Autowired
@@ -49,19 +44,6 @@ public class TuserController {
 
     @Autowired
     private RedisTemplate<Object, Object> template;
-
-
-    /**
-     * @param tworldType 实体对象
-     * @return 返回受影响的值
-     * @Time 2018年10月25日18:01:04
-     */
-    @ApiOperation(value = "新增数据")
-    @ResponseBody
-    @PostMapping("/insertTworldType")
-    public int insertTworldType(@RequestBody Tworldtype tworldType) {
-        return tworldTypeService.insert(tworldType);
-    }
 
 
     /**
@@ -137,19 +119,19 @@ public class TuserController {
     /**
      * 查询单个用户信息
      *
-     * @param tuser 用户参数【JSON格式】
+     * @param userId 用户参数【JSON格式】
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
     @ApiOperation(value = "获取个人信息--userId")
     @ResponseBody
     @PostMapping("/queryOne")
-    public Object queryUserByUserId(@RequestBody Tuser tuser) {
-        Tuser tuser1 = tuserService.selectByPrimaryKey(tuser.getUserId());
+    public Object queryUserByUserId(@RequestParam("userId") String userId) {
+        Tuser tuser1 = tuserService.selectByPrimaryKey(Integer.parseInt(userId));
         if (tuser1 != null) {
             return XuYangResult.ok(ResultConstant.code_ok, "获取数据成功", tuser1);
         }
-        return XuYangResult.ok(ResultConstant.code_failue, "获取失败", null);
+        return XuYangResult.ok(ResultConstant.code_failue, "服务错误", null);
     }
 
 
@@ -164,7 +146,7 @@ public class TuserController {
     @ResponseBody
     @PutMapping("/updateUser")
     public Object updateUser(@RequestBody Tuser tuser) {
-        if(tuser.getUserPwd()!=null && !"".equals(tuser.getUserPwd())){
+        if (tuser.getUserPwd() != null && !"".equals(tuser.getUserPwd())) {
             String md5Code = MD5Util.GetMD5Code(tuser.getUserPwd());
             tuser.setUserPwd(md5Code);
         }
@@ -175,15 +157,15 @@ public class TuserController {
     /**
      * 删除用户信息
      *
-     * @param tuser 用户参数【JSON格式】
+     * @param userId 用户参数【JSON格式】
      * @return 返回受影响的行数
      * @Time 2018年10月25日18:00:42
      */
     @ApiOperation(value = "删除用户--后台管理对用户进行测试用户进行删除")
     @ResponseBody
     @DeleteMapping("/deleteUser")
-    public Object deleteUserById(@RequestBody Tuser tuser) {
-        return tuserService.deleteByPrimaryKey(tuser.getUserId());
+    public Object deleteUserById(@RequestParam("userId") String userId) {
+        return tuserService.deleteByPrimaryKey(Integer.parseInt(userId));
     }
 
 
@@ -224,7 +206,7 @@ public class TuserController {
                 map1.put("token", token);
                 map1.put("user", user);
                 //Tuser result = (Tuser) template.opsForValue().get("user_" + token);
-               // map1.put("user_token",result);
+                // map1.put("user_token",result);
                 //返回值
                 return XuYangResult.ok(ResultConstant.code_ok, "登录成功", map1);
             }
@@ -246,6 +228,7 @@ public class TuserController {
         String token = map.get("token").toString();
         Jedis je = new Jedis();
         je.del("user_" + token);
+
         return XuYangResult.ok(ResultConstant.code_ok, "退出成功", "");
     }
 
