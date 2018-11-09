@@ -1,7 +1,10 @@
 package com.xuyang.model;
 
-import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+@ApiModel(value = "银行卡对象")
 public class TbankCard implements Serializable {
     /**
      *
@@ -10,6 +13,7 @@ public class TbankCard implements Serializable {
      *
      * @mbg.generated
      */
+    @ApiModelProperty(value = "id")
     private Integer bankCardId;
 
     /**
@@ -19,6 +23,7 @@ public class TbankCard implements Serializable {
      *
      * @mbg.generated
      */
+    @ApiModelProperty(value = "银行卡号",required = true)
     private String bankCardNumber;
 
     /**
@@ -28,6 +33,7 @@ public class TbankCard implements Serializable {
      *
      * @mbg.generated
      */
+    @ApiModelProperty(value = "开户行名称",required = true)
     private String bankCardOpenbank;
 
     /**
@@ -37,6 +43,7 @@ public class TbankCard implements Serializable {
      *
      * @mbg.generated
      */
+    @ApiModelProperty(value = "开户行地址",required = true)
     private String bankCardAddress;
 
     /**
@@ -46,6 +53,7 @@ public class TbankCard implements Serializable {
      *
      * @mbg.generated
      */
+    @ApiModelProperty(value = "商家ID",required = true)
     private String tenantSid;
 
     /**

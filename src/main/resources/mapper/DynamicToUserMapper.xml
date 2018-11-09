@@ -27,4 +27,10 @@
         from t_dynamic d left join t_user u on d.user_id = u.user_id
         where d.dy_id = #{id}
     </select>
+
+    <select id="reasonidcard" resultMap="BaseResultMap">
+        select d.dy_id,d.dy_title,d.dy_image,d.dy_cont,u.user_head,u.user_nickname
+        from t_dynamic d left join t_user u on d.user_id = u.user_id
+        where d.user_id = #{id}
+    </select>
 </mapper>

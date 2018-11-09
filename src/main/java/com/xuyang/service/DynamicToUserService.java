@@ -3,6 +3,8 @@ package com.xuyang.service;
 import com.github.pagehelper.PageInfo;
 import com.xuyang.mould.DynamicToUser;
 
+import java.util.List;
+
 public interface DynamicToUserService {
     /**
      * 功能描述: <br>
@@ -25,4 +27,12 @@ public interface DynamicToUserService {
      * @Author: PanYin
      */
     DynamicToUser queryDetails(int id);
+
+    /**
+     * 功能描述: <br>
+     * 〈分页查询全球发现某个用户的文章〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
+    PageInfo<DynamicToUser> reasonidcard(int pageNum,int pageSize,int id);
 }

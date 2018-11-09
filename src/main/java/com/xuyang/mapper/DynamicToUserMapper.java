@@ -26,4 +26,12 @@ public interface DynamicToUserMapper {
      * @Author: PanYin
      */
     DynamicToUser queryDetails(int id);
+
+    /**
+     * 功能描述: <br>
+     * 〈分页查询全球发现某个用户的文章〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
+    List<DynamicToUser> reasonidcard(int id);
 }

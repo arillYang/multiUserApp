@@ -67,4 +67,12 @@ public class DynamicToUserServiceImpl implements DynamicToUserService {
     public DynamicToUser queryDetails(int id) {
         return dynamicToUserMapper.queryDetails(id);
     }
+
+    @Override
+    public PageInfo<DynamicToUser> reasonidcard(int pageNum, int pageSize, int id) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<DynamicToUser> dynamic = dynamicToUserMapper.reasonidcard(id);
+        PageInfo result = new PageInfo(dynamic);
+        return result;
+    }
 }
