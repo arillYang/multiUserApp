@@ -118,7 +118,7 @@
                selectByExampleQueryId="true">
         </table>-->
 
-        <table tableName="t_account" domainObjectName="Taccount"
+        <table tableName="t_recipient" domainObjectName="Trecipient"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">

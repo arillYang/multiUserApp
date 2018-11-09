@@ -20,6 +20,7 @@ import redis.clients.jedis.Jedis;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Created by YangJie
@@ -150,7 +151,11 @@ public class TuserController {
             String md5Code = MD5Util.GetMD5Code(tuser.getUserPwd());
             tuser.setUserPwd(md5Code);
         }
-        return tuserService.updateByPrimaryKeySelective(tuser);
+        int updateCount = tuserService.updateByPrimaryKeySelective(tuser);
+        if (updateCount > 0) {
+            return XuYangResult.ok(ResultConstant.code_ok, "修改成功", updateCount);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "服务器异常", null);
     }
 
 
@@ -165,7 +170,13 @@ public class TuserController {
     @ResponseBody
     @DeleteMapping("/deleteUser")
     public Object deleteUserById(@RequestParam("userId") String userId) {
-        return tuserService.deleteByPrimaryKey(Integer.parseInt(userId));
+        if (!"".equals(userId) && userId != null) {
+            int delCount = tuserService.deleteByPrimaryKey(Integer.parseInt(userId));
+            if (delCount > 0) {
+                return XuYangResult.ok(ResultConstant.code_ok, "删除成功", delCount);
+            }
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "服务器异常", null);
     }
 
 
@@ -239,12 +250,12 @@ public class TuserController {
      * @return
      */
     @ApiOperation(value = "用户找回密码")
-    @RequestMapping(value = "setPassword", method = RequestMethod.POST)
+    @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
     @ResponseBody
     public Object setPassword(@RequestBody Map<String, String> map) {
         try {
             String userPhone = "";
-            String pin = "";
+            String code = "";
             String userPwd = "";
             StringBuffer sb = new StringBuffer();
             if (map.containsKey("userPhone")) {
@@ -252,10 +263,10 @@ public class TuserController {
             } else {
                 sb.append("userPhone").append(",");
             }
-            if (map.containsKey("pin"))
-                pin = map.get("pin");
+            if (map.containsKey("code"))
+                code = map.get("code");
             else {
-                sb.append("pin").append(",");
+                sb.append("code").append(",");
             }
             if (map.containsKey("userPwd"))
                 userPwd = map.get("userPwd");
@@ -265,7 +276,7 @@ public class TuserController {
             if (sb.length() != 0) {
                 return XuYangResult.build(ResultConstant.code_param, "以下参数不能为空" + sb.toString(), "");
             }
-            if (!redisService.checkSmsCode(userPhone, pin, 2)) {
+            if (!redisService.checkSmsCode(userPhone, code, 2)) {
                 return XuYangResult.build(ResultConstant.code_SmsError, "验证码错误或已过期", "");
             }
             return tuserService.resetPassword(userPhone, userPwd);
@@ -273,5 +284,38 @@ public class TuserController {
             return XuYangResult.build(ResultConstant.code_exception, "数据异常", "");
         }
     }
+
+
+    @ApiOperation("发送验证码")
+    @GetMapping("/sentCode")
+    @ResponseBody
+    public Object sentCode(Map map) {
+        String userPhone = map.get("userPhone").toString();
+        if(userPhone==null && "".equals(userPhone)){
+            XuYangResult.ok(ResultConstant.code_failue,"手机号码不为空","");
+        }
+        int code = (int) ((Math.random() * 9 + 1) * 100000);
+        Jedis e = new Jedis();
+        e.set("code_" + code, code + "");
+        e.expire("code_" + code, 100);
+        map.put("code", code);
+        return XuYangResult.ok(ResultConstant.code_ok, "code值", map);
+    }
+
+
+    @ApiOperation("发送验证码")
+    @PostMapping("/checkSentCode")
+    @ResponseBody
+    public Object checkSentCode(@RequestBody Map map) {
+        String code = map.get("code").toString();
+        Jedis jd = new Jedis();
+        String sentCode = jd.get("code_" + code);
+        if (code != sentCode && !code.equals(sentCode)) {
+
+            return XuYangResult.ok(ResultConstant.code_failue, "验证码不正确或者超时", "");
+        }
+        return XuYangResult.ok(ResultConstant.code_ok, "验证码正确", "");
+    }
+
 
 }
