@@ -28,8 +28,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 〈一句话功能简述〉<br> 
+ * 〈一句话功能简述〉<br>
  * 〈全球发现〉
+ *
  * @author PanYin
  * @create 2018/11/2
  * @since 1.0.0
@@ -51,41 +52,41 @@ public class TglobalfindController {
 
     @ResponseBody
     @ApiOperation(value = "查询发表的帖子")
-    @RequestMapping(value = "/queryToUser",method = RequestMethod.GET)
-    public Object queryToUser(){
+    @RequestMapping(value = "/queryToUser", method = RequestMethod.GET)
+    public Object queryToUser() {
         PageInfo<DynamicToUser> info = dynamicToUserService.queryToUser(0, 5);
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",info);
+        return XuYangResult.ok(ResultConstant.code_ok, "成功", info);
     }
 
     @ResponseBody
     @ApiOperation(value = "查询类型")
-    @RequestMapping(value = "/queryType",method = RequestMethod.GET)
-    public Object queryType(){
+    @RequestMapping(value = "/queryType", method = RequestMethod.GET)
+    public Object queryType() {
         GlobalAssortmentExample example = new GlobalAssortmentExample();
         example.createCriteria().andGlobalIdIsNotNull();
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",example);
+        return XuYangResult.ok(ResultConstant.code_ok, "成功", example);
     }
 
     @ApiOperation(value = "根据类型查询帖子")
     @ResponseBody
-    @RequestMapping(value = "/tocard",method = RequestMethod.POST)
+    @RequestMapping(value = "/tocard", method = RequestMethod.POST)
     public Object typeTocard(@RequestBody Integer id,
                              @RequestParam(name = "pageNum", required = false, defaultValue = "1")
                                      int pageNum,
                              @RequestParam(name = "pageSize", required = false, defaultValue = "20")
-                                         int pageSize){
+                                     int pageSize) {
         PageInfo<DynamicToUser> pageInfo = dynamicToUserService.typeTocard(pageNum, pageSize, id);
-        if(pageInfo != null){
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",pageInfo);
-        }else{
-            return XuYangResult.ok(ResultConstant.code_failue,"失败",null);
+        if (pageInfo != null) {
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", pageInfo);
+        } else {
+            return XuYangResult.ok(ResultConstant.code_failue, "失败", null);
         }
     }
 
     @ApiOperation(value = "根据文章ID查看文章详情")
     @ResponseBody
-    @RequestMapping(value = "/details",method = RequestMethod.POST)
-    public Object queryDetails(@RequestBody Integer id){
+    @RequestMapping(value = "/details", method = RequestMethod.POST)
+    public Object queryDetails(@RequestBody Integer id) {
         /* 查询文章 */
         DynamicToUser dynamicToUser = dynamicToUserService.queryDetails(id);
         /* 查询评论 */
@@ -99,22 +100,22 @@ public class TglobalfindController {
         example.createCriteria().andClickIdIsNotNull().andDyIdEqualTo(dynamicToUser.getDyId());
         long l1 = treadingTabMapper.countByExample(example);
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("article",dynamicToUser);//文章
-        map.put("comment",comment);//评论
-        map.put("assist",l);        //点赞数
-        map.put("read",l1);          //阅读量
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",map);
+        Map<String, Object> map = new HashMap<>();
+        map.put("article", dynamicToUser);//文章
+        map.put("comment", comment);//评论
+        map.put("assist", l);        //点赞数
+        map.put("read", l1);          //阅读量
+        return XuYangResult.ok(ResultConstant.code_ok, "成功", map);
     }
 
     @ApiOperation(value = "查询评论")
     @ResponseBody
-    @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Object queryComment(@RequestBody Integer Id){
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    public Object queryComment(@RequestBody Integer Id) {
         TglobalRecipientExample example = new TglobalRecipientExample();
         example.createCriteria().andRecIdIsNotNull().andDyIdEqualTo(Id);
         List<TglobalRecipient> tglobalRecipients = tglobalRecipientMapper.selectByExample(example);
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",tglobalRecipients);
+        return XuYangResult.ok(ResultConstant.code_ok, "成功", tglobalRecipients);
     }
 
 }

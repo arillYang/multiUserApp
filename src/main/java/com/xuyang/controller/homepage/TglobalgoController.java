@@ -35,6 +35,7 @@ import java.util.Map;
 /**
  * 〈一句话功能简述〉<br>
  * 〈全球购物〉
+ *
  * @author PanYin
  * @create 2018/11/1
  * @since 1.0.0
@@ -53,86 +54,93 @@ public class TglobalgoController {
     private GoodsToImagesService goodsToImagesService;
     @Autowired
     private GoodsEvaluateService goodsEvaluateService;
+
     /**
      * 功能描述: <br>
      * 〈查询世界类型〉
+     *
      * @since: 1.0.0
      * @Author: PanYin
      * @Date:
      */
     @ResponseBody
     @ApiOperation(value = "查询全球馆下的商品类型")
-    @RequestMapping(value = "/queryglobal",method = RequestMethod.GET)
-    public Object queryGlobalType(@RequestParam String statename){
+    @RequestMapping(value = "/queryglobal", method = RequestMethod.GET)
+    public Object queryGlobalType(@RequestParam String statename) {
         List<LevelLinkage> linkages = levelLinkageService.queryAllType(statename);
-        if(linkages != null && !linkages.isEmpty()){
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",linkages);
+        if (linkages != null && !linkages.isEmpty()) {
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", linkages);
         }
-        return XuYangResult.ok(ResultConstant.code_failue,"失败-没有数据",null);
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-没有数据", null);
     }
+
     /**
      * 功能描述: <br>
      * 〈世界类型的新品推荐〉
+     *
      * @since: 1.0.0
      * @Author: PanYin
      */
     @ResponseBody
     @ApiOperation(value = "世界类型的新品推荐")
-    @RequestMapping(value = "/newglobal",method = RequestMethod.GET)
-    public Object newGlobalGoods(){
+    @RequestMapping(value = "/newglobal", method = RequestMethod.GET)
+    public Object newGlobalGoods() {
         List<Tgoods> tgoods = tgoodsService.newGlobalGoods();
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoods);
+        return XuYangResult.ok(ResultConstant.code_ok, "成功", tgoods);
     }
 
     /**
      * 功能描述: <br>
      * 〈世界类型的精品推荐〉
+     *
      * @since: 1.0.0
      * @Author: PanYin
      */
     @ResponseBody
     @ApiOperation(value = "世界类型的精品推荐")
-    @RequestMapping(value = "/bestglobal",method = RequestMethod.GET)
-    public Object bestGlobalGoods(){
+    @RequestMapping(value = "/bestglobal", method = RequestMethod.GET)
+    public Object bestGlobalGoods() {
         List<Tgoods> tgoods = tgoodsService.bestGlobalGoods();
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoods);
+        return XuYangResult.ok(ResultConstant.code_ok, "成功", tgoods);
     }
+
     @ApiOperation(value = "根据类型查询商品")
-    @RequestMapping(value = "/queryTypeGoods",method = RequestMethod.POST)
+    @RequestMapping(value = "/queryTypeGoods", method = RequestMethod.POST)
     @ResponseBody
-    public Object typeToGoods(@RequestBody Integer id){
+    public Object typeToGoods(@RequestBody Integer id) {
         TgoodsExample example = new TgoodsExample();
         example.createCriteria().andGtIdEqualTo(id);
         List<Tgoods> tgoods = mapper.selectByExample(example);
-        if(tgoods != null && !tgoods.isEmpty()){
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoods);
+        if (tgoods != null && !tgoods.isEmpty()) {
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", tgoods);
         }
-        return XuYangResult.ok(ResultConstant.code_failue,"失败",null);
+        return XuYangResult.ok(ResultConstant.code_failue, "失败", null);
     }
+
     @ApiOperation(value = "商品详情")
-    @RequestMapping(value = "/queryGoodsdetails",method = RequestMethod.POST)
+    @RequestMapping(value = "/queryGoodsdetails", method = RequestMethod.POST)
     @ResponseBody
-    public Object queryOneGoods(@RequestBody Integer id){
+    public Object queryOneGoods(@RequestBody Integer id) {
         List<GoodsEvaluate> goodsEvaluates = goodsEvaluateService.queryTopEvaluate(id);
         List<GoodsToImages> goodsToImages = goodsToImagesService.queryGoodsToimage(id);
-        Map<String,Object> map = new HashMap<>();
-        map.put("evaluates",goodsEvaluates);
-        map.put("goodsToimg",goodsToImages);
-        if( goodsToImages!=null && !goodsToImages.isEmpty() ){
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",map);
+        Map<String, Object> map = new HashMap<>();
+        map.put("evaluates", goodsEvaluates);
+        map.put("goodsToimg", goodsToImages);
+        if (goodsToImages != null && !goodsToImages.isEmpty()) {
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", map);
         }
-        return XuYangResult.ok(ResultConstant.code_failue,"失败",null);
+        return XuYangResult.ok(ResultConstant.code_failue, "失败", null);
     }
 
     @ApiOperation(value = "全部评价")
     @ResponseBody
-    @RequestMapping(value = "/queryEvaluate",method = RequestMethod.POST)
-    public Object queryAllevaluate(@RequestBody Integer id){
+    @RequestMapping(value = "/queryEvaluate", method = RequestMethod.POST)
+    public Object queryAllevaluate(@RequestBody Integer id) {
         List<GoodsEvaluate> goodsEvaluates = goodsEvaluateService.queryAllEvaluate(id);
-        if( goodsEvaluates != null && !goodsEvaluates.isEmpty() ){
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",goodsEvaluates);
+        if (goodsEvaluates != null && !goodsEvaluates.isEmpty()) {
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", goodsEvaluates);
         }
-        return XuYangResult.ok(ResultConstant.code_failue,"失败",null);
+        return XuYangResult.ok(ResultConstant.code_failue, "失败", null);
     }
 
 }

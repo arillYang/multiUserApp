@@ -29,8 +29,9 @@ import redis.clients.jedis.Jedis;
 import java.util.List;
 
 /**
- * 〈一句话功能简述〉<br> 
+ * 〈一句话功能简述〉<br>
  * 〈首页功能控制器〉
+ *
  * @author Administrator
  * @create 2018/10/31
  * @since 1.0.0
@@ -42,9 +43,11 @@ public class ThomepageController {
 
     @Autowired
     private TadverService tadverService;
+
     /**
      * 功能描述: <br>
      * 〈轮播图查询〉
+     *
      * @return:
      * @since: 1.0.0
      * @Author:
@@ -53,42 +56,43 @@ public class ThomepageController {
     @ApiOperation(value = "查询轮播图")
     @ResponseBody
     @GetMapping("/queryBroadcast")
-    public Object queryBroadcast(){
+    public Object queryBroadcast() {
         List<Tadvertising> tadvertisings = tadverService.queryBroadcast();
-        if(tadvertisings == null){
+        if (tadvertisings == null) {
             return XuYangResult.ok(ResultConstant.code_failue, "没有获取到数据", null);
-        }else{
+        } else {
             Jedis redis = new Jedis();
             redis.set("queryBroadcast", JsonUtils.objectToJson(tadvertisings));
-            redis.expire("queryBroadcast",100);
+            redis.expire("queryBroadcast", 100);
             return XuYangResult.ok(ResultConstant.code_ok, "成功", tadvertisings);
         }
     }
+
     @ApiOperation(value = "新品推荐")
     @ResponseBody
-    @RequestMapping(value = "/newArrivals",method = RequestMethod.GET)
-    public Object newgoos(){
+    @RequestMapping(value = "/newArrivals", method = RequestMethod.GET)
+    public Object newgoos() {
         TgoodsExample tgoodsExample = new TgoodsExample();
         TgoodsExample.Criteria criteria = tgoodsExample.createCriteria();
-        criteria.andGNewsEqualTo("是").andGIdBetween(0,5);
-        if(tgoodsExample == null){
-            return XuYangResult.ok(ResultConstant.code_failue,"没有数据",null);
-        }else{
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoodsExample);
+        criteria.andGNewsEqualTo("是").andGIdBetween(0, 5);
+        if (tgoodsExample == null) {
+            return XuYangResult.ok(ResultConstant.code_failue, "没有数据", null);
+        } else {
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", tgoodsExample);
         }
     }
 
     @ApiOperation(value = "精品商品")
     @ResponseBody
-    @RequestMapping(value = "/bestArrivals",method = RequestMethod.GET)
-    public Object queryBestGoos(){
+    @RequestMapping(value = "/bestArrivals", method = RequestMethod.GET)
+    public Object queryBestGoos() {
         TgoodsExample tgoodsExample = new TgoodsExample();
         TgoodsExample.Criteria criteria = tgoodsExample.createCriteria();
-        criteria.andGBestEqualTo("是").andGIdBetween(0,5);
-        if(tgoodsExample == null){
-            return XuYangResult.ok(ResultConstant.code_failue,"没有数据",null);
-        }else{
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",tgoodsExample);
+        criteria.andGBestEqualTo("是").andGIdBetween(0, 5);
+        if (tgoodsExample == null) {
+            return XuYangResult.ok(ResultConstant.code_failue, "没有数据", null);
+        } else {
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", tgoodsExample);
         }
     }
 

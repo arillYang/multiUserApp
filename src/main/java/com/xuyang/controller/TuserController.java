@@ -239,7 +239,6 @@ public class TuserController {
         String token = map.get("token").toString();
         Jedis je = new Jedis();
         je.del("user_" + token);
-
         return XuYangResult.ok(ResultConstant.code_ok, "退出成功", "");
     }
 
@@ -289,11 +288,11 @@ public class TuserController {
     @ApiOperation("发送验证码")
     @GetMapping("/sentCode")
     @ResponseBody
-    public Object sentCode(Map map) {
-        String userPhone = map.get("userPhone").toString();
-        if(userPhone==null && "".equals(userPhone)){
-            XuYangResult.ok(ResultConstant.code_failue,"手机号码不为空","");
+    public Object sentCode(@RequestParam("userPhone") String userPhone) {
+        if (userPhone == null && "".equals(userPhone)) {
+            XuYangResult.ok(ResultConstant.code_failue, "手机号码不为空", "");
         }
+        Map map = new HashMap();
         int code = (int) ((Math.random() * 9 + 1) * 100000);
         Jedis e = new Jedis();
         e.set("code_" + code, code + "");

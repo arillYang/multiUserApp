@@ -32,6 +32,7 @@ import java.util.Map;
 /**
  * 〈一句话功能简述〉<br>
  * 〈团购优惠〉
+ *
  * @author PanYin
  * @create 2018/11/2
  * @since 1.0.0
@@ -55,48 +56,49 @@ public class TgroupdiscountController {
     //团购
     @Autowired
     private GroupsToItemService groupsToItemService;
+
     @ApiOperation(value = "查询类型")
-    @RequestMapping(value = "/queryType",produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
+    @RequestMapping(value = "/queryType", produces = {"application/json;charset=UTF-8"}, method = RequestMethod.GET)
     @ResponseBody
-    public Object queryGroupType(){
-        TgtypeExample example=new TgtypeExample();
+    public Object queryGroupType() {
+        TgtypeExample example = new TgtypeExample();
         TgtypeExample.Criteria criteria = example.createCriteria();
         criteria.andGtIdIsNotNull();
         List<Tgtype> tgtypes = tgtypeMapper.selectByExample(example);
-        return XuYangResult.ok(ResultConstant.code_ok,"",tgtypes);
+        return XuYangResult.ok(ResultConstant.code_ok, "", tgtypes);
     }
 
     @ApiOperation(value = "查询商品")
     @ResponseBody
-    @RequestMapping(value = "/bestArrivals",method = RequestMethod.GET)
+    @RequestMapping(value = "/bestArrivals", method = RequestMethod.GET)
     public Object queryBestGoos(
-                    @RequestParam(name = "pageNum", required = false, defaultValue = "1")
-                                int pageNum,
-                    @RequestParam(name = "pageSize", required = false, defaultValue = "20")
-                                int pageSize){
+            @RequestParam(name = "pageNum", required = false, defaultValue = "1")
+                    int pageNum,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "20")
+                    int pageSize) {
         PageInfo<Tgoods> info = tgoodsService.pagingQueryGoods(pageNum, pageSize);
-        if(info == null){
-            return XuYangResult.ok(ResultConstant.code_failue,"没有数据",null);
-        }else{
-            return XuYangResult.ok(ResultConstant.code_ok,"成功",info);
+        if (info == null) {
+            return XuYangResult.ok(ResultConstant.code_failue, "没有数据", null);
+        } else {
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", info);
         }
     }
 
     @ApiOperation(value = "商品详情")
     @ResponseBody
-    @RequestMapping(value = "/goodsdetails",method = RequestMethod.POST)
-    public Object goodsDetails(@RequestBody Integer id){
+    @RequestMapping(value = "/goodsdetails", method = RequestMethod.POST)
+    public Object goodsDetails(@RequestBody Integer id) {
         //查询商品和商品图片
         List<GoodsToImages> goodsToImages = goodsToImagesService.queryGoodsToimage(id);
         //查询未成团的数据用于展示。
         List<GroupsToItem> groupsToItems = groupsToItemService.queryTopGroups(id);
         //商品的前几条评论
         List<GoodsEvaluate> goodsEvaluates = goodsEvaluateService.queryTopEvaluate(id);
-        Map<String,Object> map = new HashMap<>();
-        map.put("details",goodsToImages);
-        map.put("collage",groupsToItems);
-        map.put("evaluates",goodsEvaluates);
-        return XuYangResult.ok(ResultConstant.code_ok,"成功",map);
+        Map<String, Object> map = new HashMap<>();
+        map.put("details", goodsToImages);
+        map.put("collage", groupsToItems);
+        map.put("evaluates", goodsEvaluates);
+        return XuYangResult.ok(ResultConstant.code_ok, "成功", map);
     }
 
 }
