@@ -1,14 +1,12 @@
 package com.xuyang.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
 import com.xuyang.model.TuserExample;
 import com.xuyang.service.RedisService;
 import com.xuyang.service.TuserService;
-import com.xuyang.util.MD5Util;
-import com.xuyang.util.ResultConstant;
-import com.xuyang.util.UUIDFactory;
-import com.xuyang.util.XuYangResult;
+import com.xuyang.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -289,20 +287,46 @@ public class TuserController {
     @GetMapping("/sentCode")
     @ResponseBody
     public Object sentCode(@RequestParam("userPhone") String userPhone) {
-        if (userPhone == null && "".equals(userPhone)) {
-            XuYangResult.ok(ResultConstant.code_failue, "手机号码不为空", "");
+        RestTest restTest = new RestTest();
+        TuserExample example = new TuserExample();
+        //根据用户输入手机号码 判断该用户是否存在
+        TuserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserPhoneEqualTo(userPhone);
+        List<Tuser> tuser = tuserMapper.selectByExample(example);
+        if (tuser.size() > 0) {
+          return XuYangResult.ok(ResultConstant.code_failue, "手机号码已存在", "");
         }
-        Map map = new HashMap();
+        //用户的账号唯一标识“Account Sid”，在开发者控制台获取
+        String sid = HttpSendSmsUtil.getSid();
+        //用户密钥“Auth Token”，在开发者控制台获取
+        String token = HttpSendSmsUtil.getToken();
+        //创建应用时系统分配的唯一标示
+        String appid = HttpSendSmsUtil.getAppid();
+        //可在后台短信产品→选择接入的应用→短信模板-模板ID，查看该模板ID
+        String templateid = HttpSendSmsUtil.getTemplateid();
+        /**模板中的替换参数，如该模板不存在参数则无需传该参数或者参数为空，如果有多个参数则需要写在同一个字符串中，以英文逗号分隔 （如：“a,b,c”），
+         * 参数中不能含有特殊符号“【】”和“,” * */
+        // String param = code+",60";
+        // String mobile = "15823914401";
+        //用户唯一标示ID UUID序列
+        String uid = "";
+        // Map map = new HashMap();
+        //生成验证码
         int code = (int) ((Math.random() * 9 + 1) * 100000);
+        String param = code + ",60";
+        //实例Redis对象 存放到redis中 并设置时间为15分钟
         Jedis e = new Jedis();
         e.set("code_" + code, code + "");
-        e.expire("code_" + code, 100);
-        map.put("code", code);
-        return XuYangResult.ok(ResultConstant.code_ok, "code值", map);
+        e.expire("code_" + code, 900);
+        //存放在map中
+        //map.put("code", code);
+        Object sendSms = restTest.testSendSms(sid, token, appid, templateid, param, userPhone, uid);
+        // map.put("sendSms", sendSms.toString());
+        return sendSms;
     }
 
 
-    @ApiOperation("发送验证码")
+    @ApiOperation("验证码验证")
     @PostMapping("/checkSentCode")
     @ResponseBody
     public Object checkSentCode(@RequestBody Map map) {
