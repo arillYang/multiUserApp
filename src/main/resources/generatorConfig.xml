@@ -118,7 +118,7 @@
                selectByExampleQueryId="true">
         </table>-->
 
-        <table tableName="t_recipient" domainObjectName="Trecipient"
+        <table tableName="t_coupon_user" domainObjectName="TcouponUser"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
