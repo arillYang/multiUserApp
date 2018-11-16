@@ -555,73 +555,73 @@ public class TorderGoodsExample {
             return (Criteria) this;
         }
 
-        public Criteria andGrNameIsNull() {
-            addCriterion("gr_name is null");
+        public Criteria andGtNameIsNull() {
+            addCriterion("gt_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameIsNotNull() {
-            addCriterion("gr_name is not null");
+        public Criteria andGtNameIsNotNull() {
+            addCriterion("gt_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameEqualTo(String value) {
-            addCriterion("gr_name =", value, "grName");
+        public Criteria andGtNameEqualTo(String value) {
+            addCriterion("gt_name =", value, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameNotEqualTo(String value) {
-            addCriterion("gr_name <>", value, "grName");
+        public Criteria andGtNameNotEqualTo(String value) {
+            addCriterion("gt_name <>", value, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameGreaterThan(String value) {
-            addCriterion("gr_name >", value, "grName");
+        public Criteria andGtNameGreaterThan(String value) {
+            addCriterion("gt_name >", value, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameGreaterThanOrEqualTo(String value) {
-            addCriterion("gr_name >=", value, "grName");
+        public Criteria andGtNameGreaterThanOrEqualTo(String value) {
+            addCriterion("gt_name >=", value, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameLessThan(String value) {
-            addCriterion("gr_name <", value, "grName");
+        public Criteria andGtNameLessThan(String value) {
+            addCriterion("gt_name <", value, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameLessThanOrEqualTo(String value) {
-            addCriterion("gr_name <=", value, "grName");
+        public Criteria andGtNameLessThanOrEqualTo(String value) {
+            addCriterion("gt_name <=", value, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameLike(String value) {
-            addCriterion("gr_name like", value, "grName");
+        public Criteria andGtNameLike(String value) {
+            addCriterion("gt_name like", value, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameNotLike(String value) {
-            addCriterion("gr_name not like", value, "grName");
+        public Criteria andGtNameNotLike(String value) {
+            addCriterion("gt_name not like", value, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameIn(List<String> values) {
-            addCriterion("gr_name in", values, "grName");
+        public Criteria andGtNameIn(List<String> values) {
+            addCriterion("gt_name in", values, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameNotIn(List<String> values) {
-            addCriterion("gr_name not in", values, "grName");
+        public Criteria andGtNameNotIn(List<String> values) {
+            addCriterion("gt_name not in", values, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameBetween(String value1, String value2) {
-            addCriterion("gr_name between", value1, value2, "grName");
+        public Criteria andGtNameBetween(String value1, String value2) {
+            addCriterion("gt_name between", value1, value2, "gtName");
             return (Criteria) this;
         }
 
-        public Criteria andGrNameNotBetween(String value1, String value2) {
-            addCriterion("gr_name not between", value1, value2, "grName");
+        public Criteria andGtNameNotBetween(String value1, String value2) {
+            addCriterion("gt_name not between", value1, value2, "gtName");
             return (Criteria) this;
         }
 
