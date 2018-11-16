@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.OrderToGoodsToTypeMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.OrderToGoodsToType">
+        <id column="order_id" jdbcType="INTEGER" property="orderId" />
+        <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="order_createtime" jdbcType="TIMESTAMP" property="orderCreatetime" />
+        <result column="order_state" jdbcType="VARCHAR" property="orderState" />
+        <result column="order_total_money" jdbcType="DECIMAL" property="orderTotalMoney" />
+        <result column="order_deliver_money" jdbcType="DECIMAL" property="orderDeliverMoney" />
+        <result column="order_paytype" jdbcType="VARCHAR" property="orderPaytype" />
+        <result column="order_isself" jdbcType="VARCHAR" property="orderIsself" />
+        <result column="order_ispay" jdbcType="VARCHAR" property="orderIspay" />
+        <result column="order_deliver_type" jdbcType="VARCHAR" property="orderDeliverType" />
+        <result column="order_user_name" jdbcType="VARCHAR" property="orderUserName" />
+        <result column="order_user_address" jdbcType="VARCHAR" property="orderUserAddress" />
+        <result column="order_usertel" jdbcType="VARCHAR" property="orderUsertel" />
+        <result column="order_phone" jdbcType="VARCHAR" property="orderPhone" />
+        <result column="order_post_code" jdbcType="VARCHAR" property="orderPostCode" />
+        <result column="order_isInvoice" jdbcType="VARCHAR" property="orderIsinvoice" />
+        <result column="order_invoice_client" jdbcType="VARCHAR" property="orderInvoiceClient" />
+        <result column="order_isAppraises" jdbcType="VARCHAR" property="orderIsappraises" />
+        <result column="order_isrefund" jdbcType="VARCHAR" property="orderIsrefund" />
+        <result column="order_refund_remark" jdbcType="VARCHAR" property="orderRefundRemark" />
+        <result column="order_src" jdbcType="VARCHAR" property="orderSrc" />
+        <result column="order_glag" jdbcType="VARCHAR" property="orderGlag" />
+        <result column="order_payfrom" jdbcType="VARCHAR" property="orderPayfrom" />
+        <result column="order_real_total_money" jdbcType="DECIMAL" property="orderRealTotalMoney" />
+        <result column="order_from" jdbcType="VARCHAR" property="orderFrom" />
+        <result column="order_coupon_money" jdbcType="VARCHAR" property="orderCouponMoney" />
+        <result column="tenant_sid" jdbcType="VARCHAR" property="tenantSid" />
+
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="user_head" jdbcType="VARCHAR" property="userHead"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+
+        <result column="g_id" jdbcType="INTEGER" property="gId" />
+        <result column="g_name" jdbcType="VARCHAR" property="gName" />
+        <result column="g_price" jdbcType="DECIMAL" property="gPrice" />
+        <result column="g_agio" jdbcType="VARCHAR" property="gAgio" />
+        <result column="g_spec" jdbcType="VARCHAR" property="gSpec" />
+        <result column="tenant_sid" jdbcType="VARCHAR" property="tenantSid" />
+        <result column="g_market_price" jdbcType="DECIMAL" property="gMarketPrice" />
+        <result column="g_stock" jdbcType="INTEGER" property="gStock" />
+        <result column="g_sale_count" jdbcType="INTEGER" property="gSaleCount" />
+        <result column="g_sale" jdbcType="VARCHAR" property="gSale" />
+        <result column="g_hot" jdbcType="VARCHAR" property="gHot" />
+        <result column="g_best" jdbcType="VARCHAR" property="gBest" />
+        <result column="g_news" jdbcType="VARCHAR" property="gNews" />
+        <result column="gt_id" jdbcType="INTEGER" property="gtId" />
+        <result column="g_desc" jdbcType="VARCHAR" property="gDesc" />
+        <result column="g_flag" jdbcType="VARCHAR" property="gFlag" />
+        <result column="g_createTime" jdbcType="TIMESTAMP" property="gCreatetime" />
+        <result column="g_image" jdbcType="VARCHAR" property="gImage" />
+        <result column="g_thums" jdbcType="VARCHAR" property="gThums" />
+        <result column="format_id" jdbcType="INTEGER" property="formatId" />
+
+        <result column="og_id" jdbcType="INTEGER" property="ogId" />
+        <result column="goods_nums" jdbcType="INTEGER" property="goodsNums" />
+        <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
+        <result column="gt_name" jdbcType="VARCHAR" property="gtName" />
+
+    </resultMap>
+
+    <!-- 查询评论的内容和用户的头像昵称 -->
+    <select id="queryOrderToGoodsToType" resultMap="BaseResultMap">
+        select gt.gt_name,g.g_name,g.g_image,g.g_thums,og.*,o.order_id,o.order_no,
+          o.order_total_money,o.order_deliver_money
+        from t_order_goods og
+        left join t_order o on o.order_id = og.order_id
+        left join t_goods g on g.g_id = og.g_id
+        left join t_gtype gt on gt.gt_id = og.gt_id
+        where o.user_id = #{id}
+    </select>
+    <select id="queryMyOrderState" resultMap="BaseResultMap">
+        select gt.gt_name,g.g_name,g.g_image,g.g_thums,og.*,o.order_id,o.order_no,
+          o.order_total_money,o.order_deliver_money
+        from t_order_goods og
+        left join t_order o on o.order_id = og.order_id
+        left join t_goods g on g.g_id = og.g_id
+        left join t_gtype gt on gt.gt_id = og.gt_id
+        where o.user_id = #{id} and o.order_state = #{state}
+    </select>
+</mapper>

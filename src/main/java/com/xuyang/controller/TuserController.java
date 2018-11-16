@@ -1,6 +1,5 @@
 package com.xuyang.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
 import com.xuyang.model.TuserExample;
@@ -18,8 +17,6 @@ import redis.clients.jedis.Jedis;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
 /**
  * @author Created by YangJie
  * @Discription 用户接口
