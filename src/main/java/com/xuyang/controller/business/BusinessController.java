@@ -364,7 +364,7 @@ public class BusinessController {
         return XuYangResult.ok(ResultConstant.code_ok, "成功", tgoods);
     }
 
-    @ApiOperation(value = "查询商家发布的全球发现")
+    @ApiOperation(value = "查询全球发现")
     @ResponseBody
     @RequestMapping(value = "/queryQuan", method = RequestMethod.POST)
     public Object queryQuanqiu(@RequestBody @ApiParam(name = "用户ID(不是商家ID)", value = "数值类型") Integer id) {
@@ -374,7 +374,7 @@ public class BusinessController {
         return XuYangResult.ok(ResultConstant.code_ok, "成功", tdynamics);
     }
 
-    @ApiOperation(value = "商家商推记录")
+    @ApiOperation(value = "商推记录")
     @ResponseBody
     @RequestMapping(value = "/quotient", method = RequestMethod.POST)
     public Object quotient(@RequestBody Integer id) {

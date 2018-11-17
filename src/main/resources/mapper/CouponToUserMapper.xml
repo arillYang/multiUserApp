@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.CouponToUserMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.CouponToUser">
+        <id column="coupon_id" jdbcType="INTEGER" property="couponId" />
+        <result column="coupon_name" jdbcType="VARCHAR" property="couponName" />
+        <result column="coupon_type" jdbcType="VARCHAR" property="couponType" />
+        <result column="coupon_money" jdbcType="INTEGER" property="couponMoney" />
+        <result column="coupon_des" jdbcType="VARCHAR" property="couponDes" />
+        <result column="coupon_send_num" jdbcType="INTEGER" property="couponSendNum" />
+        <result column="coupon_receive_num" jdbcType="INTEGER" property="couponReceiveNum" />
+        <result column="coupon_send_start_time" jdbcType="TIMESTAMP" property="couponSendStartTime" />
+        <result column="coupon_send_end_time" jdbcType="TIMESTAMP" property="couponSendEndTime" />
+        <result column="coupon_valid_start_time" jdbcType="TIMESTAMP" property="couponValidStartTime" />
+        <result column="coupon_valid_end_time" jdbcType="TIMESTAMP" property="couponValidEndTime" />
+        <result column="coupon_create_time" jdbcType="TIMESTAMP" property="couponCreateTime" />
+        <result column="coupon_flag" jdbcType="VARCHAR" property="couponFlag" />
+
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="user_head" jdbcType="VARCHAR" property="userHead"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+
+        <result column="cu_id" jdbcType="INTEGER" property="cuId" />
+        <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime" />
+        <result column="coupon_status" jdbcType="VARCHAR" property="couponStatus" />
+        <result column="data_falg" jdbcType="VARCHAR" property="dataFalg" />
+    </resultMap>
+
+    <select id="queryCoupon" resultMap="BaseResultMap">
+        select cu.receive_time,cu.coupon_status,cu.data_falg,c.*,u.user_nickname,u.user_head,u.user_phone
+        from t_coupon_user cu left join t_coupons c on c.coupon_id = cu.coupon_id left join
+        t_user u on u.user_id = cu.user_id where cu.user_id = #{id}
+    </select>
+    <select id="mycouponstate" resultMap="BaseResultMap">
+        select cu.receive_time,cu.coupon_status,cu.data_falg,c.*,u.user_nickname,u.user_head,u.user_phone
+        from t_coupon_user cu left join t_coupons c on c.coupon_id = cu.coupon_id left join
+        t_user u on u.user_id = cu.user_id where cu.user_id = #{id} and cu.coupon_status = #{state}
+    </select>
+
+</mapper>
