@@ -1,6 +1,5 @@
 package com.xuyang.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
 import com.xuyang.model.TuserExample;
@@ -15,10 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
+import javax.mail.MessagingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 /**
  * @author Created by YangJie
@@ -34,15 +33,18 @@ public class TuserController {
     //用户依赖注入
     @Autowired
     private TuserService tuserService;
-
+    //用户Mapper注入
     @Autowired
     private TuserMapper tuserMapper;
-
+    //redis注入
     @Autowired
     private RedisService redisService;
-
+    //redis序列化、格式化、类型转换
     @Autowired
     private RedisTemplate<Object, Object> template;
+    // 邮件发送注入
+    @Autowired
+    private MailUtil mailUtil;
 
 
     /**
@@ -225,10 +227,10 @@ public class TuserController {
     }
 
     /**
-     * 退出登录
-     *
      * @param map Token
      * @return
+     * @Discription 退出登录
+     * @author create by YangJie
      */
     @ApiOperation(value = "退出登录")
     @ResponseBody
@@ -284,6 +286,33 @@ public class TuserController {
 
 
     @ApiOperation("发送验证码")
+    @PostMapping("sentMailCode")
+    public @ResponseBody
+    XuYangResult sentMailCode(@RequestParam("emailAddress") String emailAddress) {
+        //获取用户手机号码参数
+        //String userPhone = map.get("userPhone").toString();
+        TuserExample example = new TuserExample();
+        //根据用户输入手机号码 判断该用户是否存在
+        TuserExample.Criteria criteria = example.createCriteria();
+        criteria.andTenantBankEmailEqualTo(emailAddress);
+        List<Tuser> tusers = tuserMapper.selectByExample(example);
+        if(tusers.size()<1){
+            return XuYangResult.ok(ResultConstant.code_ok, "亲，你还没有绑定邮箱哟！", "");
+        }
+        int code = (int) ((Math.random() * 9 + 1) * 100000);
+        try {
+            mailUtil.send_mail(emailAddress, "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
+            return XuYangResult.ok(ResultConstant.code_ok, "发送成功", "");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /*****************************************************************************************************/
+    /********************************************短信验证码***********************************************/
+    @ApiOperation("发送验证码")
     @GetMapping("/sentCode")
     @ResponseBody
     public Object sentCode(@RequestParam("userPhone") String userPhone) {
@@ -294,7 +323,7 @@ public class TuserController {
         criteria.andUserPhoneEqualTo(userPhone);
         List<Tuser> tuser = tuserMapper.selectByExample(example);
         if (tuser.size() > 0) {
-          return XuYangResult.ok(ResultConstant.code_failue, "手机号码已存在", "");
+            return XuYangResult.ok(ResultConstant.code_failue, "手机号码已存在", "");
         }
         //用户的账号唯一标识“Account Sid”，在开发者控制台获取
         String sid = HttpSendSmsUtil.getSid();
@@ -321,7 +350,6 @@ public class TuserController {
         //存放在map中
         //map.put("code", code);
         Object sendSms = restTest.testSendSms(sid, token, appid, templateid, param, userPhone, uid);
-        // map.put("sendSms", sendSms.toString());
         return sendSms;
     }
 
@@ -334,7 +362,6 @@ public class TuserController {
         Jedis jd = new Jedis();
         String sentCode = jd.get("code_" + code);
         if (code != sentCode && !code.equals(sentCode)) {
-
             return XuYangResult.ok(ResultConstant.code_failue, "验证码不正确或者超时", "");
         }
         return XuYangResult.ok(ResultConstant.code_ok, "验证码正确", "");
