@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.QuotientMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.Quotient">
+        <id column="quotient_id" jdbcType="INTEGER" property="quotientId" />
+        <result column="g_id" jdbcType="INTEGER" property="gId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="spread_image" jdbcType="VARCHAR" property="spreadImage" />
+
+        <result column="ql_id" jdbcType="INTEGER" property="qlId" />
+        <result column="numbs" jdbcType="INTEGER" property="numbs" />
+        <result column="money" jdbcType="DECIMAL" property="money" />
+        <result column="commision" jdbcType="DECIMAL" property="commision" />
+    </resultMap>
+
+    <select id="queryQuotient" resultMap="BaseResultMap">
+        select q.quotient_id,q.g_id,q.user_id,q.create_time,q.spread_image,ql.ql_id,ql.numbs,
+          ql.money,ql.commision
+        from t_quotient_log ql left join t_quotient q on ql.quotient_id = q.quotient_id
+        where ql.user_id = #{user_id}
+    </select>
+
+</mapper>

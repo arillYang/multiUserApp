@@ -8,10 +8,8 @@ import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.*;
 import com.xuyang.mould.GoodsEvaluate;
 import com.xuyang.mould.OrderToGoodsToType;
-import com.xuyang.service.GoodsEvaluateService;
-import com.xuyang.service.OrderToGoodsToTypeService;
-import com.xuyang.service.RedisService;
-import com.xuyang.service.TuserService;
+import com.xuyang.mould.Quotient;
+import com.xuyang.service.*;
 import com.xuyang.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,6 +59,8 @@ public class TuserController {
     private TgoodsAppraisesMapper tgoodsAppraisesMapper;
     @Autowired
     private TdynamicMapper tdynamicMapper;
+    @Autowired
+    private QuotientService quotientService;
 
     /**
      * 新增用户
@@ -210,10 +210,12 @@ public class TuserController {
         //获取用户手机号码参数
         String userPhone = map.get("userPhone").toString();
         TuserExample example = new TuserExample();
+
         //根据用户输入手机号码 判断该用户是否存在
         TuserExample.Criteria criteria = example.createCriteria();
         criteria.andUserPhoneEqualTo(userPhone);
         List<Tuser> tusers = tuserMapper.selectByExample(example);
+
         if (tusers.size() == 0) {
             return XuYangResult.ok(ResultConstant.code_failue, "亲，你还没有注册哦！", null);
         } else {
@@ -436,7 +438,7 @@ public class TuserController {
     }
 
     @ApiOperation(value = "删除评论")
-    @PostMapping("/queryOrderEvaluate")
+    @PostMapping("/delOrderEvaluate")
     @ResponseBody
     public Object delOrderEvaluate(@RequestBody Integer ga_id) {
         int i = tgoodsAppraisesMapper.deleteByPrimaryKey(ga_id);
@@ -470,6 +472,16 @@ public class TuserController {
             return XuYangResult.ok(ResultConstant.code_ok, "成功", i);
         }
         return XuYangResult.ok(ResultConstant.code_failue, "失败-未能成功删除", null);
+    }
+    @ApiOperation(value = "查询商推")
+    @PostMapping("/queryQuotient")
+    @ResponseBody
+    public Object queryQuotient(@RequestBody Integer user_id){
+        List<Quotient> quotients = quotientService.queryQuotient(user_id);
+        if (quotients != null && quotients.size()>0) {
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", quotients);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-没有数据", null);
     }
 
 }
