@@ -1,5 +1,6 @@
 package com.xuyang.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
 import com.xuyang.model.TuserExample;
@@ -14,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
-import javax.mail.MessagingException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Created by YangJie
@@ -265,6 +263,7 @@ public class TuserController {
                 sb.append("code").append(",");
             }
             if (map.containsKey("userPwd"))
+
                 userPwd = map.get("userPwd");
             else {
                 sb.append("userPwd").append(",");
@@ -281,19 +280,36 @@ public class TuserController {
         }
     }
 
-
-    @ApiOperation("发送验证码")
+    /**
+     * @param userPhone 手机号码
+     * @param flag      状态值 1，2
+     * @return
+     * @author create by YangJie
+     * @Discription 用户登录发送验证码
+     * @Time 2018年11月17日15:46:07
+     */
+    @ApiOperation(value = "发送验证码", notes = "userPhone用户手机号码，flag是发送验证码方式，1为注册，2为其")
     @GetMapping("/sentCode")
     @ResponseBody
-    public Object sentCode(@RequestParam("userPhone") String userPhone) {
+    public Object sentCode(@RequestParam("userPhone") String userPhone, @RequestParam("flag") String flag) throws Exception {
         RestTest restTest = new RestTest();
         TuserExample example = new TuserExample();
         //根据用户输入手机号码 判断该用户是否存在
         TuserExample.Criteria criteria = example.createCriteria();
         criteria.andUserPhoneEqualTo(userPhone);
         List<Tuser> tuser = tuserMapper.selectByExample(example);
-        if (tuser.size() > 0) {
-          return XuYangResult.ok(ResultConstant.code_failue, "手机号码已存在", "");
+        //判断flag的值 1注册，2其他
+        if ("1".equals(flag)) {
+            //判读用户是否存在
+            if (tuser.size() > 0) {
+                return XuYangResult.ok(ResultConstant.code_failue, "手机号码已存在！", "");
+            }
+            //修改密码
+        } else {
+            //判读用户是否存在
+            if (tuser.size() == 0) {
+                return XuYangResult.ok(ResultConstant.code_failue, "该用户不存在，请注册！", "");
+            }
         }
         //用户的账号唯一标识“Account Sid”，在开发者控制台获取
         String sid = HttpSendSmsUtil.getSid();
@@ -305,10 +321,8 @@ public class TuserController {
         String templateid = HttpSendSmsUtil.getTemplateid();
         /**模板中的替换参数，如该模板不存在参数则无需传该参数或者参数为空，如果有多个参数则需要写在同一个字符串中，以英文逗号分隔 （如：“a,b,c”），
          * 参数中不能含有特殊符号“【】”和“,” * */
-        // String param = code+",60";
-        // String mobile = "15823914401";
         //用户唯一标示ID UUID序列
-        String uid = "";
+        String uid = UUIDFactory.getUUID();
         // Map map = new HashMap();
         //生成验证码
         int code = (int) ((Math.random() * 9 + 1) * 100000);
@@ -318,10 +332,23 @@ public class TuserController {
         e.set("code_" + code, code + "");
         e.expire("code_" + code, 900);
         //存放在map中
-        //map.put("code", code);
         Object sendSms = restTest.testSendSms(sid, token, appid, templateid, param, userPhone, uid);
-        // map.put("sendSms", sendSms.toString());
-        return sendSms;
+        Map<String, Object> map = this.getMap(sendSms.toString());
+        return XuYangResult.ok(ResultConstant.code_ok, "发送成功！", map);
+    }
+
+    /**
+     * @param json JSON数据
+     * @return map
+     * @Discription json数据转为Map集合对象
+     */
+    public static Map<String, Object> getMap(String json) {
+        //实例出JSONObject对象 把json数据转换json
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        Map<String, Object> valueMap = new HashMap<String, Object>();
+        //将json数据转换为map
+        valueMap.putAll(jsonObject);
+        return valueMap;
     }
 
 

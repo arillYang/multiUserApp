@@ -513,6 +513,66 @@ public class TdynamicExample {
             addCriterion("global_id not between", value1, value2, "globalId");
             return (Criteria) this;
         }
+
+        public Criteria andDyStatusIsNull() {
+            addCriterion("dy_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusIsNotNull() {
+            addCriterion("dy_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusEqualTo(Integer value) {
+            addCriterion("dy_status =", value, "dyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusNotEqualTo(Integer value) {
+            addCriterion("dy_status <>", value, "dyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusGreaterThan(Integer value) {
+            addCriterion("dy_status >", value, "dyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dy_status >=", value, "dyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusLessThan(Integer value) {
+            addCriterion("dy_status <", value, "dyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("dy_status <=", value, "dyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusIn(List<Integer> values) {
+            addCriterion("dy_status in", values, "dyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusNotIn(List<Integer> values) {
+            addCriterion("dy_status not in", values, "dyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusBetween(Integer value1, Integer value2) {
+            addCriterion("dy_status between", value1, value2, "dyStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("dy_status not between", value1, value2, "dyStatus");
+            return (Criteria) this;
+        }
     }
 
     /**
