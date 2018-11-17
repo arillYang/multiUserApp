@@ -1,9 +1,14 @@
 package com.xuyang.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.xuyang.mapper.TdynamicMapper;
+import com.xuyang.mapper.TgoodsAppraisesMapper;
+import com.xuyang.mapper.TorderRefundMapper;
 import com.xuyang.mapper.TuserMapper;
-import com.xuyang.model.Tuser;
-import com.xuyang.model.TuserExample;
+import com.xuyang.model.*;
+import com.xuyang.mould.GoodsEvaluate;
+import com.xuyang.mould.OrderToGoodsToType;
+import com.xuyang.service.GoodsEvaluateService;
+import com.xuyang.service.OrderToGoodsToTypeService;
 import com.xuyang.service.RedisService;
 import com.xuyang.service.TuserService;
 import com.xuyang.util.*;
@@ -15,8 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 /**
  * @author Created by YangJie
  * @Discription 用户接口
@@ -41,7 +47,18 @@ public class TuserController {
     @Autowired
     private RedisTemplate<Object, Object> template;
 
+    @Autowired
+    private OrderToGoodsToTypeService toTypeService;
 
+    @Autowired
+    private TorderRefundMapper torderRefundMapper;
+
+    @Autowired
+    private GoodsEvaluateService goodsEvaluateService;
+    @Autowired
+    private TgoodsAppraisesMapper tgoodsAppraisesMapper;
+    @Autowired
+    private TdynamicMapper tdynamicMapper;
     /**
      * 新增用户
      *
@@ -108,8 +125,9 @@ public class TuserController {
             @RequestParam(name = "pageNum", required = false, defaultValue = "1")
                     int pageNum,
             @RequestParam(name = "pageSize", required = false, defaultValue = "20")
-                    int pageSize) {
-        return tuserService.queryUser(pageNum, pageSize);
+                    int pageSize,
+            @RequestParam(name = "identity",required = false)String identity) {
+        return tuserService.queryUser(pageNum, pageSize,identity);
     }
 
     /**
@@ -263,7 +281,6 @@ public class TuserController {
                 sb.append("code").append(",");
             }
             if (map.containsKey("userPwd"))
-
                 userPwd = map.get("userPwd");
             else {
                 sb.append("userPwd").append(",");
@@ -280,36 +297,19 @@ public class TuserController {
         }
     }
 
-    /**
-     * @param userPhone 手机号码
-     * @param flag      状态值 1，2
-     * @return
-     * @author create by YangJie
-     * @Discription 用户登录发送验证码
-     * @Time 2018年11月17日15:46:07
-     */
-    @ApiOperation(value = "发送验证码", notes = "userPhone用户手机号码，flag是发送验证码方式，1为注册，2为其")
+
+    @ApiOperation("发送验证码")
     @GetMapping("/sentCode")
     @ResponseBody
-    public Object sentCode(@RequestParam("userPhone") String userPhone, @RequestParam("flag") String flag) throws Exception {
+    public Object sentCode(@RequestParam("userPhone") String userPhone) {
         RestTest restTest = new RestTest();
         TuserExample example = new TuserExample();
         //根据用户输入手机号码 判断该用户是否存在
         TuserExample.Criteria criteria = example.createCriteria();
         criteria.andUserPhoneEqualTo(userPhone);
         List<Tuser> tuser = tuserMapper.selectByExample(example);
-        //判断flag的值 1注册，2其他
-        if ("1".equals(flag)) {
-            //判读用户是否存在
-            if (tuser.size() > 0) {
-                return XuYangResult.ok(ResultConstant.code_failue, "手机号码已存在！", "");
-            }
-            //修改密码
-        } else {
-            //判读用户是否存在
-            if (tuser.size() == 0) {
-                return XuYangResult.ok(ResultConstant.code_failue, "该用户不存在，请注册！", "");
-            }
+        if (tuser.size() > 0) {
+          return XuYangResult.ok(ResultConstant.code_failue, "手机号码已存在", "");
         }
         //用户的账号唯一标识“Account Sid”，在开发者控制台获取
         String sid = HttpSendSmsUtil.getSid();
@@ -321,8 +321,10 @@ public class TuserController {
         String templateid = HttpSendSmsUtil.getTemplateid();
         /**模板中的替换参数，如该模板不存在参数则无需传该参数或者参数为空，如果有多个参数则需要写在同一个字符串中，以英文逗号分隔 （如：“a,b,c”），
          * 参数中不能含有特殊符号“【】”和“,” * */
+        // String param = code+",60";
+        // String mobile = "15823914401";
         //用户唯一标示ID UUID序列
-        String uid = UUIDFactory.getUUID();
+        String uid = "";
         // Map map = new HashMap();
         //生成验证码
         int code = (int) ((Math.random() * 9 + 1) * 100000);
@@ -332,23 +334,10 @@ public class TuserController {
         e.set("code_" + code, code + "");
         e.expire("code_" + code, 900);
         //存放在map中
+        //map.put("code", code);
         Object sendSms = restTest.testSendSms(sid, token, appid, templateid, param, userPhone, uid);
-        Map<String, Object> map = this.getMap(sendSms.toString());
-        return XuYangResult.ok(ResultConstant.code_ok, "发送成功！", map);
-    }
-
-    /**
-     * @param json JSON数据
-     * @return map
-     * @Discription json数据转为Map集合对象
-     */
-    public static Map<String, Object> getMap(String json) {
-        //实例出JSONObject对象 把json数据转换json
-        JSONObject jsonObject = JSONObject.parseObject(json);
-        Map<String, Object> valueMap = new HashMap<String, Object>();
-        //将json数据转换为map
-        valueMap.putAll(jsonObject);
-        return valueMap;
+        // map.put("sendSms", sendSms.toString());
+        return sendSms;
     }
 
 
@@ -366,5 +355,87 @@ public class TuserController {
         return XuYangResult.ok(ResultConstant.code_ok, "验证码正确", "");
     }
 
+    @ApiOperation(value = "查询用户订单")
+    @PostMapping("/queryOrderUser")
+    @ResponseBody
+    public Object queryOrderUser(@RequestBody Integer id){
+        List<OrderToGoodsToType> orderToGoodsToTypes = toTypeService.queryOrderToGoodsToType(id);
+        if( orderToGoodsToTypes != null ){
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", orderToGoodsToTypes);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-没有数据", null);
+    }
+
+    @ApiOperation(value = "订单详情")
+    @PostMapping("/queryOrderDetails")
+    @ResponseBody
+    public Object queryOrderUserDetails(@RequestBody Integer order_id){
+        OrderToGoodsToType orderToGoodsToType = toTypeService.queryOrderUserDetails(order_id);
+        if( orderToGoodsToType != null ){
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", orderToGoodsToType);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-没有数据", null);
+    }
+    @ApiOperation(value = "退款退货")
+    @PostMapping("/refundBack")
+    @ResponseBody
+    public Object refundBack(@RequestBody Integer user_id){
+        TorderRefundExample example = new TorderRefundExample();
+        example.createCriteria().andOreIdIsNotNull().andUserIdEqualTo(user_id);
+        List<TorderRefund> torderRefunds = torderRefundMapper.selectByExample(example);
+
+        if( torderRefunds != null ){
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", torderRefunds);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-没有数据", null);
+    }
+    @ApiOperation(value = "订单的评价")
+    @PostMapping("/queryOrderEvaluate")
+    @ResponseBody
+    public Object queryOrderEvaluate(@RequestBody Integer order_id,@RequestBody Integer user_id){
+        GoodsEvaluate goodsEvaluate = goodsEvaluateService.queryOrderEvaluate(order_id, user_id);
+
+        if( goodsEvaluate != null ){
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", goodsEvaluate);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-没有数据", null);
+    }
+
+    @ApiOperation(value = "删除评论")
+    @PostMapping("/queryOrderEvaluate")
+    @ResponseBody
+    public Object delOrderEvaluate(@RequestBody Integer ga_id){
+        int i = tgoodsAppraisesMapper.deleteByPrimaryKey(ga_id);
+
+        if( i >0 ){
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", i);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-未能成功删除", null);
+    }
+
+
+    @ApiOperation(value = "发布的内容")
+    @PostMapping("/queryArticle")
+    @ResponseBody
+    public Object queryArticle(@RequestBody Integer user_id){
+        TdynamicExample example = new TdynamicExample();
+        example.createCriteria().andDyIdIsNotNull().andUserIdEqualTo(user_id);
+        List<Tdynamic> tdynamics = tdynamicMapper.selectByExample(example);
+        if( tdynamics != null && tdynamics.size()>0 ){
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", tdynamics);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-没有数据", null);
+    }
+
+    @ApiOperation(value = "删除发布的内容（逻辑删除）")
+    @PostMapping("/delArticle")
+    @ResponseBody
+    public Object delArticle(@RequestBody Tdynamic tdynamic){
+        int i = tdynamicMapper.updateByPrimaryKeySelective(tdynamic);
+        if( i>0 ){
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", i);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-未能成功删除", null);
+    }
 
 }

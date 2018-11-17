@@ -38,4 +38,9 @@ public class GoodsEvaluateServiceImpl implements GoodsEvaluateService {
     public List<GoodsEvaluate> queryTopEvaluate(int id) {
         return goodsEvaluateMapper.queryTopEvaluate(id);
     }
+
+    @Override
+    public GoodsEvaluate queryOrderEvaluate(int order_id, int user_id) {
+        return goodsEvaluateMapper.queryOrderEvaluate(order_id,user_id);
+    }
 }

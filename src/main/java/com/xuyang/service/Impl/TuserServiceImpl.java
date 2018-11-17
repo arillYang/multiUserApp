@@ -62,10 +62,10 @@ public class TuserServiceImpl implements TuserService {
      * pageSize 每页显示的数据条数
      */
     @Override
-    public PageInfo<Tuser> queryUser(int pageNum, int pageSize) {
+    public PageInfo<Tuser> queryUser(int pageNum, int pageSize, String identity) {
         //将参数传给这个方法就可以实现物理分页了，非常简单。
         PageHelper.startPage(pageNum, pageSize);
-        List<Tuser> userDomains = tuserMapper.queryUser();
+        List<Tuser> userDomains = tuserMapper.queryUser(identity);
         PageInfo result = new PageInfo(userDomains);
         return result;
     }

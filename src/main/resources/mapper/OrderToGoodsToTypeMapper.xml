@@ -63,7 +63,7 @@
 
     </resultMap>
 
-    <!-- 查询评论的内容和用户的头像昵称 -->
+    <!-- 前端我的订单 -->
     <select id="queryOrderToGoodsToType" resultMap="BaseResultMap">
         select gt.gt_name,g.g_name,g.g_image,g.g_thums,og.*,o.order_id,o.order_no,
           o.order_total_money,o.order_deliver_money
@@ -82,4 +82,15 @@
         left join t_gtype gt on gt.gt_id = og.gt_id
         where o.user_id = #{id} and o.order_state = #{state}
     </select>
+
+    <!-- 根据订单ID查询详情 -->
+    <select id="queryOrderUserDetails" resultMap="BaseResultMap">
+        select og.*,o.*,g.*,gt.gt_name
+        from t_order_goods og
+        left join t_order o on o.order_id = og.order_id
+        left join t_goods g on g.g_id = og.g_id
+        left join t_gtype gt on gt.gt_id = og.gt_id
+        where og.order_id=#{order_id}
+    </select>
+
 </mapper>

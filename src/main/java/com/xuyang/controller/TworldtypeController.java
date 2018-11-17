@@ -7,7 +7,10 @@
  */
 package com.xuyang.controller;
 
+import com.xuyang.mapper.TgtypeMapper;
 import com.xuyang.mapper.TworldtypeMapper;
+import com.xuyang.model.TcouponsExample;
+import com.xuyang.model.TgtypeExample;
 import com.xuyang.model.Tworldtype;
 import com.xuyang.model.TworldtypeExample;
 import com.xuyang.util.ResultConstant;
@@ -34,6 +37,8 @@ import java.util.List;
 public class TworldtypeController {
     @Autowired
     private TworldtypeMapper tworldtypeMapper;
+    @Autowired
+    private TgtypeMapper tgtypeMapper;
 
     @ResponseBody
     @ApiOperation(value = "增加分类", notes = "需要传递一个对象")
@@ -72,7 +77,11 @@ public class TworldtypeController {
     @RequestMapping(value = "/removeWorld", method = RequestMethod.POST)
     public Object removewWorld(@RequestBody @ApiParam(name = "类型对象", value = "传入int格式", required = true) Integer id) {
         int i = tworldtypeMapper.deleteByPrimaryKey(id);
-        if (i > 0) {
+        //级联删除下级
+        TgtypeExample example = new TgtypeExample();
+        example.createCriteria().andGtIdIsNotNull().andWotIdEqualTo(id);
+        int w = tgtypeMapper.deleteByExample(example);
+        if (i > 0 && w>0) {
             return XuYangResult.ok(ResultConstant.code_ok, "成功", i);
         } else {
             return XuYangResult.ok(ResultConstant.code_failue, "失败", null);

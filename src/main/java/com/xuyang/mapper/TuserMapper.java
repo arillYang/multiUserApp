@@ -110,5 +110,5 @@ public interface TuserMapper {
      *
      * @mbg.generated
      */
-    List<Tuser> queryUser();
+    List<Tuser> queryUser(String identity);
 }

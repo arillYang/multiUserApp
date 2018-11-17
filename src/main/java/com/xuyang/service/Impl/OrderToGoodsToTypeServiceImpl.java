@@ -35,4 +35,9 @@ public class OrderToGoodsToTypeServiceImpl implements OrderToGoodsToTypeService 
     public List<OrderToGoodsToType> queryMyOrderState(int id, String state) {
         return toGoodsToTypeMapper.queryMyOrderState(id,state);
     }
+
+    @Override
+    public OrderToGoodsToType queryOrderUserDetails(int order_id) {
+        return toGoodsToTypeMapper.queryOrderUserDetails(order_id);
+    }
 }

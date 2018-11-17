@@ -42,4 +42,11 @@
           left join t_user u on u.user_id = ga.user_id
           where ga.g_id = #{id} and ga.g_score > 4 limit 2
     </select>
+
+    <select id="queryOrderEvaluate" resultMap="BaseResultMap">
+        select ga.*
+          from t_goods_appraises ga
+          where ga.order_id = #{order_id} and ga.user_id = #{user_id}
+    </select>
+
 </mapper>
