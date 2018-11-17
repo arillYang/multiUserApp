@@ -266,41 +266,24 @@ public class TuserController {
      * @param map
      * @return
      */
-    @ApiOperation(value = "用户找回密码")
+    @ApiOperation(value = "用户重置密码")
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
     @ResponseBody
-    public Object setPassword(@RequestBody Map<String, String> map) {
-        try {
-            String userPhone = "";
-            String code = "";
-            String userPwd = "";
-            StringBuffer sb = new StringBuffer();
-            if (map.containsKey("userPhone")) {
-                userPhone = map.get("userPhone");
-            } else {
-                sb.append("userPhone").append(",");
-            }
-            if (map.containsKey("code"))
-                code = map.get("code");
-            else {
-                sb.append("code").append(",");
-            }
-            if (map.containsKey("userPwd"))
-                userPwd = map.get("userPwd");
-            else {
-                sb.append("userPwd").append(",");
-            }
-            if (sb.length() != 0) {
-                return XuYangResult.build(ResultConstant.code_param, "以下参数不能为空" + sb.toString(), "");
-            }
-            if (!redisService.checkSmsCode(userPhone, code, 2)) {
-                return XuYangResult.build(ResultConstant.code_SmsError, "验证码错误或已过期", "");
-            }
-            return tuserService.resetPassword(userPhone, userPwd);
-        } catch (Exception e) {
-            return XuYangResult.build(ResultConstant.code_exception, "数据异常", "");
+    public Object setPassword(@RequestBody Map map) {
+        //获取前端传递验证码
+        String code = map.get("code").toString();
+        //电话号码
+        String userPhone = map.get("userPhone").toString();
+        //修改的密码
+        String userPwd = map.get("userPwd").toString();
+        Jedis jd = new Jedis();
+        String sentCode = jd.get("code_" + code);
+        if (!code.equals(sentCode)) {
+            return XuYangResult.ok(ResultConstant.code_failue, "验证码不正确或者超时", "");
         }
+        return tuserService.resetPassword(userPhone, userPwd);
     }
+
 
 
     /**

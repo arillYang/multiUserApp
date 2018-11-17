@@ -6,6 +6,7 @@ import com.xuyang.mapper.TuserMapper;
 import com.xuyang.model.Tuser;
 import com.xuyang.model.TuserExample;
 import com.xuyang.service.TuserService;
+import com.xuyang.util.MD5Util;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.XuYangResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,11 +98,16 @@ public class TuserServiceImpl implements TuserService {
         TuserExample.Criteria criteria = example.createCriteria();
         criteria.andUserPhoneEqualTo(userPhone);
         List<Tuser> u = tuserMapper.selectByExample(example);
-        if (u.size() == 0)
-            return XuYangResult.build(ResultConstant.code_yewu, "没有该用户", "");
+        if (u.size() == 0) {
+            return XuYangResult.build(ResultConstant.code_yewu, "该用户不存在", "");
+        }
         Tuser user = u.get(0);
-        user.setUserPwd(userPwd);
-        tuserMapper.updateByPrimaryKey(user);
-        return XuYangResult.ok(ResultConstant.code_ok, "修改成功", "");
+        String password = MD5Util.GetMD5Code(userPwd);
+        user.setUserPwd(password);
+        int updateCount = tuserMapper.updateByPrimaryKey(user);
+        if (updateCount > 0) {
+            return XuYangResult.ok(ResultConstant.code_ok, "修改成功", updateCount);
+        }
+        return XuYangResult.ok(ResultConstant.code_ok, "服务异常", updateCount);
     }
 }
