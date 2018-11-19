@@ -247,17 +247,22 @@ public class TuserController {
     /**
      * 退出登录
      *
-     * @param map Token
+     * @param token Token
      * @return
      */
     @ApiOperation(value = "退出登录")
     @ResponseBody
     @PostMapping("/loginOut")
-    public Object logout(@RequestBody Map map) {
-        String token = map.get("token").toString();
-        Jedis je = new Jedis();
-        je.del("user_" + token);
-        return XuYangResult.ok(ResultConstant.code_ok, "退出成功", "");
+    public Object logout(@RequestBody String token) {
+        if (!"".equals(token)) {
+            Jedis je = new Jedis();
+            je.del("user_" + token);
+            return XuYangResult.ok(ResultConstant.code_ok, "退出成功", "");
+
+        } else {
+            return XuYangResult.ok(ResultConstant.code_ok, "服务异常，请稍后再试", "");
+        }
+
     }
 
     /**
@@ -270,20 +275,25 @@ public class TuserController {
     @RequestMapping(value = "resetPassword", method = RequestMethod.POST)
     @ResponseBody
     public Object setPassword(@RequestBody Map map) {
+        Jedis jd = new Jedis();
+        String token = map.get("token").toString();
         //获取前端传递验证码
         String code = map.get("code").toString();
         //电话号码
         String userPhone = map.get("userPhone").toString();
         //修改的密码
         String userPwd = map.get("userPwd").toString();
-        Jedis jd = new Jedis();
+        //根据用户传递的token判断用户信息是否还在redis中
+        String userInfo = jd.get("user_" + token);
         String sentCode = jd.get("code_" + code);
-        if (!code.equals(sentCode)) {
-            return XuYangResult.ok(ResultConstant.code_failue, "验证码不正确或者超时", "");
+        if (userInfo != null && !"".equals(userInfo)) {
+            if (!code.equals(sentCode)) {
+                return XuYangResult.ok(ResultConstant.code_failue, "验证码不正确或者超时", "");
+            }
+            return tuserService.resetPassword(userPhone, userPwd);
         }
-        return tuserService.resetPassword(userPhone, userPwd);
+        return XuYangResult.ok(ResultConstant.code_failue, "用户信息不存在", "");
     }
-
 
 
     /**
@@ -456,12 +466,13 @@ public class TuserController {
         }
         return XuYangResult.ok(ResultConstant.code_failue, "失败-未能成功删除", null);
     }
+
     @ApiOperation(value = "查询商推")
     @PostMapping("/queryQuotient")
     @ResponseBody
-    public Object queryQuotient(@RequestBody Integer user_id){
+    public Object queryQuotient(@RequestBody Integer user_id) {
         List<Quotient> quotients = quotientService.queryQuotient(user_id);
-        if (quotients != null && quotients.size()>0) {
+        if (quotients != null && quotients.size() > 0) {
             return XuYangResult.ok(ResultConstant.code_ok, "成功", quotients);
         }
         return XuYangResult.ok(ResultConstant.code_failue, "失败-没有数据", null);
