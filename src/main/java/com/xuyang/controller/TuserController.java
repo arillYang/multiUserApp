@@ -17,11 +17,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.Jedis;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Created by YangJie
@@ -294,6 +300,90 @@ public class TuserController {
         return XuYangResult.ok(ResultConstant.code_failue, "用户信息不存在", "");
     }
 
+    private Map<String, Object> uplodExToPreson(String suffixName) {
+        Map<String, Object> map = new HashMap<>();
+        //定义正则表达试
+        String video = "^.(mp4|rmvb|flv|mpeg|avi|rm|mpeg1|mpeg2|mpeg3|mpeg4|mov|mtv|wmv|3gp|amv|dmv|flv|png|jpg|gif)";
+        String img = "^.(png|jpg|gif)";
+
+        //编译正则表达式
+        Pattern pattern = Pattern.compile(video);
+        Pattern patternimg = Pattern.compile(img);
+
+        //验证
+        Matcher matcher = pattern.matcher(suffixName);
+        Matcher matcherimg = patternimg.matcher(suffixName);
+        boolean rs = matcher.matches();
+        boolean ig = matcherimg.matches();
+        if (!matcherimg.matches() && !rs) {
+            map.put("code", "400");
+            map.put("message", "格式错误");
+            map.put("ig", ig);
+            map.put("rs", rs);
+            return map;
+        }
+        map.put("code", "200");
+        map.put("message", "成功");
+        map.put("ig", ig);
+        map.put("rs", rs);
+        return map;
+    }
+
+    @ApiOperation(value = "修改个人头像")
+    @ResponseBody
+    @PostMapping(value = "/updateImg")
+    public Object fileupload(@RequestParam("userHead") MultipartFile file, Map<String, Object> map) {
+        //判断文件是否为空
+        if (file.isEmpty()) {
+            map.put("code", "400");
+            map.put("message", "上传资源为空");
+            return XuYangResult.ok(400, "失败-false", map);
+        }
+        // 文件后缀
+        String suffixName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        Map<String, Object> map1 = this.uplodExToPreson(suffixName);
+        if (map1.get("code").toString() != "200") {
+            return XuYangResult.ok(400, "失败-false", map1.get("message"));
+        }
+        //设置保存路径
+        String path = null;
+        //重新命名文件
+        String fileName = null;
+        if ((Boolean) map1.get("ig")) {
+            //图片的保存路径
+            path = System.getProperty("user.dir") + "/src/main/resources/upload";
+            fileName = "images_" + UUID.randomUUID().toString() + suffixName;
+        } else if ((Boolean) map1.get("rs")) {
+            //视频的保存路径
+            path = System.getProperty("user.dir") + "/src/main/resources/video";
+            fileName = "video_" + UUID.randomUUID().toString() + suffixName;
+        } else {
+            map.put("code", "500");
+            map.put("message", "非法操作");
+            return XuYangResult.ok(ResultConstant.code_failue, "失败-false", map);
+        }
+        String type = file.getContentType();
+
+        //保存的整个路径
+        String realPath = path + "/" + fileName;
+
+        File dest = new File(realPath);
+        //判断文件父目录是否存在
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdir();
+        }
+        try {
+            //保存文件
+            file.transferTo(dest);
+            map.put("code", "200");
+            map.put("message", "成功");
+            return XuYangResult.ok(ResultConstant.code_ok, "成功", map);
+        } catch (IllegalStateException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return XuYangResult.ok(ResultConstant.code_failue, "失败-false", map);
+        }
+    }
 
     /**
      * @param userPhone 手机号码
