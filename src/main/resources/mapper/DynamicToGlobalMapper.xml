@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.DynamicToGlobalMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.DynamicToGlobal">
+        <id column="dy_id" jdbcType="INTEGER" property="dyId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="dy_title" jdbcType="VARCHAR" property="dyTitle" />
+        <result column="dy_image" jdbcType="VARCHAR" property="dyImage" />
+        <result column="global_id" jdbcType="INTEGER" property="globalId" />
+        <result column="dy_status" jdbcType="INTEGER" property="dyStatus" />
+
+        <result column="like_id" jdbcType="INTEGER" property="likeId" />
+        <result column="countLike" jdbcType="INTEGER" property="countLike" />
+
+        <result column="rec_id" jdbcType="INTEGER" property="recId" />
+        <result column="countRec" jdbcType="INTEGER" property="countRec" />
+    </resultMap>
+
+    <select id="queryDynamicToGlobal" resultMap="BaseResultMap">
+        select dy.*,count(gl.like_id) as countLike,count(gr.rec_id)as countRec  from t_dynamic dy
+        left join t_global_like gl on dy.dy_id = gl.dy_id
+        left join t_global_recipient gr on dy.dy_id = gr.dy_id
+        where dy.user_id = #{user_id}
+    </select>
+
+    
+</mapper>
