@@ -93,14 +93,14 @@ public class TgoodsController {
         return XuYangResult.ok(ResultConstant.code_ok, "成功", tgoods);
     }
 
-    @ApiOperation(value = "分页查询商品", notes = "分页查询商品")
+    @ApiOperation(value = "分页查询商品(上架/下架)", notes = "分页查询商品")
     @ResponseBody
     @RequestMapping(value = "/pageGoods", method = RequestMethod.GET)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "展示条数", dataType = "long", paramType = "query", defaultValue = "20")})
-    public Object queryPageGoods(Integer pageNum, Integer pageSize) {
-        PageInfo<Tgoods> info = tgoodsService.pagingQueryGoods(pageNum, pageSize);
+    public Object queryPageGoods(Integer pageNum, Integer pageSize,String sale) {
+        PageInfo<Tgoods> info = tgoodsService.pagingQueryGoods(pageNum, pageSize,sale);
         return XuYangResult.ok(ResultConstant.code_ok, "查询成功", info);
     }
 
@@ -139,4 +139,18 @@ public class TgoodsController {
             return XuYangResult.ok(ResultConstant.code_failue, "修改失败", null);
         }
     }
+
+    @ApiOperation(value = "下架/上架的商品")
+    @ResponseBody
+    @RequestMapping(value = "/querySale", method = RequestMethod.POST)
+    public Object querySale(@RequestBody String sale){
+        TgoodsExample example = new TgoodsExample();
+        example.createCriteria().andGIdIsNotNull().andGSaleEqualTo(sale);
+        List<Tgoods> tgoods = tgoodsMapper.selectByExample(example);
+        if(tgoods != null){
+            XuYangResult.ok(ResultConstant.code_ok, "成功", tgoods);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "失败-没有数据", null);
+    }
+
 }

@@ -128,9 +128,8 @@ public class TuserController {
             @RequestParam(name = "pageNum", required = false, defaultValue = "1")
                     int pageNum,
             @RequestParam(name = "pageSize", required = false, defaultValue = "20")
-                    int pageSize,
-            @RequestParam(name = "identity", required = false) String identity) {
-        return tuserService.queryUser(pageNum, pageSize, identity);
+                    int pageSize) {
+        return tuserService.queryUser(pageNum, pageSize);
     }
 
     /**

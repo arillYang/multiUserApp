@@ -118,7 +118,7 @@
                selectByExampleQueryId="true">
         </table>-->
 
-        <table tableName="t_dynamic" domainObjectName="Tdynamic"
+        <table tableName="t_coupons" domainObjectName="Tcoupons"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">

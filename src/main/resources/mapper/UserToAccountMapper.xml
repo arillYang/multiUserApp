@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.UserToAccountMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.UserToAccount">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="user_head" jdbcType="VARCHAR" property="userHead"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="user_sex" jdbcType="VARCHAR" property="userSex"/>
+        <result column="user_address" jdbcType="VARCHAR" property="userAddress"/>
+        <result column="user_date" jdbcType="VARCHAR" property="userDate"/>
+        <result column="user_pwd" jdbcType="VARCHAR" property="userPwd"/>
+        <result column="user_region" jdbcType="VARCHAR" property="userRegion"/>
+        <result column="user_qqsole" jdbcType="VARCHAR" property="userQqsole"/>
+        <result column="user_wxsole" jdbcType="VARCHAR" property="userWxsole"/>
+        <result column="user_wbsole" jdbcType="VARCHAR" property="userWbsole"/>
+        <result column="tenant_sid" jdbcType="VARCHAR" property="tenantSid"/>
+        <result column="tenant_address" jdbcType="VARCHAR" property="tenantAddress"/>
+        <result column="tenant_bank_email" jdbcType="VARCHAR" property="tenantBankEmail"/>
+        <result column="tenant_enterinfo" jdbcType="VARCHAR" property="tenantEnterinfo"/>
+        <result column="user_identity" jdbcType="VARCHAR" property="userIdentity"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="shop_address" jdbcType="VARCHAR" property="shopAddress"/>
+        <result column="shop_hold_name" jdbcType="VARCHAR" property="shopHoldName"/>
+        <result column="shop_hold_phone" jdbcType="VARCHAR" property="shopHoldPhone"/>
+        <result column="mainbusiness" jdbcType="VARCHAR" property="mainbusiness"/>
+        <result column="business_images" jdbcType="VARCHAR" property="businessImages"/>
+        <result column="identity_number" jdbcType="VARCHAR" property="identityNumber"/>
+        <result column="identity_images" jdbcType="VARCHAR" property="identityImages"/>
+        <result column="supplies_address" jdbcType="VARCHAR" property="suppliesAddress"/>
+        <result column="supplies_pattern" jdbcType="VARCHAR" property="suppliesPattern"/>
+        <result column="supplies_date" jdbcType="TIMESTAMP" property="suppliesDate"/>
+        <result column="tenant_pay_pwd" jdbcType="VARCHAR" property="tenantPayPwd"/>
+
+        <result column="account_id" jdbcType="VARCHAR" property="accountId"/>
+        <result column="account_balance" jdbcType="VARCHAR" property="accountBalance"/>
+    </resultMap>
+
+    <select id="querySellerInfo" resultMap="BaseResultMap">
+        select u.*,a.account_id,a.account_balance from t_user u left join t_account a on u.user_id = a.user_id
+        where u.user_identity = #{identity}
+    </select>
+
+</mapper>

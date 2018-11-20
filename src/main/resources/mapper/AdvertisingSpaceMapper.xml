@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuyang.mapper.AdvertisingSpaceMapper">
+    <resultMap id="BaseResultMap" type="com.xuyang.mould.AdvertisingSpace">
+        <id column="adver_id" jdbcType="INTEGER" property="adverId" />
+        <result column="adver_header" jdbcType="VARCHAR" property="adverHeader" />
+        <result column="adver_desc" jdbcType="VARCHAR" property="adverDesc" />
+        <result column="adver_image" jdbcType="VARCHAR" property="adverImage" />
+        <result column="adver_link" jdbcType="VARCHAR" property="adverLink" />
+        <result column="space_id" jdbcType="INTEGER" property="spaceId" />
+        <result column="adver_switch" jdbcType="VARCHAR" property="adverSwitch" />
+        <result column="space_seat" jdbcType="VARCHAR" property="spaceSeat" />
+        <result column="space_switch" jdbcType="VARCHAR" property="spaceSwitch" />
+    </resultMap>
+
+    <select id="queryAdvertising" resultMap="BaseResultMap">
+        select a.*,asp.* from t_advertising a
+        left join t_advertising_space asp on a.space_id = asp.space_id
+    </select>
+    
+</mapper>

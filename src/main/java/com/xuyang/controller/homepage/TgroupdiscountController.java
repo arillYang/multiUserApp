@@ -75,8 +75,8 @@ public class TgroupdiscountController {
             @RequestParam(name = "pageNum", required = false, defaultValue = "1")
                     int pageNum,
             @RequestParam(name = "pageSize", required = false, defaultValue = "20")
-                    int pageSize) {
-        PageInfo<Tgoods> info = tgoodsService.pagingQueryGoods(pageNum, pageSize);
+                    int pageSize,String sale) {
+        PageInfo<Tgoods> info = tgoodsService.pagingQueryGoods(pageNum, pageSize,sale);
         if (info == null) {
             return XuYangResult.ok(ResultConstant.code_failue, "没有数据", null);
         } else {

@@ -28,5 +28,5 @@ public interface TgoodsService {
      * @since: 1.0.0
      * @Author: PanYin
      */
-    PageInfo<Tgoods> pagingQueryGoods(int pageNum, int pageSize);
+    PageInfo<Tgoods> pagingQueryGoods(int pageNum, int pageSize,String sale);
 }

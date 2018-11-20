@@ -115,5 +115,5 @@ public interface TgoodsMapper {
      * @since: 1.0.0
      * @Author: PanYin
      */
-    List<Tgoods> pagingQueryGoods();
+    List<Tgoods> pagingQueryGoods(String sale);
 }

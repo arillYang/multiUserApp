@@ -63,9 +63,9 @@ public class TgoodsServiceImpl implements TgoodsService {
      * @Author: PanYin
      */
     @Override
-    public PageInfo<Tgoods>  pagingQueryGoods(int pageNum, int pageSize) {
+    public PageInfo<Tgoods>  pagingQueryGoods(int pageNum, int pageSize,String sale) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Tgoods> tgoods = tgoodsMapper.pagingQueryGoods();
+        List<Tgoods> tgoods = tgoodsMapper.pagingQueryGoods(sale);
         PageInfo result = new PageInfo(tgoods);
         return result;
     }
