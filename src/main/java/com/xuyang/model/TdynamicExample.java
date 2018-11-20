@@ -573,6 +573,136 @@ public class TdynamicExample {
             addCriterion("dy_status not between", value1, value2, "dyStatus");
             return (Criteria) this;
         }
+
+        public Criteria andDyAuditStatusIsNull() {
+            addCriterion("dy_audit_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusIsNotNull() {
+            addCriterion("dy_audit_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusEqualTo(Integer value) {
+            addCriterion("dy_audit_status =", value, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusNotEqualTo(Integer value) {
+            addCriterion("dy_audit_status <>", value, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusGreaterThan(Integer value) {
+            addCriterion("dy_audit_status >", value, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("dy_audit_status >=", value, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusLessThan(Integer value) {
+            addCriterion("dy_audit_status <", value, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("dy_audit_status <=", value, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusIn(List<Integer> values) {
+            addCriterion("dy_audit_status in", values, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusNotIn(List<Integer> values) {
+            addCriterion("dy_audit_status not in", values, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusBetween(Integer value1, Integer value2) {
+            addCriterion("dy_audit_status between", value1, value2, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyAuditStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("dy_audit_status not between", value1, value2, "dyAuditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkIsNull() {
+            addCriterion("dy_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkIsNotNull() {
+            addCriterion("dy_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkEqualTo(String value) {
+            addCriterion("dy_remark =", value, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkNotEqualTo(String value) {
+            addCriterion("dy_remark <>", value, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkGreaterThan(String value) {
+            addCriterion("dy_remark >", value, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("dy_remark >=", value, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkLessThan(String value) {
+            addCriterion("dy_remark <", value, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkLessThanOrEqualTo(String value) {
+            addCriterion("dy_remark <=", value, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkLike(String value) {
+            addCriterion("dy_remark like", value, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkNotLike(String value) {
+            addCriterion("dy_remark not like", value, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkIn(List<String> values) {
+            addCriterion("dy_remark in", values, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkNotIn(List<String> values) {
+            addCriterion("dy_remark not in", values, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkBetween(String value1, String value2) {
+            addCriterion("dy_remark between", value1, value2, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyRemarkNotBetween(String value1, String value2) {
+            addCriterion("dy_remark not between", value1, value2, "dyRemark");
+            return (Criteria) this;
+        }
     }
 
     /**

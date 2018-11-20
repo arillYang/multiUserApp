@@ -1085,6 +1085,76 @@ public class GroupsExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andGroupRemarkIsNull() {
+            addCriterion("group_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkIsNotNull() {
+            addCriterion("group_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkEqualTo(String value) {
+            addCriterion("group_remark =", value, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkNotEqualTo(String value) {
+            addCriterion("group_remark <>", value, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkGreaterThan(String value) {
+            addCriterion("group_remark >", value, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("group_remark >=", value, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkLessThan(String value) {
+            addCriterion("group_remark <", value, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkLessThanOrEqualTo(String value) {
+            addCriterion("group_remark <=", value, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkLike(String value) {
+            addCriterion("group_remark like", value, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkNotLike(String value) {
+            addCriterion("group_remark not like", value, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkIn(List<String> values) {
+            addCriterion("group_remark in", values, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkNotIn(List<String> values) {
+            addCriterion("group_remark not in", values, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkBetween(String value1, String value2) {
+            addCriterion("group_remark between", value1, value2, "groupRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGroupRemarkNotBetween(String value1, String value2) {
+            addCriterion("group_remark not between", value1, value2, "groupRemark");
+            return (Criteria) this;
+        }
     }
 
     /**

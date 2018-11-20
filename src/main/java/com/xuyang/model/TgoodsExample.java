@@ -1515,6 +1515,76 @@ public class TgoodsExample {
             addCriterion("format_id not between", value1, value2, "formatId");
             return (Criteria) this;
         }
+
+        public Criteria andGRemarkIsNull() {
+            addCriterion("g_remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkIsNotNull() {
+            addCriterion("g_remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkEqualTo(String value) {
+            addCriterion("g_remark =", value, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkNotEqualTo(String value) {
+            addCriterion("g_remark <>", value, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkGreaterThan(String value) {
+            addCriterion("g_remark >", value, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("g_remark >=", value, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkLessThan(String value) {
+            addCriterion("g_remark <", value, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkLessThanOrEqualTo(String value) {
+            addCriterion("g_remark <=", value, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkLike(String value) {
+            addCriterion("g_remark like", value, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkNotLike(String value) {
+            addCriterion("g_remark not like", value, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkIn(List<String> values) {
+            addCriterion("g_remark in", values, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkNotIn(List<String> values) {
+            addCriterion("g_remark not in", values, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkBetween(String value1, String value2) {
+            addCriterion("g_remark between", value1, value2, "gRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andGRemarkNotBetween(String value1, String value2) {
+            addCriterion("g_remark not between", value1, value2, "gRemark");
+            return (Criteria) this;
+        }
     }
 
     /**
