@@ -469,6 +469,8 @@ public class TuserController {
 
     @ApiOperation(value = "查询商推")
     @PostMapping("/queryQuotient")
+
+
     @ResponseBody
     public Object queryQuotient(@RequestBody Integer user_id) {
         List<Quotient> quotients = quotientService.queryQuotient(user_id);
