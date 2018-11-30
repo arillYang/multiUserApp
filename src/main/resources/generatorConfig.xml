@@ -54,7 +54,7 @@
         </commentGenerator>
         <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/multiusermalldb?characterEncoding=utf-8&amp;useSSL=false&amp;useInformationSchema=true"
+                        connectionURL="jdbc:mysql://192.168.0.112:3306/multiusermalldb?characterEncoding=utf-8&amp;useSSL=false&amp;useInformationSchema=true"
                         userId="root"
                         password="root">
             <property name="useInformationSchema" value="false"/>
@@ -104,27 +104,7 @@
 
 
 
-        <table tableName="groups" domainObjectName="Groups"
-               enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true"
-               selectByExampleQueryId="true">
-        </table>
-        <table tableName="t_money_audit_record" domainObjectName="TmoneyAuditRecord"
-               enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true"
-               selectByExampleQueryId="true">
-        </table>
-        <table tableName="t_user_audit_record" domainObjectName="TuserAuditRecord"
-               enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true"
-               selectByExampleQueryId="true">
-        </table>
-        <table tableName="t_goods" domainObjectName="Tgoods"
-               enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true"
-               selectByExampleQueryId="true">
-        </table>
-        <table tableName="t_dynamic" domainObjectName="Tdynamic"
+        <table tableName="t_money" domainObjectName="Tmoney"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">

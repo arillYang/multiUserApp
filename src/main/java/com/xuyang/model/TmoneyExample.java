@@ -855,6 +855,136 @@ public class TmoneyExample {
             addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
+
+        public Criteria andPutForwardIsNull() {
+            addCriterion("put_forward is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardIsNotNull() {
+            addCriterion("put_forward is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardEqualTo(String value) {
+            addCriterion("put_forward =", value, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardNotEqualTo(String value) {
+            addCriterion("put_forward <>", value, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardGreaterThan(String value) {
+            addCriterion("put_forward >", value, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardGreaterThanOrEqualTo(String value) {
+            addCriterion("put_forward >=", value, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardLessThan(String value) {
+            addCriterion("put_forward <", value, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardLessThanOrEqualTo(String value) {
+            addCriterion("put_forward <=", value, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardLike(String value) {
+            addCriterion("put_forward like", value, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardNotLike(String value) {
+            addCriterion("put_forward not like", value, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardIn(List<String> values) {
+            addCriterion("put_forward in", values, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardNotIn(List<String> values) {
+            addCriterion("put_forward not in", values, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardBetween(String value1, String value2) {
+            addCriterion("put_forward between", value1, value2, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andPutForwardNotBetween(String value1, String value2) {
+            addCriterion("put_forward not between", value1, value2, "putForward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardIsNull() {
+            addCriterion("forward is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardIsNotNull() {
+            addCriterion("forward is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardEqualTo(Date value) {
+            addCriterion("forward =", value, "forward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardNotEqualTo(Date value) {
+            addCriterion("forward <>", value, "forward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardGreaterThan(Date value) {
+            addCriterion("forward >", value, "forward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardGreaterThanOrEqualTo(Date value) {
+            addCriterion("forward >=", value, "forward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardLessThan(Date value) {
+            addCriterion("forward <", value, "forward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardLessThanOrEqualTo(Date value) {
+            addCriterion("forward <=", value, "forward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardIn(List<Date> values) {
+            addCriterion("forward in", values, "forward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardNotIn(List<Date> values) {
+            addCriterion("forward not in", values, "forward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardBetween(Date value1, Date value2) {
+            addCriterion("forward between", value1, value2, "forward");
+            return (Criteria) this;
+        }
+
+        public Criteria andForwardNotBetween(Date value1, Date value2) {
+            addCriterion("forward not between", value1, value2, "forward");
+            return (Criteria) this;
+        }
     }
 
     /**

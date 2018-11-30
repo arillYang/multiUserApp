@@ -53,8 +53,12 @@ public class TglobalfindController {
     @ResponseBody
     @ApiOperation(value = "查询发表的帖子")
     @RequestMapping(value = "/queryToUser", method = RequestMethod.GET)
-    public Object queryToUser() {
-        PageInfo<DynamicToUser> info = dynamicToUserService.queryToUser(0, 5);
+    public Object queryToUser(
+            @RequestParam(name = "pageNum", required = false, defaultValue = "1")
+                    int pageNum,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "20")
+                    int pageSize) {
+        PageInfo<DynamicToUser> info = dynamicToUserService.queryToUser(pageNum, pageSize);
         return XuYangResult.ok(ResultConstant.code_ok, "成功", info);
     }
 

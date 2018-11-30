@@ -7,8 +7,16 @@
  */
 package com.xuyang.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.xuyang.mapper.TdynamicMapper;
+import com.xuyang.mapper.TglobalLikeMapper;
+import com.xuyang.mapper.TglobalRecipientMapper;
 import com.xuyang.model.Tdynamic;
+import com.xuyang.model.TglobalLikeExample;
+import com.xuyang.model.TglobalRecipient;
+import com.xuyang.model.TglobalRecipientExample;
+import com.xuyang.mould.DynamicToUser;
+import com.xuyang.service.DynamicToUserService;
 import com.xuyang.util.ResultConstant;
 import com.xuyang.util.UploadFileUtil;
 import com.xuyang.util.XuYangResult;
@@ -18,7 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.net.ServerSocket;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,9 +41,17 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/release")
 public class GlobalReleaseController {
+    //文章表
     @Autowired
     private TdynamicMapper tdynamicMapper;
-
+    //文章用户关联
+    @Autowired
+    private DynamicToUserService dynamicToUserService;
+    //评论
+    @Autowired
+    private TglobalRecipientMapper tglobalRecipientMapper;
+    @Autowired
+    private TglobalLikeMapper tglobalLikeMapper;
     @ApiOperation(value = "添加全球发布-上传文件")
     @RequestMapping(value = "/addUpload",method = RequestMethod.POST)
     @ResponseBody
@@ -66,5 +83,52 @@ public class GlobalReleaseController {
         return XuYangResult.ok(ResultConstant.code_failue,"失败-添加失败",null);
     }
 
+    @ApiOperation(value = "查询全球发现")
+    @RequestMapping(value = "/queryGlobal",method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryGlobal(
+            @RequestParam(name = "pageNum", required = false, defaultValue = "1")
+                    int pageNum,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "20")
+                    int pageSize){
+        PageInfo<DynamicToUser> dynamicToUserPageInfo = dynamicToUserService.queryToUser(pageNum, pageSize);
+        if(dynamicToUserPageInfo != null){
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",dynamicToUserPageInfo);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue,"失败-没有数据",null);
+    }
+    @ApiOperation(value = "全球发现的详情")
+    @RequestMapping(value = "/Globaldetails",method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryGlobaldetails(@RequestBody Integer dy_id){
+        Tdynamic tdynamic = tdynamicMapper.selectByPrimaryKey(dy_id);
+        TglobalRecipientExample example = new TglobalRecipientExample();
+        example.createCriteria().andRecIdIsNotNull().andDyIdEqualTo(dy_id);
+        List<TglobalRecipient> tglobalRecipients = tglobalRecipientMapper.selectByExample(example);
+        Map<String,Object> map = new HashMap<>();
+        if(tdynamic != null){
+            map.put("namic",tdynamic);
+            map.put("recipient",tglobalRecipients);
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",map);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue,"失败-没有数据",null);
+    }
+
+    @ApiOperation(value = "删除全球发现的文章和评论点赞信息")
+    @RequestMapping(value = "/delGlobal",method = RequestMethod.POST)
+    @ResponseBody
+    public Object delGlobal(@RequestBody Integer dy_id){
+        int i = tdynamicMapper.deleteByPrimaryKey(dy_id);
+        TglobalRecipientExample example = new TglobalRecipientExample();
+        example.createCriteria().andRecIdIsNotNull().andDyIdEqualTo(dy_id);
+        int i1 = tglobalRecipientMapper.deleteByExample(example);
+        TglobalLikeExample likeExample = new TglobalLikeExample();
+        likeExample.createCriteria().andLikeIdIsNotNull().andDyIdEqualTo(dy_id);
+        int i2 = tglobalLikeMapper.deleteByExample(likeExample);
+        if(i > 0){
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",i);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue,"失败-没有数据",null);
+    }
 
 }
