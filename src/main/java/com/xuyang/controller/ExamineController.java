@@ -7,11 +7,8 @@
  */
 package com.xuyang.controller;
 
-import com.xuyang.mapper.TgoodsMapper;
-import com.xuyang.mapper.TmoneyAuditRecordMapper;
-import com.xuyang.mapper.TuserAuditRecordMapper;
+import com.xuyang.mapper.*;
 import com.xuyang.model.*;
-import com.xuyang.service.TgoodsService;
 import com.xuyang.service.TmoneyService;
 import com.xuyang.service.TuserService;
 import com.xuyang.util.ResultConstant;
@@ -48,6 +45,10 @@ public class ExamineController {
     private TmoneyService tmoneyService;
     @Autowired
     private TgoodsMapper tgoodsMapper;
+    @Autowired
+    private TdynamicMapper tdynamicMapper;
+    @Autowired
+    private GroupsMapper groupsMapper;
     @ApiOperation(value = "/权限审核(审核发布文章权限)")
     @ResponseBody
     @RequestMapping(value = "/userexamine",method = RequestMethod.POST)
@@ -105,8 +106,8 @@ public class ExamineController {
     }
     @ApiOperation(value = "/提现审核操作")
     @ResponseBody
-    @RequestMapping(value = "/reflectExamine",method = RequestMethod.POST)
-    public Object handlereflectExamine(@RequestBody Integer state,@RequestBody TmoneyAuditRecord auditRecord){
+    @RequestMapping(value = "/handlereflectExamine",method = RequestMethod.POST)
+    public Object handlereflectExamine(@RequestBody Integer state, TmoneyAuditRecord auditRecord){
         if(state == 1 && auditRecord != null){
             //通过
             Tmoney tmoney = new Tmoney();
@@ -170,4 +171,78 @@ public class ExamineController {
         }
         return XuYangResult.ok(ResultConstant.code_failue,"失败",null);
     }
+    @ApiOperation(value = "/全球发现审核")
+    @ResponseBody
+    @RequestMapping(value = "/globalDisco",method = RequestMethod.POST)
+    public Object globalDisco(){
+        TdynamicExample example = new TdynamicExample();
+        example.createCriteria().andDyIdIsNotNull().andDyAuditStatusEqualTo(0);
+        List<Tdynamic> tdynamics = tdynamicMapper.selectByExample(example);
+        if(tdynamics != null && !tdynamics.isEmpty()){
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",tdynamics);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue,"失败-没有数据",null);
+    }
+
+    @ApiOperation(value = "/全球发现操作")
+    @ResponseBody
+    @RequestMapping(value = "/globalDiscoExamine",method = RequestMethod.POST)
+    public Object globalDiscoExamine(@RequestParam("tdynamic")Tdynamic tdynamic){
+        if(tdynamic != null){
+            //更新不为空的数据
+            int i = tdynamicMapper.updateByPrimaryKeySelective(tdynamic);
+            if(i>0){
+                return XuYangResult.ok(ResultConstant.code_ok,tdynamic.getDyAuditStatus()==1?"审核通过":"审核驳回",i);
+            }
+            return XuYangResult.ok(ResultConstant.code_failue,"失败-更新失败请检查数据",null);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue,"失败",null);
+    }
+    @ApiOperation(value = "/团购审核")
+    @ResponseBody
+    @RequestMapping(value = "/queryGroup",method = RequestMethod.POST)
+    public Object queryGroup(){
+        GroupsExample example = new GroupsExample();
+        example.createCriteria().andGroupIdIsNotNull().andGroupStatusEqualTo(0);
+        List<Groups> groups = groupsMapper.selectByExample(example);
+        if(groups != null && !groups.isEmpty()){
+            return XuYangResult.ok(ResultConstant.code_ok,"成功",groups);
+        }
+        return XuYangResult.ok(ResultConstant.code_failue,"失败",null);
+    }
+
+    @ApiOperation(value = "/团购操作")
+    @ResponseBody
+    @RequestMapping(value = "/groupExamine",method = RequestMethod.POST)
+    public Object queryGroupExamine(@RequestParam("groups")Groups groups){
+        if(groups != null){
+            int i = groupsMapper.updateByPrimaryKeySelective(groups);
+            if(i>0){
+                return XuYangResult.ok(ResultConstant.code_ok,groups.getGroupStatus()==1?"审核通过":"审核驳回",i);
+            }
+        }
+        return XuYangResult.ok(ResultConstant.code_failue,"失败",null);
+    }
+
+
+        /***********************看页面在加上***********************/
+    @ApiOperation(value = "/商品详情")
+    @ResponseBody
+    @RequestMapping(value = "/goodsdetails",method = RequestMethod.POST)
+    public Object goodsdetails(){
+
+        return null;
+    }
+
+    @ApiOperation(value = "/全球详情")
+    @ResponseBody
+    @RequestMapping(value = "/globaldetails",method = RequestMethod.POST)
+    public Object globaldetails(){
+
+        return null;
+    }
+
+
+
+
 }

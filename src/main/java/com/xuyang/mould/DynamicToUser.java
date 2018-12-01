@@ -7,6 +7,8 @@
  */
 package com.xuyang.mould;
 
+import java.util.Date;
+
 /**
  * 〈一句话功能简述〉<br>
  * 〈 关联全球发现和用户〉
@@ -24,6 +26,15 @@ public class DynamicToUser {
     private String dyTitle;
     private String dyImage;
     private String dyCont;
+    private Date dyCreateTime;
+
+    public Date getDyCreateTime() {
+        return dyCreateTime;
+    }
+
+    public void setDyCreateTime(Date dyCreateTime) {
+        this.dyCreateTime = dyCreateTime;
+    }
 
     public Integer getUserId() {
         return userId;
@@ -82,7 +93,7 @@ public class DynamicToUser {
         this.dyCont = dyCont;
     }
 
-    public DynamicToUser(Integer userId, String userNickname, String userHead, Integer dyId, String dyTitle, String dyImage, String dyCont) {
+    public DynamicToUser(Integer userId, String userNickname, String userHead, Integer dyId, String dyTitle, String dyImage, String dyCont, Date dyCreateTime) {
         this.userId = userId;
         this.userNickname = userNickname;
         this.userHead = userHead;
@@ -90,6 +101,7 @@ public class DynamicToUser {
         this.dyTitle = dyTitle;
         this.dyImage = dyImage;
         this.dyCont = dyCont;
+        this.dyCreateTime = dyCreateTime;
     }
 
     public DynamicToUser() {

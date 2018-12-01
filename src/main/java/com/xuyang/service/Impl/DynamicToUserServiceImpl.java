@@ -75,4 +75,9 @@ public class DynamicToUserServiceImpl implements DynamicToUserService {
         PageInfo result = new PageInfo(dynamic);
         return result;
     }
+
+    @Override
+    public List<DynamicToUser> queryGlobalManage() {
+        return dynamicToUserMapper.queryGlobalManage();
+    }
 }

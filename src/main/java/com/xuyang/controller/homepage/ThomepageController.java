@@ -40,10 +40,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/home")
 public class ThomepageController {
-
     @Autowired
     private TadverService tadverService;
-
     /**
      * 功能描述: <br>
      * 〈轮播图查询〉

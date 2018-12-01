@@ -1,6 +1,7 @@
 package com.xuyang.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TdynamicExample {
@@ -701,6 +702,66 @@ public class TdynamicExample {
 
         public Criteria andDyRemarkNotBetween(String value1, String value2) {
             addCriterion("dy_remark not between", value1, value2, "dyRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeIsNull() {
+            addCriterion("dy_create_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeIsNotNull() {
+            addCriterion("dy_create_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeEqualTo(Date value) {
+            addCriterion("dy_create_time =", value, "dyCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeNotEqualTo(Date value) {
+            addCriterion("dy_create_time <>", value, "dyCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeGreaterThan(Date value) {
+            addCriterion("dy_create_time >", value, "dyCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("dy_create_time >=", value, "dyCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeLessThan(Date value) {
+            addCriterion("dy_create_time <", value, "dyCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("dy_create_time <=", value, "dyCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeIn(List<Date> values) {
+            addCriterion("dy_create_time in", values, "dyCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeNotIn(List<Date> values) {
+            addCriterion("dy_create_time not in", values, "dyCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeBetween(Date value1, Date value2) {
+            addCriterion("dy_create_time between", value1, value2, "dyCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDyCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("dy_create_time not between", value1, value2, "dyCreateTime");
             return (Criteria) this;
         }
     }

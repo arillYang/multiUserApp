@@ -34,4 +34,11 @@ public interface DynamicToUserMapper {
      * @Author: PanYin
      */
     List<DynamicToUser> reasonidcard(int id);
+    /**
+     * 功能描述: <br>
+     * 〈后台全球管理(已经审核通过发布了的)〉
+     * @since: 1.0.0
+     * @Author: PanYin
+     */
+    List<DynamicToUser> queryGlobalManage();
 }
