@@ -54,7 +54,7 @@
         </commentGenerator>
         <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/multiusermalldb?characterEncoding=utf-8&amp;useSSL=false&amp;useInformationSchema=true"
+                        connectionURL="jdbc:mysql://192.168.0.112:3306/multiusermalldb?characterEncoding=utf-8&amp;useSSL=false&amp;useInformationSchema=true"
                         userId="root"
                         password="root">
             <property name="useInformationSchema" value="false"/>
@@ -102,23 +102,9 @@
         </javaClientGenerator>
         <!--生成对应表及类名-->
 
-       <!-- <table tableName="global_assortment" domainObjectName="GlobalAssortment"
-               enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true"
-               selectByExampleQueryId="true">
-        </table>
-        <table tableName="goods_shopcar" domainObjectName="GoodsShopcar"
-               enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true"
-               selectByExampleQueryId="true">
-        </table>
-        <table tableName="groups_item" domainObjectName="GroupsItem"
-               enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true"
-               selectByExampleQueryId="true">
-        </table>-->
 
-        <table tableName="t_order_goods" domainObjectName="TorderGoods"
+
+        <table tableName="t_dynamic" domainObjectName="Tdynamic"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">

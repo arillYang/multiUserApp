@@ -2,9 +2,82 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xuyang.mapper.GroupsToGoodsToUserMapper">
     <resultMap id="BaseResultMap" type="com.xuyang.mould.GroupsToGoodsToUser">
-
+        <!-- 团购属性 -->
+        <id column="group_id" jdbcType="BIGINT" property="groupId" />
+        <result column="group_no" jdbcType="VARCHAR" property="groupNo" />
+        <result column="group_title" jdbcType="VARCHAR" property="groupTitle" />
+        <result column="group_logo" jdbcType="VARCHAR" property="groupLogo" />
+        <result column="group_area" jdbcType="VARCHAR" property="groupArea" />
+        <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+        <result column="max_num" jdbcType="INTEGER" property="maxNum" />
+        <result column="buyer_amt" jdbcType="DECIMAL" property="buyerAmt" />
+        <result column="min_amt" jdbcType="DECIMAL" property="minAmt" />
+        <result column="group_status" jdbcType="INTEGER" property="groupStatus" />
+        <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+        <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="group_remark" jdbcType="VARCHAR" property="groupRemark" />
+        <!-- 团购买家属性 -->
+        <result column="gb_id" jdbcType="BIGINT" property="gbId" />
+        <result column="buyer_id" jdbcType="BIGINT" property="buyerId" />
+        <result column="item_id" jdbcType="BIGINT" property="itemId" />
+        <result column="order_id" jdbcType="BIGINT" property="orderId" />
+        <result column="gb_num" jdbcType="INTEGER" property="gbNum" />
+        <result column="gb_price" jdbcType="DECIMAL" property="gbPrice" />
+        <result column="gb_amt" jdbcType="DECIMAL" property="gbAmt" />
+        <result column="gb_status" jdbcType="INTEGER" property="gbStatus" />
+        <result column="gb_time" jdbcType="TIMESTAMP" property="gbTime" />
+        <!-- 团购明细属性 -->
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId" />
+        <result column="format_id" jdbcType="BIGINT" property="formatId" />
+        <result column="group_price" jdbcType="DECIMAL" property="groupPrice" />
+        <result column="group_num" jdbcType="INTEGER" property="groupNum" />
+        <result column="item_status" jdbcType="INTEGER" property="itemStatus" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <!-- 商品属性 -->
+        <result column="g_name" jdbcType="VARCHAR" property="gName" />
+        <result column="g_price" jdbcType="DECIMAL" property="gPrice" />
+        <result column="g_image" jdbcType="VARCHAR" property="gImage" />
+        <!-- 商品规格属性 -->
+        <result column="format_name" jdbcType="VARCHAR" property="formatName" />
+        <!-- 商家属性 -->
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="user_nickname" jdbcType="VARCHAR" property="userNickname"/>
+        <result column="user_head" jdbcType="VARCHAR" property="userHead"/>
+        <result column="tenant_sid" jdbcType="VARCHAR" property="tenantSid"/>
     </resultMap>
 
+    <select id="queryGroupsToGoodsToUser" resultMap="BaseResultMap">
+        select g.*,
+            gb.gb_id,gb.buyer_id,gb.item_id,gb.order_id,gb.gb_num,gb.gb_price,gb.gb_amt,gb.gb_status,gb.gb_time,
+            gi.goods_id,gi.format_id,gi.group_price,gi.group_num,gi.item_status,gi.create_time,
+            tg.g_name,tg.g_price,tg.g_image,
+            tgs.format_name,
+            tu.shop_name,tu.user_nickname,tu.user_head,tu.tenant_sid
+        from groups g
+        left join groups_buyer gb on g.group_id = gb.group_id
+        left join groups_item gi on g.group_id = gi.group_id
+        left join t_goods tg on tg.g_id = gi.goods_id
+        left join t_goods_specs tgs on tgs.format_id = tg.format_id
+        left join t_user tu on tu.tenant_sid = tg.tenant_sid
+        where g.begin_time &lt; g.end_time and g.end_time &gt;= CONCAT(UNIX_TIMESTAMP(NOW()), RIGHT(NOW(3), 3)) and g.group_status = 3
+    </select>
 
-    
+
+    <select id="queryUnfinishedGroups" resultMap="BaseResultMap">
+        select g.*,
+            gb.gb_id,gb.buyer_id,gb.item_id,gb.order_id,gb.gb_num,gb.gb_price,gb.gb_amt,gb.gb_status,gb.gb_time,
+            gi.goods_id,gi.format_id,gi.group_price,gi.group_num,gi.item_status,gi.create_time,
+            tg.g_name,tg.g_price,tg.g_image,
+            tgs.format_name,
+            tu.shop_name,tu.user_nickname,tu.user_head,tu.tenant_sid
+        from groups g
+        left join groups_buyer gb on g.group_id = gb.group_id
+        left join groups_item gi on g.group_id = gi.group_id
+        left join t_goods tg on tg.g_id = gi.goods_id
+        left join t_goods_specs tgs on tgs.format_id = tg.format_id
+        left join t_user tu on tu.tenant_sid = tg.tenant_sid
+        where g.begin_time &lt; g.end_time and g.end_time &lt; CONCAT(UNIX_TIMESTAMP(NOW()), RIGHT(NOW(3), 3)) and g.group_status = 4
+    </select>
 </mapper>

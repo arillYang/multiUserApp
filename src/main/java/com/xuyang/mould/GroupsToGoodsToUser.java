@@ -24,6 +24,7 @@ public class GroupsToGoodsToUser {
     private String groupNo;             //团号
     private String groupTitle;          //团购标题
     private String groupLogo;           //团购logo
+
     private String groupArea;           //团购区域
     private Date beginTime;             //开始时间
     private Date endTime;               //结束时间
@@ -56,18 +57,18 @@ public class GroupsToGoodsToUser {
     private Date itemcreateTime;        //创建时间
 
     /* 商品 */
-    private String g_name;              //商品名称
-    private BigDecimal g_price;         //商品价格
-    private String g_image;             //商品配图
-    private Long tenant_sid;            //商家ID
+    private String gName;             //商品名称
+    private BigDecimal gPrice;         //商品价格
+    private String gImage;             //商品配图
 
     /* 商品规格 */
-    private String format_name;         //规格名称
+    private String formatName;         //规格名称
 
     /* 商家 */
-    private String shop_name;           //店铺名称
-    private String user_nickname;       //用户昵称
-    private String user_head;           //用户头像
+    private String shopName;          //店铺名称
+    private String userNickname;       //用户昵称
+    private String userHead;           //用户头像
+    private String tenantSid;            //商家ID
 
     public Long getGroupId() {
         return groupId;
@@ -309,74 +310,74 @@ public class GroupsToGoodsToUser {
         this.itemcreateTime = itemcreateTime;
     }
 
-    public String getG_name() {
-        return g_name;
+    public String getgName() {
+        return gName;
     }
 
-    public void setG_name(String g_name) {
-        this.g_name = g_name;
+    public void setgName(String gName) {
+        this.gName = gName;
     }
 
-    public BigDecimal getG_price() {
-        return g_price;
+    public BigDecimal getgPrice() {
+        return gPrice;
     }
 
-    public void setG_price(BigDecimal g_price) {
-        this.g_price = g_price;
+    public void setgPrice(BigDecimal gPrice) {
+        this.gPrice = gPrice;
     }
 
-    public String getG_image() {
-        return g_image;
+    public String getgImage() {
+        return gImage;
     }
 
-    public void setG_image(String g_image) {
-        this.g_image = g_image;
+    public void setgImage(String gImage) {
+        this.gImage = gImage;
     }
 
-    public Long getTenant_sid() {
-        return tenant_sid;
+    public String getTenantSid() {
+        return tenantSid;
     }
 
-    public void setTenant_sid(Long tenant_sid) {
-        this.tenant_sid = tenant_sid;
+    public void setTenantSid(String tenantSid) {
+        this.tenantSid = tenantSid;
     }
 
-    public String getFormat_name() {
-        return format_name;
+    public String getFormatName() {
+        return formatName;
     }
 
-    public void setFormat_name(String format_name) {
-        this.format_name = format_name;
+    public void setFormatName(String formatName) {
+        this.formatName = formatName;
     }
 
-    public String getShop_name() {
-        return shop_name;
+    public String getShopName() {
+        return shopName;
     }
 
-    public void setShop_name(String shop_name) {
-        this.shop_name = shop_name;
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
-    public String getUser_nickname() {
-        return user_nickname;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public void setUser_nickname(String user_nickname) {
-        this.user_nickname = user_nickname;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
     }
 
-    public String getUser_head() {
-        return user_head;
+    public String getUserHead() {
+        return userHead;
     }
 
-    public void setUser_head(String user_head) {
-        this.user_head = user_head;
+    public void setUserHead(String userHead) {
+        this.userHead = userHead;
     }
 
     public GroupsToGoodsToUser() {
     }
 
-    public GroupsToGoodsToUser(Long groupId, String groupNo, String groupTitle, String groupLogo, String groupArea, Date beginTime, Date endTime, Integer maxNum, BigDecimal buyerAmt, BigDecimal minAmt, Integer groupStatus, String remarks, Long createUserId, Date createTime, String groupRemark, Long gbId, Long buyerId, Long itemId, Long orderId, Integer gbNum, BigDecimal gbPrice, BigDecimal gbAmt, Integer gbStatus, Date gbTime, Long goodsId, Long formatId, BigDecimal groupPrice, Integer groupNum, Integer itemStatus, Date itemcreateTime, String g_name, BigDecimal g_price, String g_image, Long tenant_sid, String format_name, String shop_name, String user_nickname, String user_head) {
+    public GroupsToGoodsToUser(Long groupId, String groupNo, String groupTitle, String groupLogo, String groupArea, Date beginTime, Date endTime, Integer maxNum, BigDecimal buyerAmt, BigDecimal minAmt, Integer groupStatus, String remarks, Long createUserId, Date createTime, String groupRemark, Long gbId, Long buyerId, Long itemId, Long orderId, Integer gbNum, BigDecimal gbPrice, BigDecimal gbAmt, Integer gbStatus, Date gbTime, Long goodsId, Long formatId, BigDecimal groupPrice, Integer groupNum, Integer itemStatus, Date itemcreateTime, String gName, BigDecimal gPrice, String gImage, String tenantSid, String formatName, String shopName, String userNickname, String userHead) {
         this.groupId = groupId;
         this.groupNo = groupNo;
         this.groupTitle = groupTitle;
@@ -407,13 +408,13 @@ public class GroupsToGoodsToUser {
         this.groupNum = groupNum;
         this.itemStatus = itemStatus;
         this.itemcreateTime = itemcreateTime;
-        this.g_name = g_name;
-        this.g_price = g_price;
-        this.g_image = g_image;
-        this.tenant_sid = tenant_sid;
-        this.format_name = format_name;
-        this.shop_name = shop_name;
-        this.user_nickname = user_nickname;
-        this.user_head = user_head;
+        this.gName = gName;
+        this.gPrice = gPrice;
+        this.gImage = gImage;
+        this.tenantSid = tenantSid;
+        this.formatName = formatName;
+        this.shopName = shopName;
+        this.userNickname = userNickname;
+        this.userHead = userHead;
     }
 }

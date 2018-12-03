@@ -19,6 +19,7 @@
     <result column="coupon_valid_end_time" jdbcType="TIMESTAMP" property="couponValidEndTime" />
     <result column="coupon_create_time" jdbcType="TIMESTAMP" property="couponCreateTime" />
     <result column="coupon_flag" jdbcType="VARCHAR" property="couponFlag" />
+    <result column="g_id" jdbcType="INTEGER" property="gId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -93,7 +94,7 @@
     -->
     coupon_id, coupon_name, coupon_type, coupon_money, coupon_des, coupon_send_num, coupon_receive_num, 
     coupon_send_start_time, coupon_send_end_time, coupon_valid_start_time, coupon_valid_end_time, 
-    coupon_create_time, coupon_flag
+    coupon_create_time, coupon_flag, g_id
   </sql>
   <select id="selectByExample" parameterType="com.xuyang.model.TcouponsExample" resultMap="BaseResultMap">
     <!--
@@ -152,13 +153,13 @@
       coupon_receive_num, coupon_send_start_time, 
       coupon_send_end_time, coupon_valid_start_time, 
       coupon_valid_end_time, coupon_create_time, 
-      coupon_flag)
+      coupon_flag, g_id)
     values (#{couponId,jdbcType=INTEGER}, #{couponName,jdbcType=VARCHAR}, #{couponType,jdbcType=VARCHAR}, 
       #{couponMoney,jdbcType=INTEGER}, #{couponDes,jdbcType=VARCHAR}, #{couponSendNum,jdbcType=INTEGER}, 
       #{couponReceiveNum,jdbcType=INTEGER}, #{couponSendStartTime,jdbcType=TIMESTAMP}, 
       #{couponSendEndTime,jdbcType=TIMESTAMP}, #{couponValidStartTime,jdbcType=TIMESTAMP}, 
       #{couponValidEndTime,jdbcType=TIMESTAMP}, #{couponCreateTime,jdbcType=TIMESTAMP}, 
-      #{couponFlag,jdbcType=VARCHAR})
+      #{couponFlag,jdbcType=VARCHAR}, #{gId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xuyang.model.Tcoupons">
     <!--
@@ -206,6 +207,9 @@
       <if test="couponFlag != null">
         coupon_flag,
       </if>
+      <if test="gId != null">
+        g_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="couponId != null">
@@ -246,6 +250,9 @@
       </if>
       <if test="couponFlag != null">
         #{couponFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="gId != null">
+        #{gId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -305,6 +312,9 @@
       <if test="record.couponFlag != null">
         coupon_flag = #{record.couponFlag,jdbcType=VARCHAR},
       </if>
+      <if test="record.gId != null">
+        g_id = #{record.gId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -328,7 +338,8 @@
       coupon_valid_start_time = #{record.couponValidStartTime,jdbcType=TIMESTAMP},
       coupon_valid_end_time = #{record.couponValidEndTime,jdbcType=TIMESTAMP},
       coupon_create_time = #{record.couponCreateTime,jdbcType=TIMESTAMP},
-      coupon_flag = #{record.couponFlag,jdbcType=VARCHAR}
+      coupon_flag = #{record.couponFlag,jdbcType=VARCHAR},
+      g_id = #{record.gId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -376,6 +387,9 @@
       <if test="couponFlag != null">
         coupon_flag = #{couponFlag,jdbcType=VARCHAR},
       </if>
+      <if test="gId != null">
+        g_id = #{gId,jdbcType=INTEGER},
+      </if>
     </set>
     where coupon_id = #{couponId,jdbcType=INTEGER}
   </update>
@@ -396,7 +410,8 @@
       coupon_valid_start_time = #{couponValidStartTime,jdbcType=TIMESTAMP},
       coupon_valid_end_time = #{couponValidEndTime,jdbcType=TIMESTAMP},
       coupon_create_time = #{couponCreateTime,jdbcType=TIMESTAMP},
-      coupon_flag = #{couponFlag,jdbcType=VARCHAR}
+      coupon_flag = #{couponFlag,jdbcType=VARCHAR},
+      g_id = #{gId,jdbcType=INTEGER}
     where coupon_id = #{couponId,jdbcType=INTEGER}
   </update>
 </mapper>
