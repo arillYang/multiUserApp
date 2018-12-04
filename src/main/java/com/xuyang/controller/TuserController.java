@@ -9,7 +9,10 @@ import com.xuyang.model.*;
 import com.xuyang.mould.GoodsEvaluate;
 import com.xuyang.mould.OrderToGoodsToType;
 import com.xuyang.mould.Quotient;
-import com.xuyang.service.*;
+import com.xuyang.service.GoodsEvaluateService;
+import com.xuyang.service.OrderToGoodsToTypeService;
+import com.xuyang.service.QuotientService;
+import com.xuyang.service.TuserService;
 import com.xuyang.util.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,8 +50,7 @@ public class TuserController {
     @Autowired
     private TuserMapper tuserMapper;
 
-    @Autowired
-    private RedisService redisService;
+    private Jedis jedis;
 
     @Autowired
     private RedisTemplate<Object, Object> template;
@@ -236,11 +238,12 @@ public class TuserController {
             String token = UUIDFactory.getUUID();
             if (user != null) {
                 Map<String, Object> map1 = new HashMap<String, Object>();
-                template.opsForValue().set("user_" + token, user);
+                jedis = new Jedis();
+                jedis.set("user_" + token, user.toString());
+                String s = jedis.get("user_" + token);
+                System.out.println(s + "111");
                 map1.put("token", token);
                 map1.put("user", user);
-                //Tuser result = (Tuser) template.opsForValue().get("user_" + token);
-                // map1.put("user_token",result);
                 //返回值
                 return XuYangResult.ok(ResultConstant.code_ok, "登录成功", map1);
             }
@@ -257,13 +260,15 @@ public class TuserController {
      */
     @ApiOperation(value = "退出登录")
     @ResponseBody
-    @PostMapping("/loginOut")
-    public Object logout(@RequestBody String token) {
+    @GetMapping("/loginOut")
+    public Object logout(@RequestParam("token") String token) {
         if (!"".equals(token)) {
-            Jedis je = new Jedis();
-            je.del("user_" + token);
+            jedis = new Jedis();
+            System.out.println(token+"2222");
+            String s = jedis.get("user_" + token);
+            System.out.println(s + "111");
+            jedis.del("user_" + token);
             return XuYangResult.ok(ResultConstant.code_ok, "退出成功", "");
-
         } else {
             return XuYangResult.ok(ResultConstant.code_ok, "服务异常，请稍后再试", "");
         }
