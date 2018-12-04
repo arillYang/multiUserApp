@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.Jedis;
 
+import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -43,15 +44,15 @@ import java.util.regex.Pattern;
 @RequestMapping(value = "/user")
 public class TuserController {
 
-    //用户依赖注入
+    //userService
     @Autowired
     private TuserService tuserService;
-
+    //userMapper
     @Autowired
     private TuserMapper tuserMapper;
-
+    //redis
     private Jedis jedis;
-
+    // Redis 序列化
     @Autowired
     private RedisTemplate<Object, Object> template;
 
@@ -63,10 +64,13 @@ public class TuserController {
 
     @Autowired
     private GoodsEvaluateService goodsEvaluateService;
+
     @Autowired
     private TgoodsAppraisesMapper tgoodsAppraisesMapper;
+
     @Autowired
     private TdynamicMapper tdynamicMapper;
+
     @Autowired
     private QuotientService quotientService;
 
@@ -264,7 +268,7 @@ public class TuserController {
     public Object logout(@RequestParam("token") String token) {
         if (!"".equals(token)) {
             jedis = new Jedis();
-            System.out.println(token+"2222");
+            System.out.println(token + "2222");
             String s = jedis.get("user_" + token);
             System.out.println(s + "111");
             jedis.del("user_" + token);
@@ -462,6 +466,13 @@ public class TuserController {
     }
 
 
+    /**
+     * @param map
+     * @return
+     * @author create by YangJie
+     * @Discription 验证手机短信验证码
+     * @Time 2018年12月4日16:39:38
+     */
     @ApiOperation("验证码验证")
     @PostMapping("/checkSentCode")
     @ResponseBody
@@ -470,7 +481,61 @@ public class TuserController {
         Jedis jd = new Jedis();
         String sentCode = jd.get("code_" + code);
         if (code != sentCode && !code.equals(sentCode)) {
+            return XuYangResult.ok(ResultConstant.code_failue, "验证码不正确或者超时", "");
+        }
+        return XuYangResult.ok(ResultConstant.code_ok, "验证码正确", "");
+    }
 
+
+    /**
+     * @param userPhone 手机号码
+     * @param userMail  邮箱地址
+     * @return
+     * @author create by YangJie
+     * @Discription 发送邮箱验证码
+     * @Time 2018年12月4日16:38:28
+     */
+    @ApiOperation(value = "发送邮箱验证码", notes = "userPhone用户手机号码，userMail邮箱")
+    @GetMapping("/sentMailCode")
+    @ResponseBody
+    public Object sentMailCode(@RequestParam("userPhone") String userPhone, @RequestParam("userMail") String userMail) throws Exception {
+        int code = (int) ((Math.random() * 9 + 1) * 100000);
+        TuserExample example = new TuserExample();
+        //根据用户输入手机号码 判断该用户是否存在
+        TuserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserPhoneEqualTo(userPhone);
+        List<Tuser> tuser = tuserMapper.selectByExample(example);
+        //判断flag的值 1注册，2其他
+        //判读用户是否存在
+        if (tuser.size() > 0) {
+            try {
+                MailUtil.send_mail(userMail, "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
+                jedis = new Jedis();
+                jedis.set("mailCode", code + "");
+                jedis.expire("mailCode", 60);
+                return XuYangResult.ok(ResultConstant.code_ok, "发送成功，请及时验收！", code);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+        return XuYangResult.ok(ResultConstant.code_failue, "该用户不存在，请注册！", "");
+
+    }
+
+    /**
+     * @param mailCode 验证码
+     * @return
+     * @author create by YangJie
+     * @Discription 判断邮箱验证码
+     * @Time 2018年12月4日16:37:38
+     */
+    @ApiOperation("验证邮箱验证码")
+    @PostMapping("/checkSentMailCode")
+    @ResponseBody
+    public Object checkSentMailCode(@RequestParam("code") String mailCode) {
+        Jedis jd = new Jedis();
+        String sentMailCode = jd.get("mailCode");
+        if (mailCode != sentMailCode && !mailCode.equals(sentMailCode)) {
             return XuYangResult.ok(ResultConstant.code_failue, "验证码不正确或者超时", "");
         }
         return XuYangResult.ok(ResultConstant.code_ok, "验证码正确", "");

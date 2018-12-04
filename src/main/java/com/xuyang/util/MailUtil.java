@@ -50,6 +50,8 @@ public class MailUtil {
         try {
             MailUtil.send_mail("15215157508@163.com", "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
             MailUtil.send_mail("1045524818@qq.com", "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
+            MailUtil.send_mail("15823914401@163.com", "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
+            MailUtil.send_mail("191873811@qq.com", "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
             System.out.println("邮件发送成功!");
         } catch (MessagingException e) {
             e.printStackTrace();
