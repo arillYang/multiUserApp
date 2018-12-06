@@ -244,8 +244,6 @@ public class TuserController {
                 Map<String, Object> map1 = new HashMap<String, Object>();
                 jedis = new Jedis();
                 jedis.set("user_" + token, user.toString());
-                String s = jedis.get("user_" + token);
-                System.out.println(s + "111");
                 map1.put("token", token);
                 map1.put("user", user);
                 //返回值
@@ -268,9 +266,10 @@ public class TuserController {
     public Object logout(@RequestParam("token") String token) {
         if (!"".equals(token)) {
             jedis = new Jedis();
-            System.out.println(token + "2222");
-            String s = jedis.get("user_" + token);
-            System.out.println(s + "111");
+            String tokenString = jedis.get("user_" + token);
+            if("".equals(tokenString) || tokenString==null){
+                return XuYangResult.ok(ResultConstant.code_ok, "服务异常，请稍后再试", "");
+            }
             jedis.del("user_" + token);
             return XuYangResult.ok(ResultConstant.code_ok, "退出成功", "");
         } else {
