@@ -21,6 +21,10 @@ public class MailUtil {
         //发送端口
         properties.put("mail.smtp.port", "25");
         properties.put("mail.smtp.auth", "true");
+        //抄送人邮箱地址
+        properties.put("username", "15823914401@163.com");
+        //授权码
+        properties.put("password", "YJ123456789");
         //设置发送邮件的账号和密码
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
@@ -29,15 +33,16 @@ public class MailUtil {
                 return new PasswordAuthentication("15823914401@163.com", "YJ123456789");
             }
         });
-
         //创建邮件对象
         Message message = new MimeMessage(session);
         //设置发件人
         message.setFrom(new InternetAddress("15823914401@163.com"));
+        //设置抄送人
+        message.setRecipient(Message.RecipientType.CC, new InternetAddress(properties.getProperty("username")));
         //设置收件人
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
         //设置主题
-        message.setSubject("这是一份测试邮件");
+        message.setSubject("多用户商城验证邮件");
         //设置邮件正文  第二个参数是邮件发送的类型
         message.setContent(text, "text/html;charset=UTF-8");
         //发送一封邮件
@@ -50,7 +55,6 @@ public class MailUtil {
         try {
             MailUtil.send_mail("15215157508@163.com", "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
             MailUtil.send_mail("1045524818@qq.com", "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
-            MailUtil.send_mail("15823914401@163.com", "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
             MailUtil.send_mail("191873811@qq.com", "【多用户商城】友情提示您：尊敬的用户您好，您本次的注册验证码是:" + String.valueOf(code) + ",请您在15分钟之内完成验证！");
             System.out.println("邮件发送成功!");
         } catch (MessagingException e) {
